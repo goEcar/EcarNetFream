@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <dimen name="title_back_w">35dp</dimen>
+    <dimen name="title_back_h">35dp</dimen>
+    <dimen name="activity_horizontal_margin">16.0dip</dimen>
+    <dimen name="activity_vertical_margin">16.0dip</dimen>
+    <dimen name="group_bar_padding">14.0dip</dimen>
+    <dimen name="text_super_large">50.0sp</dimen>
+    <dimen name="text_bigger">35.0sp</dimen>
+    <dimen name="text_big">25.0sp</dimen>
+    <dimen name="text_larger">30.0sp</dimen>
+    <dimen name="text_large">20.0sp</dimen>
+    <dimen name="text_middle">18.0sp</dimen>
+    <dimen name="text_content">16.0sp</dimen>
+    <dimen name="text_low">14.0sp</dimen>
+    <dimen name="text_little">12.0dip</dimen>
+    <dimen name="text_small">10.0sp</dimen>
+    <dimen name="button_height_42dp">42dip</dimen>
+    <dimen name="button_height">40dip</dimen>
+    <dimen name="padding_middle">10dip</dimen>
+    <dimen name="bottom_height">40dip</dimen>
+    <dimen name="bottom_widht">40dip</dimen>
+    <dimen name="border_width">1dp</dimen>
+    <dimen name="text_middle_content">15.0sp</dimen>
+
+    <!--新版UI尺寸-->
+    <dimen name="texts_super_large">50.0sp</dimen>
+    <dimen name="texts_bigger">40.0sp</dimen>
+    <dimen name="texts_larger3">35.0sp</dimen>
+    <dimen name="texts_larger">30.0sp</dimen>
+    <dimen name="texts_larger2">25.0sp</dimen>
+    <dimen name="texts_large">20.0sp</dimen>
+    <dimen name="texts_middle">18.0sp</dimen>
+    <dimen name="texts_content">16.0sp</dimen>
+    <dimen name="texts_content_13sp">13.0sp</dimen>
+
+    <dimen name="texts_low">14.0sp</dimen>
+    <dimen name="texts_little">12.0sp</dimen>
+    <dimen name="texts_small">10.0sp</dimen>
+    <dimen name="texts_line_height">2.5dp</dimen>
+
+
+    <dimen name="user_item_padding">15dp</dimen>
+    <dimen name="user_item_paddinglr">20dp</dimen>
+    <dimen name="user_item_paddingtb">15dp</dimen>
+    <dimen name="about_item_paddingtb">10dp</dimen>
+    <dimen name="benth_details_padlr">10dp</dimen>
+    <dimen name="benth_details_padtb">15dp</dimen>
+    <dimen name="recharege_money_pad">10dp</dimen>
+    <dimen name="recharege_way_tb">15dp</dimen>
+    <dimen name="recharege_way_lr">10dp</dimen>
+    <dimen name="fast_padlr">14dp</dimen>
+    <dimen name="park_item_padlr">10dp</dimen>
+    <dimen name="park_line_padlr">65dp</dimen>
+    <dimen name="tab_bottom_padding">4dp</dimen>
+    <dimen name="stop_item_new_child_mag">15dp</dimen>
+    <dimen name="stop_one_new_marlr">15dp</dimen>
+    <dimen name="frag_park_item_padtb">15dp</dimen>
+    <dimen name="frag_park_item_padlr">20dp</dimen>
+    <!--新能源-->
+    <dimen name="fasted_img_lr">12dp</dimen>
+    <dimen name="fasted_img_tb">19dp</dimen>
+
+    <!--一体化-->
+    <dimen name="park_home_height">178dp</dimen>
+    <dimen name="park_home_height_small">174dp</dimen>
+    <dimen name="parking_back_one_lr">17dp</dimen>
+    <dimen name="bind_car_logo_margintop">30dp</dimen>
+    <dimen name="bind_car_margin_left_right">15dp</dimen>
+    <dimen name="recharge_height_user_money">150dp</dimen>
+    <dimen name="list_no_data_top">74dp</dimen>
+    <dimen name="count_line">2.3dp</dimen>
+
+
+</resources>

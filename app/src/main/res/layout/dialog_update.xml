@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:id="@+id/update_layout"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_prompt_bg"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/only_one_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="25dp"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/prompt_img"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:src="@drawable/gantanhao" />
+
+        <TextView
+            android:id="@+id/prompt_text_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:text="温馨提示"
+            android:textColor="@color/black3"
+            android:textSize="@dimen/texts_content" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/prompt_text_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="45dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="5dp"
+        android:text="版本优化"
+        android:textColor="@color/black1"
+        android:textSize="@dimen/text_middle" />
+
+    <View style="@style/public_under_line"
+        android:visibility="invisible"
+        android:id="@+id/update_up_line"
+        android:layout_marginBottom="10dp"
+        android:layout_height="0.5dp"
+        android:background="@color/gray2"
+        />
+
+    <TextView
+        android:layout_marginLeft="4dp"
+        android:id="@+id/prompt_text_update_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:gravity="left"
+        android:lineSpacingMultiplier="1.4"
+        android:maxLines="8"
+        android:text=""
+        android:textColor="@color/gray1"
+        android:textSize="@dimen/text_low" />
+
+    <View style="@style/public_under_line"
+        android:id="@+id/update_line2"
+        android:layout_marginTop="15dp"
+        android:layout_height="0.5dp"
+        android:background="@color/gray2"
+        />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <com.ecar.ecarnetfream.publics.view.prompt.Prompt_Button
+            android:id="@+id/prompt_cal"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/shape_right_line_bg"
+            android:text="取消"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="@dimen/text_low"
+            android:textColor="@color/gray1"
+            />
+        <com.ecar.ecarnetfream.publics.view.prompt.Prompt_Button
+            android:id="@+id/prompt_sub"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:gravity="center_vertical|center_horizontal"
+            android:background="@null"
+            android:text="确定"
+            android:textSize="@dimen/text_low"
+            android:textColor="@color/top_color"
+            />
+    </LinearLayout>
+</LinearLayout>

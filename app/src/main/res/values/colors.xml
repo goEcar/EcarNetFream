@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <color name="dimgrey">#898989</color>
+    <color name="glay2">#ECECEC</color>
+    <color name="dark">#FF222222</color>
+    <color name="light">#FFEEEEEE</color>
+    <color name="black">#ff000000</color>
+    <color name="white">#ffffffff</color>
+    <color name="mid_night_blue">#ff64a909</color>
+    <color name="background">#f1f1f1</color>
+    <color name="gray">#ffbfbfbf</color>
+    <color name="gray0">#F4F4F4</color>
+    <color name="red">#ffce0000</color>
+    <color name="red2">#E54E45</color>
+    <color name="red3">#F4A083</color>
+    <color name="dimgray">#ff696969</color>
+    <color name="transparent">#00000000</color>
+    <color name="blue">#ff37a0fc</color>
+    <color name="blue2">#67A1D4</color>
+    <color name="orange1">#f68a42</color>
+    <color name="orange2">#f68a42</color>
+    <color name="orange3">#FEEBE7</color>
+    <color name="list_green">#89cc74</color>
+    <color name="yellow1">#fcb042</color>
+    <color name="yellow_deep">#f2bb56</color>
+    <color name="big_title">#333333</color>
+    <color name="small_title">#999999</color>
+    <color name="content">#666666</color>
+    <color name="tab_color">#f9f9f9</color>
+    <color name="textbg_color">#f68a42</color>
+    <color name="top_color">#20C2DB</color>
+    <color name="green">#20C2DB</color>
+    <color name="green1">#20C2DB</color>
+    <color name="green6">#C9EEE4</color>
+    <color name="green5">#20C2DB</color>
+    <color name="pink">#FEEBE9</color>
+    <color name="download_progress">#3dc6e0</color>
+    <color name="title_color">#20c1da</color>
+    <color name="content_color">#e6f8fa</color>
+
+    <color name="text_color_green_deep">#20C2DB</color>
+    <color name="text_color_green">#20C2DB</color>
+    <color name="text_color_dimgray">#6f7278</color>
+    <color name="text_color_gay">#a3a8ac</color>
+    <color name="text_color_transfer_gray">#6D6C6C</color>
+    <color name="text_color_black_deep">#353941</color>
+    <color name="text_color_black">#9ca0a8</color>
+    <color name="dimgray_main">#7A7A7A</color>
+    <color name="popup_color_black">#E6E6E6</color>
+    <color name ="transparent_black">#30000000</color>
+    <color name="text_color_orange">#f68a42</color>
+    <color name="back_color_orange">#f68a42</color>
+    <color name="bggrey">#f5f5f5</color>
+    <color name="bggrey2">#F2F2F2</color>
+    <color name="text_grey">#909598</color>
+    <color name="glay1">#E4E4E4</color>
+    <color name="glay10">#BDC2C6</color>
+    <color name="glay_line">#F2F2F2</color>
+    <color name="glay_font">#A6A6A6</color>
+
+
+    <!--新版颜色-->
+
+    <color name="black4">#4F4F4F</color>
+    <color name="black5">#8E8E8E</color>
+    <color name="gray2">#E6E6E6</color>
+    <color name="gray7">#E3E3E3</color>
+    <color name="gray8">#C8C8C8</color>
+    <color name="gray9">#9A9A9A</color>
+    <color name="gray10">#DFDFDF</color>
+    <color name="gray11">#A5A5A5</color>
+    <color name="gray12">#88AAAAAA</color>
+    <color name="gray13">#7C818B</color>
+    <color name="pinkred">#f68a42</color>
+    <color name="blue1">#E4F7F1</color>
+
+    <!-- Bee -->
+    <color name="about_us">#52575b</color>
+    <color name="about_us2">#8E8E8E</color>
+    <color name="glay_button">#c4c4c4</color>
+    <color name="orenge_deep">#f68a42</color>
+    <color name="yellow4">#f4ba20</color>
+    <color name="yellow5">#F3BC6B</color>
+    <color name="yellow6">#a38616</color>
+    <color name="btn_yellow">#fbc115</color>
+
+    <!-- 地图搜索 -->
+    <color name="white2">#D9EEE5</color>
+    <color name="white3">#F8F9FB</color>
+    <color name="white4">#FAFAFA</color>
+    <color name="white5">#B9BBBA</color>
+    <color name="black2">#535353</color>
+    <color name="green2">#20C2DB</color>
+    <color name="green3">#57E9C1</color>
+    <color name="green4">#6DCDB2</color>
+    <color name="yellow_fee">#F5C225</color>
+    <color name="yellow_nodeep">#fbeacc</color>
+    <color name="glay4">#4f4409</color>
+    <color name="glay_list_font">#8B8C8C</color>
+    <color name="glay_font_deep">#7B7B7B</color>
+    <color name="glay10_fee_item_back">#F2F2F2</color>
+    <color name="gray5">#F2F2F2</color>
+    <color name="gray6">#E1E1E1</color>
+    <color name="gray14">#A2A7A5</color>
+    <color name="yellow3">#f6cf07</color>
+    <color name="actionbar_color">#2E3943</color>
+    <color name="bg_gray_deep">#909497</color>
+    <color name="bg_gray_light">#E7E7E7</color>
+    <color name="text_color_gay3">#88aaaaaa</color>
+    <color name="shallow_gray">#f4f4f4</color>
+
+    <!-- 一体化-->
+    <color name="orange">#f68a42</color>
+    <color name="blue3">#91E0ED</color>
+    <color name="blue4">#57D0E3</color>
+    <color name="orange4">#F1BA53</color>
+    <color name="orange5">#F2BC55</color>
+    <color name="black1">#525252</color>
+    <color name="black3">#525252</color>
+    <color name="gray1">#8e8e92</color>
+    <color name="gray3">#8e8e92</color>
+    <!--停车首页计时-->
+    <color name="home_count_orange">#f68a42</color>
+    <!--绑定车牌-->
+    <color name="bind_car_city_name_gv_bg">#CECFD3</color>
+    <color name="bind_car_delete_bg_gray">#E5E5E5</color>
+    <color name="probar_bg_gray">#ADADAD</color>
+    <color name="probar_tx_gray">#EDEDED</color>
+    <!--引导页点-->
+    <color name="guide_static_point_color">#38000000</color>
+
+</resources>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:oneall="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:padding="10dip"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:background="@drawable/shape_gray_corners_probar"
+        android:paddingLeft="15dp"
+        android:paddingTop="5dp"
+        android:paddingRight="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <com.ecar.ecarnetfream.publics.view.loading.ProgressWheel
+            android:id="@+id/progress_wheel"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            oneall:matProg_barColor="@color/gray0"
+            oneall:matProg_progressIndeterminate="true" />
+
+        <TextView
+            android:layout_marginBottom="2dp"
+            android:id="@+id/text_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="加载中"
+            android:textColor="@color/probar_tx_gray"
+            android:textSize="@dimen/text_low" />
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
