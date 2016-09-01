@@ -157,6 +157,7 @@ public class Major {
             String value = tMap.get(key);
             if (encode) {
                 value = InvalidUtil.getEncodedStr(value);
+                tMap.put(key,value);
             }
             parmas = InvalidUtil.addText(sb, parmas, key, "=", value, "&");
         }
