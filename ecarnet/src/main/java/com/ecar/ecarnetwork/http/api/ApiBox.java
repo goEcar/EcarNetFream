@@ -1,7 +1,9 @@
 package com.ecar.ecarnetwork.http.api;
 
 import android.app.Application;
+import android.text.TextUtils;
 
+import com.ecar.ecarnetwork.db.SettingPreferences;
 import com.ecar.ecarnetwork.http.converter.ConverterFactory;
 import com.ecar.ecarnetwork.http.util.ConstantsLib;
 import com.ecar.ecarnetwork.http.util.HttpsUtils;
@@ -87,7 +89,13 @@ public class ApiBox {
         ConstantsLib.DEBUG = builder.debug;
         ConstantsLib.REQUEST_KEY = builder.reqKey;
         ConstantsLib.APP_ID = builder.appKey;
-
+        if(!TextUtils.isEmpty(builder.spName)){
+            SettingPreferences.PREFS_NAME = builder.spName;
+            SettingPreferences.uKey = builder.uName;
+            SettingPreferences.vKey = builder.vName;
+            SettingPreferences.tKey = builder.tName;
+            SettingPreferences.tsKey = builder.tsName;
+        }
         this.application = builder.application;
         this.cacheFile = builder.cacheDir;
         this.serviceMap = new HashMap<>();
@@ -132,8 +140,11 @@ public class ApiBox {
         private boolean debug;
         private String reqKey;
         private String appKey;
-
-
+        private String spName;
+        private String uName;
+        private String tName;
+        private String vName;
+        private String tsName;
 
         public Builder application(Application application) {
             this.application = application;
@@ -145,13 +156,40 @@ public class ApiBox {
             this.debug = debug;
             return this;
         }
-
         public Builder reqKey(String reqKey){
             this.reqKey = reqKey;
             return this;
         }
         public Builder setAppKey(String appKey){
             this.appKey = appKey;
+            return this;
+        }
+        public static final String SP_NAME = "parkbees_sp";
+
+        public static final String U_KEY = "ukey";
+        public static final String T_KEY = "tkey";
+        public static final String V_KEY = "vkey";
+
+        public Builder spName(String spName){
+            this.spName = spName;
+            return this;
+        }
+        public Builder uName(String uName){
+            this.uName = uName;
+            return this;
+        }
+
+        public Builder tName(String tName){
+            this.tName = tName;
+            return this;
+        }
+
+        public Builder vName(String vName){
+            this.vName = vName;
+            return this;
+        }
+        public Builder tsName(String tsName){
+            this.tsName = tsName;
             return this;
         }
 

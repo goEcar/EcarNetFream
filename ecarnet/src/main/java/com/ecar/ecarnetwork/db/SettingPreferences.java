@@ -7,7 +7,8 @@ import android.text.TextUtils;
 
 
 public class SettingPreferences {
-    private final String PREFS_NAME = "com.ecaray.epark.pub.preferences.db";
+    public static String PREFS_NAME = "com.ecaray.epark.pub.preferences.db";
+
     private SharedPreferences shareData;
     private final String UserId = "user_id";// 用户ID
     private final String UserName = "user_name";// 用户名
@@ -379,11 +380,10 @@ public class SettingPreferences {
      * 以下为一体化新增的全局公用参数保存/获取方法
      *********************************************************************/
 
-    private final String uKey = "u";
-    private final String tsKey = "ts";//时间戳
-    private final String vKey = "v";
-    private final String tKey = "t";
-
+    public static String uKey = "u";
+    public static String tsKey = "ts";//时间戳
+    public static String vKey = "v";
+    public static String tKey = "t";
 
 //    private String userPhone = UserInfo.USER_PHONE_NUM; //手机号码
 //    private String nickName = UserInfo.NICKNAME;  //昵称
