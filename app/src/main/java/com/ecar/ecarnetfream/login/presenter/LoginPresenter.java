@@ -59,8 +59,9 @@ public class LoginPresenter extends LoginContract.Presenter{
         //1.订阅者 泛型：最终想要获取的数据类型
         //一般弹toast的失败处理已处理，若需改写重写 onUserError 并去掉super(xx).
         BaseSubscriber<ResBase> subscriber = new BaseSubscriber<ResBase>(context,view) {
+
             @Override
-            public void onNext(ResBase resBase) {//登录成功、上传成功后的回调
+            protected void onUserSuccess(ResBase resBase) {
                 view.showMsg("单个请求"+resBase.msg);
             }
         };
@@ -76,9 +77,8 @@ public class LoginPresenter extends LoginContract.Presenter{
         //1.订阅者 泛型：最终想要获取的数据类型
         BaseSubscriber<ResBase> subscriber = new BaseSubscriber<ResBase>(context,view) {
             @Override
-            public void onNext(ResBase resBase) {//登录成功、上传成功后的回调
+            protected void onUserSuccess(ResBase resBase) {
                 view.showMsg(resBase.msg);
-//                throw new InvalidException(InvalidException.FLAG_ERROR_RELOGIN);
             }
         };
 

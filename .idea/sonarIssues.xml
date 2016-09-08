@@ -3,6 +3,21 @@
   <component name="issues">
     <option name="index">
       <map>
+        <entry key="/Dummy.txt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="/a.regexp">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Desktop/DEMOS/CustomizeKeyboard-master/app/src/main/AndroidManifest.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../EcarNetFream/build.gradle">
           <value>
             <set />
@@ -19,6 +34,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/ecar/ecarnetfream/login/entity/ResLogin.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ecar/ecarnetfream/login/presenter/LoginPresenter.java">
           <value>
             <set />
           </value>
@@ -103,6 +123,111 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../easyCharge-adnroid-160831/AndroidManifest.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../easyCharge-adnroid-160831/build.gradle">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../easyCharge-adnroid-160831/res/layout/activity_album_selector.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../easyCharge-adnroid-160831/res/layout/activity_zbar_capture.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../easyCharge-adnroid-160831/res/layout/fragment_scannum.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../easyCharge-adnroid-160831/res/layout/fragment_wallet_amount_selector2.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../easyCharge-adnroid-160831/src/com/ecaray/easycharge/adapter/LocalPhotoSelectorAdapter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../easyCharge-adnroid-160831/src/com/ecaray/easycharge/adapter/WalletHistoryAdapter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../easyCharge-adnroid-160831/src/com/ecaray/easycharge/network/DataCenter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../easyCharge-adnroid-160831/src/com/ecaray/easycharge/ui/activity/LocalPhotoSelectorActivity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../easyCharge-adnroid-160831/src/com/ecaray/easycharge/ui/activity/MainActivity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../easyCharge-adnroid-160831/src/com/ecaray/easycharge/ui/activity/ParkBenthDetailActivity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../easyCharge-adnroid-160831/src/com/ecaray/easycharge/ui/activity/WalletActivity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../easyCharge-adnroid-160831/src/com/ecaray/easycharge/ui/fragment/CaptureFragment.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../easyCharge-adnroid-160831/src/com/ecaray/easycharge/ui/fragment/ChargeFragmentManager.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../easyCharge-adnroid-160831/src/com/ecaray/easycharge/ui/fragment/ChargeScanFragment.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../easyCharge-adnroid-160831/src/com/ecaray/easycharge/ui/fragment/ParkFragment.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../easyCharge-adnroid-160831/src/com/ecaray/easycharge/ui/view/DialogTakePhoto.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../easyCharge-adnroid-160831/src/com/ecaray/easycharge/utils/ImageLoaderUtils.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../easyCharge-adnroid-160831/src/com/ecaray/easycharge/utils/PhotoUtil.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../easyCharge-adnroid-160831/src/com/ecaray/easycharge/utils/ZxingUtil.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../easycharge_20160420/build.gradle">
           <value>
             <set />
@@ -113,12 +238,57 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../easycharge_20160420/src/com/ecaray/easycharge/network/HttpUrl.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../easycharge_20160420/src/com/ecaray/easycharge/ui/activity/GuideActivity.java">
           <value>
             <set />
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/../easycharge_20160420/src/com/ecaray/easycharge/ui/activity/ResetPasswordActivity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../parkBees-android-160816/build.gradle">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../parkBees-android-160816/src/com/chmtech/parkbees/model/entity/ResetPassEntry.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../parkBees-android-160816/src/com/chmtech/parkbees/ui/activity/MainActivity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../parkBees-android-160823/build.gradle">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../parkBees-android-160823/res/layout/activity_album_selector.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../parkBees-android-160823/src/com/chmtech/parkbees/main/ui/activity/MainActivity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../parkBees-android-160823/src/com/chmtech/parkbees/mine/ui/activity/LocalPhotoSelectorActivity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../parkBees-android-160823/src/com/chmtech/parkbees/mine/view/DialogTakePhoto.java">
           <value>
             <set />
           </value>

@@ -7,7 +7,6 @@ import com.ecar.ecarnetwork.bean.ResBase;
 import com.ecar.ecarnetwork.db.SettingPreferences;
 import com.ecar.ecarnetwork.http.api.ApiBox;
 import com.ecar.ecarnetwork.http.exception.InvalidException;
-import com.ecar.ecarnetwork.http.exception.UserException;
 import com.ecar.ecarnetwork.http.util.InvalidUtil;
 import com.ecar.ecarnetwork.http.util.TagLibUtil;
 import com.ecar.ecarnetwork.util.uvtKeys;
@@ -76,19 +75,19 @@ public class ResponseConverter<T> implements Converter<ResponseBody, T> {
                     TagLibUtil.showLogDebug("系统级错误 message出现");
                     //重新登录
                     throw new InvalidException(InvalidException.FLAG_ERROR_RELOGIN);
-                } else {//失败
-                    if(base==null&&!TextUtils.isEmpty(response)){
-                        base.jsonStr=response;
-                    }
-                    throw new UserException(base.code, base.msg,base);
+                } else {//失败 -- 订阅者 自己在onNext做处理逻辑
+//                    if(base==null&&!TextUtils.isEmpty(response)){
+//                        base.jsonStr=response;
+//                    }
+//                    throw new UserException(base.code, base.msg,base);
                 }
             }
         } finally {
             value.close();
         }
-        if(base!=null&&!TextUtils.isEmpty(response)){
-            base.jsonStr=response;
-        }
+//        if(base!=null&&!TextUtils.isEmpty(response)){
+//            base.jsonStr=response;
+//        }
         return (T) base;
     }
 

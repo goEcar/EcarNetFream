@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ParseException;
 import android.text.TextUtils;
 
+import com.ecar.ecarnetwork.bean.ResBase;
 import com.ecar.ecarnetwork.http.exception.CommonException;
 import com.ecar.ecarnetwork.http.exception.InvalidException;
 import com.ecar.ecarnetwork.http.exception.UserException;
@@ -17,6 +18,7 @@ import org.json.JSONException;
 import java.net.ConnectException;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
@@ -36,6 +38,26 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
     }
 
     @Override
+    public void onNext(T t) {
+        if(t instanceof ResBase){
+            ResBase base = (ResBase)t;
+            if (base.state != 1) {//非成功
+                this.onUserError(new CommonException(new UserException(base.code,base.msg,base)));
+            }else {//if(base.state == 1)
+                this.onUserSuccess(t);
+            }
+        }else{
+            this.onOtherNext(t);
+        }
+    }
+
+    protected void onOtherNext(T t){
+
+    }
+
+    protected abstract void onUserSuccess(T t);
+
+    @Override
     public void onError(Throwable e) {
         CommonException ex = null;
         if (e instanceof UserException) {   // 用户自定义需要处理的异常
@@ -43,7 +65,7 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
              * 1.自定义异常处理
              */
             UserException resultException = (UserException) e;
-            ex = new CommonException(e, resultException.getCode(),resultException.getMsg(),resultException.getResObj());
+            ex = new CommonException(resultException);
             onUserError(ex);
         }else if(e instanceof InvalidException){
             /**
@@ -66,7 +88,7 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
         } else if (e instanceof HttpException
                 || e instanceof ConnectException
                 || e instanceof SocketTimeoutException
-                || e instanceof SocketException) {
+                || e instanceof SocketException || e instanceof UnknownHostException) {
             /**
              * 3.网络错误
              */
@@ -111,7 +133,9 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
      * @param ex
      */
     protected void onUnifiedError(CommonException ex){
-        showMsg(context,ex.getMsg());
+        if(!ex.isDoNothing()){
+            showMsg(context,ex.getMsg());
+        }
     }
 
     /**
@@ -120,7 +144,9 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
      * 需要处理时 子类重写
      */
     protected void onUserError(CommonException ex){
-        showMsg(context,ex.getMsg());
+        if(!ex.isDoNothing()){
+            showMsg(context,ex.getMsg());
+        }
     }
 
 

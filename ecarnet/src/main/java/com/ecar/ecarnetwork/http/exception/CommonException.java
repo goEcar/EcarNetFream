@@ -32,21 +32,28 @@ public class CommonException extends Exception {
     private String code = "";
     private String msg ="";
     private ResBase resObj;
+    private boolean isDoNothing;
 
     public CommonException(Throwable throwable, String code) {
         super(throwable);
         this.code = code;
     }
 
-    public CommonException(Throwable throwable, String code, String msg) {
-        this(throwable,code);
-        this.msg = msg;
-    }
+//    public CommonException(Throwable throwable, String code, String msg) {
+//        this(throwable,code);
+//        this.msg = msg;
+//    }
 
-    public CommonException(Throwable throwable,String code, String msg, ResBase resObj) {
-        this(throwable,code);
-        this.msg = msg;
-        this.resObj = resObj;
+//    public CommonException(Throwable throwable,String code, String msg, ResBase resObj) {
+//        this(throwable,code);
+//        this.msg = msg;
+//        this.resObj = resObj;
+//    }
+
+    public CommonException(UserException e) {
+        this(e,e.getCode());
+        this.msg = e.getMsg();
+        this.resObj = e.getResObj();
     }
 
     public String getCode() {
@@ -55,6 +62,14 @@ public class CommonException extends Exception {
 
     public ResBase getResObj() {
         return resObj;
+    }
+
+    public boolean isDoNothing() {
+        return isDoNothing;
+    }
+
+    public void setDoNothing(boolean doNothing) {
+        isDoNothing = doNothing;
     }
 
     public String getMsg() {

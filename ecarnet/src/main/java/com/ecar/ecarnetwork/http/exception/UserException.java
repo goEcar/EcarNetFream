@@ -12,6 +12,8 @@ public class UserException extends RuntimeException {
     private String code;
     private String msg;
     private ResBase resObj;
+    private boolean isDoNothing;
+
 
     public UserException(String code, String msg) {
         super(msg);
@@ -32,6 +34,18 @@ public class UserException extends RuntimeException {
         this.msg = msg;
     }
 
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+    public void setResObj(ResBase resObj) {
+        this.resObj = resObj;
+    }
+
     public String getCode() {
         return code;
     }
@@ -43,6 +57,14 @@ public class UserException extends RuntimeException {
 
     public ResBase getResObj() {
         return resObj;
+    }
+
+    public boolean isDoNothing() {
+        return isDoNothing;
+    }
+
+    public void setDoNothing(boolean doNothing) {
+        isDoNothing = doNothing;
     }
 
     @Override
