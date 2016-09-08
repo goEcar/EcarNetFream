@@ -53,6 +53,21 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ecar/ecarnetfream/publics/network/Datacenter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ecar/ecarnetfream/publics/network/api/ApiService.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/ecar/ecarnetfream/publics/util/DateDeserializer.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/ecar/ecarnetfream/publics/view/loading/ProgressDialogBar.java">
           <value>
             <set />

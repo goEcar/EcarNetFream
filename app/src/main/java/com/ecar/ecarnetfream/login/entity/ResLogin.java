@@ -3,6 +3,7 @@ package com.ecar.ecarnetfream.login.entity;
 
 
 import com.ecar.ecarnetwork.bean.ResBase;
+import com.ecar.ecarnetwork.http.api.ApiBox;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -21,6 +22,7 @@ public class ResLogin extends ResBase implements Serializable{
 	 * :"15960259423","UserName"
 	 * :"","UserSex":"True","UserType":"1","safecode":"115090"}}
 	 */
+
 	@SerializedName("ParkId")
 	public String ParkId;
 

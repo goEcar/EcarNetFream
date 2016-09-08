@@ -24,7 +24,6 @@ package com.ecar.ecarnetfream.publics.network;/*
 
 import android.os.Environment;
 
-
 import com.ecar.ecarnetfream.login.entity.ResLogin;
 import com.ecar.ecarnetfream.publics.network.api.ApiService;
 import com.ecar.ecarnetfream.publics.util.MD5Util;
@@ -45,10 +44,12 @@ import okhttp3.RequestBody;
 import rx.Observable;
 import rx.Subscriber;
 
+
 public class Datacenter {
 
     public static Datacenter datacenter;
     private static ApiService apiService;
+
     private Datacenter() {
     }
 
@@ -56,7 +57,7 @@ public class Datacenter {
         if (datacenter == null) {
             datacenter = new Datacenter();
         }
-        if(apiService==null){
+        if (apiService == null) {
             apiService = ApiBox.getInstance().createService(ApiService.class, HttpUrl.Base_Url);
         }
         return datacenter;

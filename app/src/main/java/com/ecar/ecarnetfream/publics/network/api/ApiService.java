@@ -2,6 +2,7 @@ package com.ecar.ecarnetfream.publics.network.api;
 
 
 
+
 import com.ecar.ecarnetfream.login.entity.ResLogin;
 import com.ecar.ecarnetwork.bean.ResBase;
 
@@ -15,6 +16,7 @@ import retrofit2.http.Part;
 import retrofit2.http.QueryMap;
 import retrofit2.http.Url;
 import rx.Observable;
+
 
 /**
  * ===============================================
@@ -34,7 +36,6 @@ import rx.Observable;
  * ===============================================
  */
 public interface ApiService {
-
     /**
      * 获取登录的信息
      */
