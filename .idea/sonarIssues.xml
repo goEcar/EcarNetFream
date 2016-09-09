@@ -228,6 +228,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../easyCharge-adnroid-160831/src/com/ecaray/easycharge/ui/activity/LoginActivity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../easyCharge-adnroid-160831/src/com/ecaray/easycharge/ui/activity/MainActivity.java">
           <value>
             <set />
@@ -274,6 +279,16 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/../easyCharge-adnroid-160831/src/com/ecaray/easycharge/utils/PhotoUtil.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../easyCharge-adnroid-160831/src/com/ecaray/easycharge/utils/ThreedPool/MyThreadPool.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../easyCharge-adnroid-160831/src/com/ecaray/easycharge/utils/ThreedPool/PriorityThreadFactory.java">
           <value>
             <set />
           </value>
