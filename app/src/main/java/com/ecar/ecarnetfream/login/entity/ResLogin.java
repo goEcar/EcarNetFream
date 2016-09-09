@@ -2,8 +2,8 @@ package com.ecar.ecarnetfream.login.entity;
 
 
 
+
 import com.ecar.ecarnetwork.bean.ResBase;
-import com.ecar.ecarnetwork.http.api.ApiBox;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;

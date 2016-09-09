@@ -60,7 +60,7 @@ dependencies {
     //    //    compile 'com.android.support:design:23.1.0'
     //    //    compile 'com.google.code.gson:gson:2.7'
     //    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
-//    compile project(':ecarnet')
-//    compile project(':ecarnet', configuration: 'ecarbeesRelease')
-    compile project(path: ':ecarnet', configuration: 'ecarroadRelease')
+        compile project(':ecarnet')
+    //    compile project(':ecarnet', configuration: 'ecarbeesRelease')
+//        compile project(path: ':ecarnet', configuration: 'ecarroadRelease')
 }

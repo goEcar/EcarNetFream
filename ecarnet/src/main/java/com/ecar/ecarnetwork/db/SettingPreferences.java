@@ -9,7 +9,7 @@ import com.ecar.ecarnet.BuildConfig;
 
 
 public class SettingPreferences {
-    private final static String PREFS_NAME = BuildConfig.SP_NAME;//"";
+    private final static String PREFS_NAME = "test";//"";
 
     private SharedPreferences shareData;
     private final String UserId = "user_id";// 用户ID
@@ -382,10 +382,10 @@ public class SettingPreferences {
      * 以下为一体化新增的全局公用参数保存/获取方法
      *********************************************************************/
 
-    private final static String uKey = BuildConfig.U_NAME;//"u";
+    private final static String uKey = "u";//"u";
     private final static String tsKey = "ts";//时间戳
-    private final static String vKey = BuildConfig.V_NAME;//"v";
-    private final static String tKey = BuildConfig.T_NAME;//"t";
+    private final static String vKey = "u";//"v";
+    private final static String tKey = "u";//"t";
 
 //    private String userPhone = UserInfo.USER_PHONE_NUM; //手机号码
 //    private String nickName = UserInfo.NICKNAME;  //昵称

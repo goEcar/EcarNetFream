@@ -4,7 +4,7 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
 
-    publishNonDefault true
+//    publishNonDefault true
 //    defaultPublishConfig "ecarbeesRelease"
     defaultConfig {
         minSdkVersion 14
@@ -18,27 +18,27 @@ android {
         }
     }
 
-    productFlavors {
-        ecarbees {}
-        ecarcharge {}
-        ecarroadpda {}
-        ecarroad {}
-    }
-
-    productFlavors.all {
-        flavor ->
-            //读取配置文件
-            Properties flavorProps = new Properties()
-            File propsFile = file("proinfos/".plus(flavor.name).plus(".properties"))
-            InputStream is = new FileInputStream(propsFile)
-            BufferedReader bf = new BufferedReader(new InputStreamReader(is, "utf-8"));
-            flavorProps.load(bf)
-            //key相关
-            buildConfigField("String", "SP_NAME", flavorProps['SP_NAME'])
-            buildConfigField("String", "U_NAME", flavorProps['U_NAME'])
-            buildConfigField("String", "T_NAME", flavorProps['T_NAME'])
-            buildConfigField("String", "V_NAME", flavorProps['V_NAME'])
-    }
+//    productFlavors {
+//        ecarbees {}
+//        ecarcharge {}
+//        ecarroadpda {}
+//        ecarroad {}
+//    }
+//
+//    productFlavors.all {
+//        flavor ->
+//            //读取配置文件
+//            Properties flavorProps = new Properties()
+//            File propsFile = file("proinfos/".plus(flavor.name).plus(".properties"))
+//            InputStream is = new FileInputStream(propsFile)
+//            BufferedReader bf = new BufferedReader(new InputStreamReader(is, "utf-8"));
+//            flavorProps.load(bf)
+//            //key相关
+//            buildConfigField("String", "SP_NAME", flavorProps['SP_NAME'])
+//            buildConfigField("String", "U_NAME", flavorProps['U_NAME'])
+//            buildConfigField("String", "T_NAME", flavorProps['T_NAME'])
+//            buildConfigField("String", "V_NAME", flavorProps['V_NAME'])
+//    }
 }
 
 dependencies {
