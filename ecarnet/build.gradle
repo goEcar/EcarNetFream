@@ -1,0 +1,45 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    //    testCompile 'junit:junit:4.12'
+    // 如果要使用Mockito，你需要添加此条依赖库
+    //    testCompile "org.mockito:mockito-core:2.0.57-beta"
+    //    testCompile "org.robolectric:robolectric:3.0-rc3"
+    //    testCompile 'org.robolectric:robolectric-annotations:3.0-rc3'//
+    //robolectric针对support-v4的shadows
+    //    testCompile "org.robolectric:shadows-support-v4:3.0"
+    //    testCompile "com.jayway.awaitility:awaitility:1.7.0"
+    // 如果你要使用Mockito 用于 Android instrumentation tests，那么需要你添加以下三条依赖库
+    //    androidTestCompile 'org.mockito:mockito-core:2.0.57-beta'
+    //    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
+    //    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
+    //    compile 'com.android.support:cardview-v7:23.1.0'
+    //    compile 'com.android.support:recyclerview-v7:23.1.0'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    //    compile 'io.reactivex:rxandroid:1.0.1'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    compile 'com.github.goEcar:RxbusKim:1.0.7'
+    //    compile 'com.android.support:appcompat-v7:23.1.0'
+    //    compile 'com.android.support:design:23.1.0'
+    //    compile 'com.google.code.gson:gson:2.7'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+}

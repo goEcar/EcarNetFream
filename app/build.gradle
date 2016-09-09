@@ -4,7 +4,7 @@ apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    buildToolsVersion '24.0.2'
 
     defaultConfig {
         applicationId "com.ecar.ecarnet"
@@ -33,12 +33,13 @@ android {
         exclude 'META-INF/NOTICE.txt'
     }
     dexOptions { preDexLibraries = false }
-
     repositories {
         flatDir {
             dirs 'libs'
         }
     }
+
+
 }
 
 dependencies {
@@ -47,14 +48,16 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.github.bumptech.glide:glide:3.6.1'
     compile 'org.mockito:mockito-core:2.0.104-beta'
-    compile(name:'ecarnet-release', ext:'aar')
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    //    compile 'io.reactivex:rxandroid:1.0.1'
-    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
-    compile 'com.github.goEcar:RxbusKim:1.0.7'
-    //    compile 'com.android.support:appcompat-v7:23.1.0'
-    //    compile 'com.android.support:design:23.1.0'
-    //    compile 'com.google.code.gson:gson:2.7'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+    //    compile project(':ecarnetwork')
+    //    compile(name: 'ecarnet-release', ext: 'aar')
+    //    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    //    //    compile 'io.reactivex:rxandroid:1.0.1'
+    //    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    //    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    //    compile 'com.github.goEcar:RxbusKim:1.0.7'
+    //    //    compile 'com.android.support:appcompat-v7:23.1.0'
+    //    //    compile 'com.android.support:design:23.1.0'
+    //    //    compile 'com.google.code.gson:gson:2.7'
+    //    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+    compile project(':ecarnet')
 }
