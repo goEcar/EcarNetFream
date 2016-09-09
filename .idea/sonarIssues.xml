@@ -28,6 +28,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/build/intermediates/res/merged/debug/values/values.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
           <value>
             <set />
@@ -108,6 +113,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/ecarnet/src/main/java/com/ecar/ecarnetwork/db/SettingPreferences.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/ecarnet/src/main/java/com/ecar/ecarnetwork/http/exception/UserException.java">
           <value>
             <set />
@@ -129,6 +139,21 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/ecarnet/src/main/java/com/ecar/ecarnetwork/util/rx/RxUtils.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ecarnetwork/build.gradle">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/settings.gradle">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../EcarayTintBar/build.gradle">
           <value>
             <set />
           </value>
@@ -178,7 +203,22 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../easyCharge-adnroid-160831/src/com/ecaray/easycharge/model/ModelImpl/LoginModelImpl.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../easyCharge-adnroid-160831/src/com/ecaray/easycharge/model/ModelImpl/RegisterModelImpl.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../easyCharge-adnroid-160831/src/com/ecaray/easycharge/network/DataCenter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../easyCharge-adnroid-160831/src/com/ecaray/easycharge/network/HttpUrl.java">
           <value>
             <set />
           </value>
@@ -304,6 +344,21 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/../parkBees-android-160823/src/com/chmtech/parkbees/mine/view/DialogTakePhoto.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../parkBees-android-160905/parkbees/build.gradle">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../parkBees-android-160905/parkbees/proguard-project.txt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../parkBees-android-160905/parkbees/proguard-rules.pro">
           <value>
             <set />
           </value>

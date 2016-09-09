@@ -5,9 +5,11 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.text.TextUtils;
 
+import com.ecar.ecarnet.BuildConfig;
+
 
 public class SettingPreferences {
-    public static String PREFS_NAME = "com.ecaray.epark.pub.preferences.db";
+    private final static String PREFS_NAME = BuildConfig.SP_NAME;//"";
 
     private SharedPreferences shareData;
     private final String UserId = "user_id";// 用户ID
@@ -380,10 +382,10 @@ public class SettingPreferences {
      * 以下为一体化新增的全局公用参数保存/获取方法
      *********************************************************************/
 
-    public static String uKey = "u";
-    public static String tsKey = "ts";//时间戳
-    public static String vKey = "v";
-    public static String tKey = "t";
+    private final static String uKey = BuildConfig.U_NAME;//"u";
+    private final static String tsKey = "ts";//时间戳
+    private final static String vKey = BuildConfig.V_NAME;//"v";
+    private final static String tKey = BuildConfig.T_NAME;//"t";
 
 //    private String userPhone = UserInfo.USER_PHONE_NUM; //手机号码
 //    private String nickName = UserInfo.NICKNAME;  //昵称
