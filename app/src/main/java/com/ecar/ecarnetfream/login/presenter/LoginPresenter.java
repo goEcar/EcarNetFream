@@ -107,7 +107,7 @@ public class LoginPresenter extends LoginContract.Presenter{
                 }
                 return result;
             }
-        }).delay(4000, TimeUnit.MILLISECONDS).compose(RxUtils.getScheduler(true, view)).subscribe((Action1<? super Object>) subscriber);
+        }).delay(4000, TimeUnit.MILLISECONDS).compose(RxUtils.getScheduler(true, view)).subscribe( subscriber);
 
         rxManage.add(subscribe1);//添加到订阅集合中
     }
