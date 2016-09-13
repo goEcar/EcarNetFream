@@ -42,7 +42,7 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
         if(t instanceof ResBase){
             ResBase base = (ResBase)t;
             if(base == null){
-
+                String str = "";
             }
             if (base.state != 1) {//非成功
                 this.onUserError(new CommonException(new UserException(base.code,base.msg,base)));
