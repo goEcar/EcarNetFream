@@ -183,7 +183,7 @@ public class ApiBox {
                 .connectTimeout(CONNECT_TIME_OUT, TimeUnit.MILLISECONDS) //与服务器连接超时时间
                 .readTimeout(READ_TIME_OUT, TimeUnit.MILLISECONDS)
                 .writeTimeout(WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
-                .retryOnConnectionFailure(false)//取消超时自动重连
+                .retryOnConnectionFailure(true)//路由等失败自动重连
                 .sslSocketFactory(sslSocketFactory)//https 绕过验证
                 .hostnameVerifier(hostnameVerifier)
 //                .cache(cache)//缓存
