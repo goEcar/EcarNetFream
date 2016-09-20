@@ -2,13 +2,15 @@ package com.ecar.ecarnetwork.bean;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * 接口应答
  * 
  * @author Administrator
  * 
  */
-public class ResBase {
+public class ResBase implements Serializable{
 	@SerializedName("state")
 	public int state;// 成功标志位（1成功，0失败）默认为0
 
