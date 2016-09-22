@@ -170,9 +170,9 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
      *
      * @param msg
      */
-    private void showDialog(final Context context,String msg) {
+    private void showDialog(Context context,String msg) {
           if(iInvalid != null){
-              iInvalid.reLogin(msg);
+              iInvalid.reLogin(context,msg);
           }
     }
 }

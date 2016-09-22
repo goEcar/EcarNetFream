@@ -1,6 +1,7 @@
 package com.ecar.ecarnetfream.login.ui.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.EditText;
@@ -73,7 +74,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     }
 
     @Override
-    public void reLogin(String msg) {
+    public void reLogin(Context context, String msg) {
         if (context != null) {
             TagUtil.showLogDebug("显示登出dialog" + (context instanceof Activity));
             final UpdateDialog dialog = new UpdateDialog(context);

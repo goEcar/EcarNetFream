@@ -1,5 +1,7 @@
 package com.ecar.ecarnetwork.interfaces.security;
 
+import android.content.Context;
+
 /**
  * ===============================================
  * <p/>
@@ -22,5 +24,5 @@ public interface IInvalid {
      * 强制重新登录
      * @param msg
      */
-    void reLogin(String msg);
+    void reLogin(Context iContext, String msg);
 }
