@@ -87,7 +87,7 @@ public class RxUtils {
             @Override
             public Observable<T> call(Observable<T> tObservable) {
                 return tObservable.subscribeOn(Schedulers.io())
-                        .subscribeOn(AndroidSchedulers.mainThread())
+//                        .subscribeOn(AndroidSchedulers.mainThread())
                         .unsubscribeOn(AndroidSchedulers.mainThread())
                         .observeOn(AndroidSchedulers.mainThread());
             }
