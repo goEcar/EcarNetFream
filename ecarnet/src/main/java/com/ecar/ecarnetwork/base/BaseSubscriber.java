@@ -60,61 +60,69 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
     @Override
     public void onError(Throwable e) {
         CommonException ex = null;
-        if (e instanceof UserException) {   // 用户自定义需要处理的异常
-            /**
-             * 1.自定义异常处理
-             */
-            UserException resultException = (UserException) e;
-            ex = new CommonException(resultException);
-            onUserError(ex);
-        }else if(e instanceof InvalidException){
-            /**
-             * 2.非法异常处理：2.1 强制重新登录 2.2 校验错误 2.3 so on
-             */
-            InvalidException commonException = (InvalidException) e;
-            if(InvalidException.FLAG_ERROR_RELOGIN.equals(commonException.getCode())){//重新登录
-                showDialog(context,commonException.getMsg());
-            }else if(InvalidException.FLAG_ERROR_RESPONCE_CHECK.equals(commonException.getCode())){//校验错误
-                showMsg(context,commonException.getMsg());
+        try{
+            if (e instanceof UserException) {   // 用户自定义需要处理的异常
+                /**
+                 * 1.自定义异常处理
+                 */
+                UserException resultException = (UserException) e;
+                ex = new CommonException(resultException);
+                onUserError(ex);
+            }else if(e instanceof InvalidException){
+                /**
+                 * 2.非法异常处理：2.1 强制重新登录 2.2 校验错误 2.3 so on
+                 */
+                InvalidException commonException = (InvalidException) e;
+                if(InvalidException.FLAG_ERROR_RELOGIN.equals(commonException.getCode())){//重新登录
+                    showDialog(context,commonException.getMsg());
+                }else if(InvalidException.FLAG_ERROR_RESPONCE_CHECK.equals(commonException.getCode())){//校验错误
+                    showMsg(context,commonException.getMsg());
+                }
+            } else if (e instanceof JsonParseException
+                    || e instanceof JSONException
+                    || e instanceof ParseException) {
+                /**
+                 * 2.解析错误
+                 */
+                ex = new CommonException(e, CommonException.FLAG_PARSE_ERROR);
+                onUnifiedError(ex);   //
+            } else if (e instanceof HttpException
+                    || e instanceof ConnectException
+                    || e instanceof SocketTimeoutException
+                    || e instanceof SocketException || e instanceof UnknownHostException) {
+                /**
+                 * 3.网络错误
+                 */
+                ex = new CommonException(e, CommonException.FLAG_NET_ERROR);
+                onUnifiedError(ex);
+            }else if(e instanceof SecurityException){
+                /**
+                 * 4.权限未许可
+                 */
+                ex = new CommonException(e, CommonException.FLAG_PERMISSION_ERROR);
+                onUnifiedError(ex);
             }
-        } else if (e instanceof JsonParseException
-                || e instanceof JSONException
-                || e instanceof ParseException) {
-            /**
-             * 2.解析错误
-             */
-            ex = new CommonException(e, CommonException.FLAG_PARSE_ERROR);
-            onUnifiedError(ex);   //
-        } else if (e instanceof HttpException
-                || e instanceof ConnectException
-                || e instanceof SocketTimeoutException
-                || e instanceof SocketException || e instanceof UnknownHostException) {
-            /**
-             * 3.网络错误
-             */
-            ex = new CommonException(e, CommonException.FLAG_NET_ERROR);
-            onUnifiedError(ex);
-        }else if(e instanceof SecurityException){
-            /**
-             * 4.权限未许可
-             */
-            ex = new CommonException(e, CommonException.FLAG_PERMISSION_ERROR);
-            onUnifiedError(ex);
-        }
-        else {
-            /**
-             * 5.未知错误
-             */
-            ex = new CommonException(e, CommonException.FLAG_UNKNOWN);
-            onUnifiedError(ex);   //未知错误
-        }
-        resetContext();
-        if(ConstantsLib.DEBUG && ex!=null){
-            e.printStackTrace();
-            String errorMsg = ex.getMessage().toString();
-            TagLibUtil.showLogError(BaseSubscriber.class.getSimpleName() + ": " + errorMsg);
-            //bug写入日志
+            else {
+                /**
+                 * 5.未知错误
+                 */
+                ex = new CommonException(e, CommonException.FLAG_UNKNOWN);
+                onUnifiedError(ex);   //未知错误
+            }
+            resetContext();
+            if(ConstantsLib.DEBUG && ex!=null){
+                e.printStackTrace();
+                String errorMsg = ex.getMessage().toString();
+                TagLibUtil.showLogError(BaseSubscriber.class.getSimpleName() + ": " + errorMsg);
+                //bug写入日志
 //            FileUtil.writeDebugTextFile(errorMsg);//不能简单的这么写，要考虑弄线程池处理
+            }
+        }catch (Exception exception){
+            ex = new CommonException(exception, CommonException.FLAG_UNKNOWN);
+            onUnifiedError(ex);   //未知错误
+            if(ConstantsLib.DEBUG && exception!=null){
+                exception.printStackTrace();
+            }
         }
     }
 
