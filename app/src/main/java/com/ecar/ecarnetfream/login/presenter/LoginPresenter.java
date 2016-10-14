@@ -2,6 +2,7 @@ package com.ecar.ecarnetfream.login.presenter;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.text.TextUtils;
 
 import com.ecar.ecarnetfream.login.entity.ResLogin;
@@ -10,6 +11,7 @@ import com.ecar.ecarnetfream.publics.network.Datacenter;
 import com.ecar.ecarnetfream.publics.util.TagUtil;
 import com.ecar.ecarnetwork.base.BaseSubscriber;
 import com.ecar.ecarnetwork.bean.ResBase;
+import com.ecar.ecarnetwork.http.exception.InvalidException;
 import com.ecar.ecarnetwork.http.exception.UserException;
 import com.ecar.ecarnetwork.util.rx.RxUtils;
 
@@ -49,7 +51,7 @@ public class LoginPresenter extends LoginContract.Presenter{
         if (TextUtils.isEmpty(pwd) || name.length() < 6) return;
 
         rxLogin1(name, pwd);
-        rxLogin3(name, pwd);
+//        rxLogin3(name, pwd);
     }
 
 
@@ -62,6 +64,11 @@ public class LoginPresenter extends LoginContract.Presenter{
             @Override
             protected void onUserSuccess(ResBase resBase) {
                 view.showMsg("单个请求"+resBase.msg);
+            }
+
+            @Override
+            protected void onCheckNgisFailed(Context context, InvalidException commonException) {
+                super.onCheckNgisFailed(context, commonException);
             }
         };
 

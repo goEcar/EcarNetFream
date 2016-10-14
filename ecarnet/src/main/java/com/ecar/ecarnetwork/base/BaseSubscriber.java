@@ -73,10 +73,11 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
                  * 2.非法异常处理：2.1 强制重新登录 2.2 校验错误 2.3 so on
                  */
                 InvalidException commonException = (InvalidException) e;
-                if(InvalidException.FLAG_ERROR_RELOGIN.equals(commonException.getCode())){//重新登录
+                if(InvalidException.FLAG_ERROR_RESPONCE_CHECK.equals(commonException.getCode())){//校验错误
+                    onCheckNgisFailed(context,commonException);
+                }
+                else if(InvalidException.FLAG_ERROR_RELOGIN.equals(commonException.getCode())){//重新登录
                     showDialog(context,commonException.getMsg());
-                }else if(InvalidException.FLAG_ERROR_RESPONCE_CHECK.equals(commonException.getCode())){//校验错误
-                    showMsg(context,commonException.getMsg());
                 }
             } else if (e instanceof JsonParseException
                     || e instanceof JSONException
@@ -165,7 +166,12 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
         context = null;
     }
 
-    private static void showMsg(Context context,String msg){
+    /**
+     * 提示msg
+     * @param context
+     * @param msg
+     */
+    private void showMsg(Context context,String msg){
         if(context!=null){
             String reMsg = TextUtils.isEmpty(msg) ? "" : msg;
             TagLibUtil.showToast(context,reMsg);
@@ -174,10 +180,22 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
         }
     }
 
+
     /**
-     *
-     * @param msg
+     * 校验码失败
      */
+    protected void onCheckNgisFailed(Context context, InvalidException commonException){
+        if(context!=null || commonException!=null){
+            String reMsg = TextUtils.isEmpty(commonException.getMsg()) ? "" : commonException.getMsg();
+            TagLibUtil.showToast(context,reMsg);
+        }else{
+            TagLibUtil.showLogDebug("Subscriber 上下文为空");
+        }
+    }
+
+
+
+
     private void showDialog(Context context,String msg) {
           if(iInvalid != null){
               iInvalid.reLogin(context,msg);

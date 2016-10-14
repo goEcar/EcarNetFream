@@ -2,6 +2,8 @@ package com.ecar.ecarnetwork.http.exception;
 
 import android.text.TextUtils;
 
+import com.ecar.ecarnetwork.bean.ResBase;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +12,7 @@ import java.util.Map;
  * 1.强制重新登录
  * 2.校验码错误
  */
-public class InvalidException extends RuntimeException {
+public class InvalidException extends BaseException {
 
     public static final String FLAG_ERROR_RELOGIN = "2000";
     public static final String FLAG_ERROR_RESPONCE_CHECK = "2001";
@@ -21,35 +23,18 @@ public class InvalidException extends RuntimeException {
         exComMaps.put(FLAG_ERROR_RESPONCE_CHECK, "数据校验失败,请重新操作");
     }
 
-    private String code = "";
-    private String msg = "";
-
-    public InvalidException(String code) {
-        this.code = code;
-    }
-
-    public InvalidException(String code, String msg) {
-        this.code = code;
-        this.msg = msg;
-    }
-
-
-
-    public String getCode() {
-        return code;
-    }
-
-
-    public String getMsg() {
-        String reMsg = "";
-        if(TextUtils.isEmpty(msg)){
-            reMsg = exComMaps.get(code);
-        }
-        return reMsg;
+    public InvalidException(String code, String msg, ResBase resObj) {
+        super(code, msg, resObj);
     }
 
     @Override
-    public String toString() {
-        return String.format("code=%s, msg=%s", code, msg);
+    public String getMsg() {
+        String reMsg = msg;
+        if(!TextUtils.isEmpty(code)){
+            reMsg = exComMaps.get(code);
+        }else {
+            reMsg = "";
+        }
+        return reMsg;
     }
 }
