@@ -66,9 +66,17 @@ public class LoginPresenter extends LoginContract.Presenter{
                 view.showMsg("单个请求"+resBase.msg);
             }
 
+            /**
+             * 第三方 返回校验失败
+             * @param context
+             * @param commonException
+             */
             @Override
             protected void onCheckNgisFailed(Context context, InvalidException commonException) {
                 super.onCheckNgisFailed(context, commonException);
+                if(commonException.getResObj()!=null){
+                    ResBase resBase = commonException.getResObj();
+                }
             }
         };
 

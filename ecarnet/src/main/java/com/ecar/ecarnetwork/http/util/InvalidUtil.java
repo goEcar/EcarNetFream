@@ -1,6 +1,8 @@
 package com.ecar.ecarnetwork.http.util;
 
 
+import android.text.TextUtils;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -42,6 +44,9 @@ public class InvalidUtil {
      * @return true 符合sign规则
      */
     public static boolean checkSign(String sign,String content) {
+        if(TextUtils.isEmpty(sign)){
+            return false;
+        }
         try {
             Pattern regex = Pattern.compile(CHECKSIGN);
             Matcher matcher = regex.matcher(content);
