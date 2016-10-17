@@ -64,7 +64,7 @@ public class ApiBox {
     public Application application;//应用上下文(需注入参数)
     private File cacheFile;//缓存路径
 
-    private Map<Class, Object> serviceMap;
+    private Map<String, Object> serviceMap;
 
 
     /**
@@ -106,7 +106,10 @@ public class ApiBox {
         //4.创建retrofit. 3.1 请求客户端 3.2 GsonAdpter转换类型 3.3 支持Rxjava 3.4.基url
 
         //1.缓存中获取
-        Object serviceObj = serviceMap.get(serviceClass);
+        if(TextUtils.isEmpty(baseUrl)){
+            baseUrl = "";
+        }
+        Object serviceObj = serviceMap.get(serviceClass.getSimpleName()+baseUrl);
         if (serviceObj != null) {
             return (T) serviceObj;
         }
@@ -119,7 +122,7 @@ public class ApiBox {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
         T service = retrofit.create(serviceClass);
-        serviceMap.put(serviceClass, service);
+        serviceMap.put(serviceClass.getSimpleName()+baseUrl, service);
         return service;
     }
 

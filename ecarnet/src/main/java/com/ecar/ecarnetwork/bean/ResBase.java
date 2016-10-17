@@ -45,6 +45,13 @@ public class ResBase implements Serializable{
 	public String jsonStr;  //json字符串
 
 
+	/**
+	 * 骆驼需要 字段
+	 */
+	@SerializedName("status")
+	public int status;
+
+
 	@Override
 	public String toString() {
 		return "ResBase{" +
