@@ -120,10 +120,13 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
             }
         }catch (Exception exception){
             ex = new CommonException(exception, CommonException.FLAG_UNKNOWN);
-            onUnifiedError(ex);   //未知错误
+//            onUnifiedError(ex);   //未知错误 这一句需删掉，网络出错会陷入无线循环。
             if(ConstantsLib.DEBUG && exception!=null){
                 exception.printStackTrace();
             }
+//            else if(ConstantsLib.DEBUG && exception==null){//这一句不应该执行到
+//                ex.printStackTrace();
+//            }
         }
     }
 

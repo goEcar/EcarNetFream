@@ -11,6 +11,7 @@ import com.ecar.ecarnetfream.publics.network.Datacenter;
 import com.ecar.ecarnetfream.publics.util.TagUtil;
 import com.ecar.ecarnetwork.base.BaseSubscriber;
 import com.ecar.ecarnetwork.bean.ResBase;
+import com.ecar.ecarnetwork.http.exception.CommonException;
 import com.ecar.ecarnetwork.http.exception.InvalidException;
 import com.ecar.ecarnetwork.http.exception.UserException;
 import com.ecar.ecarnetwork.util.rx.RxUtils;
@@ -77,6 +78,16 @@ public class LoginPresenter extends LoginContract.Presenter{
                 if(commonException.getResObj()!=null){
                     ResBase resBase = commonException.getResObj();
                 }
+            }
+
+            @Override
+            protected void onUnifiedError(CommonException ex) {
+                super.onUnifiedError(ex);
+//                try {
+                    int i = 1 / 0;
+//                }catch (Exception e){
+//                    e.printStackTrace();
+//                }
             }
         };
 

@@ -49,9 +49,10 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
  */
 public class ApiBox {
 
-    private static final int CONNECT_TIME_OUT = 10 * 1000;//跟服务器连接超时时间
-    private static final int READ_TIME_OUT = 10 * 1000;    // 数据读取超时时间
-    private static final int WRITE_TIME_OUT = 10 * 1000;   //数据写入超时时间
+    //可能有多个代理类，每个代理类要求的时间不一样
+    private int CONNECT_TIME_OUT = 10 * 1000;//跟服务器连接超时时间
+    private int READ_TIME_OUT = 10 * 1000;    // 数据读取超时时间
+    private int WRITE_TIME_OUT = 10 * 1000;   //数据写入超时时间
     private static final String CACHE_NAME = "cache";   //缓存目录名称
 
 
@@ -91,6 +92,16 @@ public class ApiBox {
         this.application = builder.application;
         this.cacheFile = builder.cacheDir;
         this.serviceMap = new HashMap<>();
+        if(builder.connetTimeOut > 0){
+            this.CONNECT_TIME_OUT = builder.connetTimeOut;
+        }
+        if(builder.readTimeOut > 0){
+            this.READ_TIME_OUT = builder.readTimeOut;
+        }
+
+        if(builder.writeTimeOut > 0){
+            this.WRITE_TIME_OUT = builder.writeTimeOut;
+        }
 
         //2.gson
         gson = getReponseGson();
@@ -134,6 +145,9 @@ public class ApiBox {
         private File cacheDir;//缓存路径
         private boolean debug;
         private String reqKey;
+        private int connetTimeOut;
+        private int readTimeOut;
+        private int writeTimeOut;
 
         public Builder application(Application application) {
             this.application = application;
@@ -147,6 +161,21 @@ public class ApiBox {
         }
         public Builder reqKey(String reqKey){
             this.reqKey = reqKey;
+            return this;
+        }
+
+        public Builder connetTimeOut(int connetTime){
+            this.connetTimeOut = connetTime;
+            return this;
+        }
+
+        public Builder readTimeOut(int readTimeOut){
+            this.readTimeOut = readTimeOut;
+            return this;
+        }
+
+        public Builder writeTimeOut(int writeTimeOut) {
+            this.writeTimeOut = writeTimeOut;
             return this;
         }
 
