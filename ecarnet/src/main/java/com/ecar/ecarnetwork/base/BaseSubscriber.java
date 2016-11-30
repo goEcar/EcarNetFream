@@ -60,7 +60,7 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
     @Override
     public void onError(Throwable e) {
         CommonException ex = null;
-        try{
+//        try{
             if (e instanceof UserException) {   // 用户自定义需要处理的异常
                 /**
                  * 1.自定义异常处理
@@ -118,16 +118,16 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
                 //bug写入日志
 //            FileUtil.writeDebugTextFile(errorMsg);//不能简单的这么写，要考虑弄线程池处理
             }
-        }catch (Exception exception){
-            ex = new CommonException(exception, CommonException.FLAG_UNKNOWN);
-//            onUnifiedError(ex);   //未知错误 这一句需删掉，网络出错会陷入无线循环。
-            if(ConstantsLib.DEBUG && exception!=null){
-                exception.printStackTrace();
-            }
-//            else if(ConstantsLib.DEBUG && exception==null){//这一句不应该执行到
-//                ex.printStackTrace();
+//        }catch (Exception exception){
+//            ex = new CommonException(exception, CommonException.FLAG_UNKNOWN);
+////            onUnifiedError(ex);   //未知错误 这一句需删掉，网络出错会陷入无线循环。
+//            if(ConstantsLib.DEBUG && exception!=null){
+//                exception.printStackTrace();
 //            }
-        }
+////            else if(ConstantsLib.DEBUG && exception==null){//这一句不应该执行到
+////                ex.printStackTrace();
+////            }
+//        }
     }
 
     @Override
