@@ -94,9 +94,14 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
                 /**
                  * 3.网络错误
                  */
-                ex = new CommonException(e, CommonException.FLAG_NET_ERROR);
+                if(e instanceof SocketTimeoutException){
+                    ex = new CommonException(e, CommonException.FLAG_NET_TIME_OUT);
+                }else{
+                    ex = new CommonException(e, CommonException.FLAG_NET_ERROR);
+                }
                 onUnifiedError(ex);
-            }else if(e instanceof SecurityException){
+            }
+            else if(e instanceof SecurityException){
                 /**
                  * 4.权限未许可
                  */

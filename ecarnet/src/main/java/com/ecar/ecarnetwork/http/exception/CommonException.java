@@ -16,6 +16,7 @@ public class CommonException extends Exception {
     //通常的异常
     public static final String FLAG_UNKNOWN = "1001";//异常
     public static final String FLAG_NET_ERROR = "1002";//网络异常标志
+    public static final String FLAG_NET_TIME_OUT = "10021";//网络异常标志
     public static final String FLAG_PARSE_ERROR = "1003";//解析异常
     public static final String FLAG_PERMISSION_ERROR = "1004";//权限异常
 
