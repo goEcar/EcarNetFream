@@ -87,10 +87,10 @@ public class CommonException extends Exception {
      * 是否是网络错误(包括 超时异常)
      * @return
      */
-    public boolean isNetException(CommonException comException){
+    public boolean isNetException(){
         //异常code 包含网络基础错误
-        if(comException !=null && !TextUtils.isEmpty(comException.getCode()) ){
-            if(comException.getCode().contains(FLAG_NET_ERROR))
+        if(!TextUtils.isEmpty(getCode()) ){
+            if(getCode().contains(FLAG_NET_ERROR))
                 return true;
         }
         return false;
@@ -99,11 +99,11 @@ public class CommonException extends Exception {
     /**
      * 是否是网络超时
      */
-    public boolean isTimeOut(CommonException comException){
-        boolean netException = isNetException(comException);
+    public boolean isTimeOut(){
+        boolean netException = isNetException();
         //是网络错误 判断是否是 超时
         if(netException){
-            if(FLAG_NET_TIME_OUT.equals(comException.getCode())){
+            if(FLAG_NET_TIME_OUT.equals(getCode())){
                 return true;
             }
         }
