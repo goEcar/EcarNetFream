@@ -15,8 +15,8 @@ public class CommonException extends Exception {
 
     //通常的异常
     public static final String FLAG_UNKNOWN = "1001";//异常
-    public static final String FLAG_NET_ERROR = "1002";//网络异常标志
-    public static final String FLAG_NET_TIME_OUT = "10021";//网络异常标志
+    public static final String FLAG_NET_ERROR = "1002";//网络异常标志（统一的包括：连接、读、写）
+    public static final String FLAG_NET_TIME_OUT = "10021";//网络异常标志(超时)
     public static final String FLAG_PARSE_ERROR = "1003";//解析异常
     public static final String FLAG_PERMISSION_ERROR = "1004";//权限异常
 
@@ -81,5 +81,32 @@ public class CommonException extends Exception {
             reMsg =  exApiMaps.get(code);
         }
         return reMsg;
+    }
+
+    /**
+     * 是否是网络错误(包括 超时异常)
+     * @return
+     */
+    public boolean isNetException(CommonException comException){
+        //异常code 包含网络基础错误
+        if(comException !=null && !TextUtils.isEmpty(comException.getCode()) ){
+            if(comException.getCode().contains(FLAG_NET_ERROR))
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * 是否是网络超时
+     */
+    public boolean isTimeOut(CommonException comException){
+        boolean netException = isNetException(comException);
+        //是网络错误 判断是否是 超时
+        if(netException){
+            if(FLAG_NET_TIME_OUT.equals(comException.getCode())){
+                return true;
+            }
+        }
+        return false;
     }
 }

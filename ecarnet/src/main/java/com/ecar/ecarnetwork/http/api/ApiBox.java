@@ -120,7 +120,7 @@ public class ApiBox {
         if(TextUtils.isEmpty(baseUrl)){
             baseUrl = "";
         }
-        Object serviceObj = serviceMap.get(serviceClass.getSimpleName()+baseUrl);
+        Object serviceObj = serviceMap.get(serviceClass.getName()+baseUrl);
         if (serviceObj != null) {
             return (T) serviceObj;
         }
@@ -133,7 +133,7 @@ public class ApiBox {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
         T service = retrofit.create(serviceClass);
-        serviceMap.put(serviceClass.getSimpleName()+baseUrl, service);
+        serviceMap.put(serviceClass.getName()+baseUrl, service);
         return service;
     }
 
