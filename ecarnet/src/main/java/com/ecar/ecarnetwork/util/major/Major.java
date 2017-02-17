@@ -121,7 +121,7 @@ public class Major {
      * @param：
      * @return：
      */
-    private static TreeMap<String, String> securityKeyMethodNoEnc(TreeMap<String, String> tMap) {
+    public static TreeMap<String, String> securityKeyMethodNoEnc(TreeMap<String, String> tMap) {
         return getSecurityMapKeys(tMap.toString(), false, true, ConstantsLib.APP_ID, ConstantsLib.REQUEST_KEY);
 
     }
