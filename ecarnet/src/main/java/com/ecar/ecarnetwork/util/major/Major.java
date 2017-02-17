@@ -110,6 +110,17 @@ public class Major {
      * @param：
      * @return：
      */
+    public static TreeMap<String, String> securityKeyMethodEnc(TreeMap<String, String> tMap,boolean encode,boolean isSigne) {
+        return getSecurityMapKeys(tMap.toString(), encode, isSigne, ConstantsLib.APP_ID, ConstantsLib.REQUEST_KEY);
+
+    }
+
+    /**
+     * @throws Exception
+     * @功能：加密方法（加encode）
+     * @param：
+     * @return：
+     */
     public static TreeMap<String, String> securityKeyMethodEnc(TreeMap<String, String> tMap) {
         return getSecurityMapKeys(tMap.toString(), true, true, ConstantsLib.APP_ID, ConstantsLib.REQUEST_KEY);
 
