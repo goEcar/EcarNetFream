@@ -3,7 +3,6 @@ package com.ecar.ecarnetwork.http.api;
 import android.app.Application;
 import android.text.TextUtils;
 
-import com.ecar.ecarnetwork.db.SettingPreferences;
 import com.ecar.ecarnetwork.http.converter.ConverterFactory;
 import com.ecar.ecarnetwork.http.util.ConstantsLib;
 import com.ecar.ecarnetwork.http.util.HttpsUtils;
@@ -133,7 +132,7 @@ public class ApiBox {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
         T service = retrofit.create(serviceClass);
-        serviceMap.put(serviceClass.getName()+baseUrl, service);
+        serviceMap.put((String) TextUtils.concat(serviceClass.getName(),baseUrl), service);
         return service;
     }
 

@@ -5,10 +5,10 @@ import android.text.TextUtils;
 import com.ecar.ecarnetwork.db.SettingPreferences;
 import com.ecar.ecarnetwork.http.api.ApiBox;
 import com.ecar.ecarnetwork.http.util.ConstantsLib;
-import com.ecar.ecarnetwork.http.util.InvalidUtil;
+import com.ecar.encryption.Epark.EparkEncrypUtil;
+import com.ecar.factory.EncryptionUtilFactory;
+import com.ecar.util.CastStringUtil;
 
-import java.util.Iterator;
-import java.util.Set;
 import java.util.TreeMap;
 
 
@@ -31,6 +31,8 @@ import java.util.TreeMap;
  */
 public class Major {
 
+    public static EparkEncrypUtil eUtil = EncryptionUtilFactory.getDefault(true).createEpark();
+
     protected final static String PARAMS_CLIENT_TYPE = "ClientType";//
 
     protected final static String PARAMS_ANDROID = "android";//
@@ -46,7 +48,6 @@ public class Major {
     public static final String PARAMS_USER_PHONE_NAME = "userPhoneNum";
 
     protected static SettingPreferences spUtil = SettingPreferences.getDefault(ApiBox.getInstance().application);
-    private static StringBuilder sb = new StringBuilder();
 
     /**
      * @throws Exception
@@ -95,7 +96,7 @@ public class Major {
         tMap.put(PARAMS_MODULE, "app");
         tMap.put(PARAMS_SERVICE, "Std");
         tMap.put(PARAMS_CLIENT_TYPE, PARAMS_ANDROID);
-        if(!TextUtils.isEmpty(spUtil.getTs())){
+        if (!TextUtils.isEmpty(spUtil.getTs())) {
             tMap.put("ts", spUtil.getTs());
         }
         return tMap;
@@ -110,7 +111,8 @@ public class Major {
      * @return：
      */
     public static TreeMap<String, String> securityKeyMethodEnc(TreeMap<String, String> tMap) {
-        return getSecurityMapKeys(tMap, true,true);
+        return getSecurityMapKeys(tMap.toString(), true, true, ConstantsLib.APP_ID, ConstantsLib.REQUEST_KEY);
+
     }
 
     /**
@@ -120,59 +122,26 @@ public class Major {
      * @return：
      */
     private static TreeMap<String, String> securityKeyMethodNoEnc(TreeMap<String, String> tMap) {
-        return getSecurityMapKeys(tMap, false,true);
+        return getSecurityMapKeys(tMap.toString(), false, true, ConstantsLib.APP_ID, ConstantsLib.REQUEST_KEY);
+
     }
 
-    /**
-     * @throws Exception
-     * @功能：获取拼接后的请求字符串
-     * @param：encode:是否添加encode
-     * @return：
-     */
-    protected static TreeMap<String, String> getSecurityMapKeys(TreeMap<String, String> tMap, boolean encode,boolean isSign) {
-        if(!TextUtils.isEmpty(ConstantsLib.APP_ID)){ //一体化（appid不为空）处理：根据校验标志设置appId值
-            tMap.put("ve", "2");
-            if (isSign) {
-                tMap.put("appId", InvalidUtil.BinstrToStr(ConstantsLib.APP_ID));
-            } else {
-                tMap.put("appId", "");
-            }
-        }
-        Set<String> keys = tMap.keySet();
-        Iterator<String> iterator = keys.iterator();
-        String parmas = "";
-        while (iterator.hasNext()) {
-            String key = iterator.next();
-            String value = tMap.get(key);
-            parmas = InvalidUtil.addText(sb, parmas, key, "=", value, "&");
-        }
-        parmas = InvalidUtil.addText(sb, parmas, "requestKey=",
-                InvalidUtil.BinstrToStr(ConstantsLib.REQUEST_KEY));
-        String md5 = InvalidUtil.md5(parmas).toString();
-        tMap.remove("requestKey");
-        Iterator<String> iterator1 = keys.iterator();
-        parmas = "";
-        while (iterator1.hasNext()) {
-            String key = iterator1.next();
-            String value = tMap.get(key);
-            if (encode) {
-                value = InvalidUtil.getEncodedStr(value);
-                tMap.put(key,value);
-            }
-            parmas = InvalidUtil.addText(sb, parmas, key, "=", value, "&");
-        }
-
-        if(!TextUtils.isEmpty(ConstantsLib.APP_ID)){ //一体化（appid不为空）处理：根据校验标志设置sign值
-            if(isSign){
-                tMap.put("sign", md5);
-            }else{
-                tMap.put("sign", "");
-            }
-        }else{
-            tMap.put("sign", md5);
-        }
-
-        return tMap;
+    //
+//    /**
+//     * @throws Exception
+//     * @功能：获取拼接后的请求字符串
+//     * @param：encode:是否添加encode
+//     * @return：  TreeMap<String, String>
+//     */
+    protected static TreeMap<String, String> getSecurityMapKeys(String tMap, boolean encode, boolean isSign, String appid, String requestKey) {
+        return CastStringUtil.jsonToMap(eUtil.getSecurityMapKeys(
+                tMap,
+                encode,
+                isSign,
+                appid,
+                 eUtil.binstrToStr(requestKey)));
     }
+
+
 
 }

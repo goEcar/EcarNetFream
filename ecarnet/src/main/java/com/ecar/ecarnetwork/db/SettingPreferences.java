@@ -5,8 +5,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.text.TextUtils;
 
-import com.ecar.ecarnet.BuildConfig;
-
 
 public class SettingPreferences {
     private final static String PREFS_NAME = "parkbees_sp";//BuildConfig.SP_NAME;//"";

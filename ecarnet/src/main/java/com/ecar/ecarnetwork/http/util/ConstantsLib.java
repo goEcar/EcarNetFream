@@ -23,7 +23,7 @@ public class ConstantsLib {
     /**
      * APP_ID
      */
-    public static String APP_ID;
+    public static String APP_ID="";
 
     /**
      * Log 日志开关 发布版本设为false
