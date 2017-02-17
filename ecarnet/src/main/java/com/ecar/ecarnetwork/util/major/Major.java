@@ -11,6 +11,8 @@ import com.ecar.util.CastStringUtil;
 
 import java.util.TreeMap;
 
+import static com.ecar.util.CastStringUtil.stringToTreeMap;
+
 
 /**
  * ===============================================
@@ -145,13 +147,15 @@ public class Major {
 //     * @return：  TreeMap<String, String>
 //     */
     protected static TreeMap<String, String> getSecurityMapKeys(String tMap, boolean encode, boolean isSign, String appid, String requestKey) {
-        return CastStringUtil.jsonToMap(eUtil.getSecurityMapKeys(
+        return CastStringUtil.stringToTreeMap(eUtil.getSecurityMapKeys(
                 tMap,
                 encode,
                 isSign,
                 appid,
                  eUtil.binstrToStr(requestKey)));
     }
+
+
 
 
 
