@@ -112,8 +112,8 @@ public class Major {
      * @param：
      * @return：
      */
-    public static TreeMap<String, String> securityKeyMethodEnc(TreeMap<String, String> tMap,boolean encode,boolean isSign) {
-        return getSecurityMapKeys(tMap.toString(), encode, isSign, ConstantsLib.APP_ID, ConstantsLib.REQUEST_KEY);
+    public static TreeMap<String, String> securityKeyMethodEnc(TreeMap<String, String> tMap,boolean encode,boolean isSign,boolean isNeedVe) {
+        return getSecurityMapKeys(tMap.toString(), encode, isSign,isNeedVe, ConstantsLib.APP_ID, ConstantsLib.REQUEST_KEY);
 
     }
 
@@ -124,7 +124,7 @@ public class Major {
      * @return：
      */
     public static TreeMap<String, String> securityKeyMethodEnc(TreeMap<String, String> tMap) {
-        return getSecurityMapKeys(tMap.toString(), true, true, ConstantsLib.APP_ID, ConstantsLib.REQUEST_KEY);
+        return getSecurityMapKeys(tMap.toString(), true, true,true, ConstantsLib.APP_ID, ConstantsLib.REQUEST_KEY);
 
     }
 
@@ -135,7 +135,7 @@ public class Major {
      * @return：
      */
     public static TreeMap<String, String> securityKeyMethodNoEnc(TreeMap<String, String> tMap) {
-        return getSecurityMapKeys(tMap.toString(), false, true, ConstantsLib.APP_ID, ConstantsLib.REQUEST_KEY);
+        return getSecurityMapKeys(tMap.toString(), false, true,true, ConstantsLib.APP_ID, ConstantsLib.REQUEST_KEY);
 
     }
 
@@ -146,11 +146,17 @@ public class Major {
 //     * @param：encode:是否添加encode
 //     * @return：  TreeMap<String, String>
 //     */
-    protected static TreeMap<String, String> getSecurityMapKeys(String tMap, boolean encode, boolean isSign, String appid, String requestKey) {
+    protected static TreeMap<String, String> getSecurityMapKeys(String tMap,
+                                                                boolean encode,
+                                                                boolean isSign,
+                                                                boolean isNeedVe,
+                                                                String appid,
+                                                                String requestKey) {
         return CastStringUtil.stringToTreeMap(eUtil.getSecurityMapKeys(
                 tMap,
                 encode,
                 isSign,
+                isNeedVe,
                 appid,
                  eUtil.binstrToStr(requestKey)));
     }

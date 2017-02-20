@@ -327,38 +327,6 @@ public class StringsUtil {
 		}
 	}
 
-	/**
-	 * 验证是否符合sign规则
-	 *
-	 * @param
-	 * @return true 符合sign规则
-	 */
-	public static boolean checkSign(String sign,String content) {
-		try {
-			Pattern regex = Pattern.compile(Constants.CHECKSIGN);
-			Matcher matcher = regex.matcher(content);
-			if (matcher.find()) {
-				String before = content.replaceAll(
-						matcher.group(0),
-						DataFormatUtil.addText(new StringBuilder(),
-								"\"ngis\":\"",
-								StringUtils.BinstrToStr(Constants.REQUEST_KEY),
-								"\"")).toString();
-//				ResBase base = gson.fromJson(content, ResBase.class);
-				if (sign.equals(MathsUtil.GetMD5Code(before))) {
-					TagUtil.showLogDebug("验证成功");
-					return true;
-				} else {
-					return false;
-				}
-			} else {
-				return false;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
 
 
 }
