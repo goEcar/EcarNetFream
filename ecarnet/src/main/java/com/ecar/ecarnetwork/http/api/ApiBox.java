@@ -3,6 +3,7 @@ package com.ecar.ecarnetwork.http.api;
 import android.app.Application;
 import android.text.TextUtils;
 
+import com.ecar.ecarnetwork.db.SettingPreferences;
 import com.ecar.ecarnetwork.http.converter.ConverterFactory;
 import com.ecar.ecarnetwork.http.util.ConstantsLib;
 import com.ecar.ecarnetwork.http.util.HttpsUtils;
@@ -12,7 +13,6 @@ import com.google.gson.GsonBuilder;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -59,8 +59,8 @@ public class ApiBox {
     /**
      * 单例 持有引用
      */
-    private Gson gson;
-    private OkHttpClient okHttpClient;
+    private final Gson gson;
+    private final OkHttpClient okHttpClient;
 
     public Application application;//应用上下文(需注入参数)
     private File cacheFile;//缓存路径
@@ -82,32 +82,24 @@ public class ApiBox {
         return SingletonHolder.INSTANCE;
     }
 
-    private ApiBox(Builder builder) {
-        init(builder, null);
-    }
-
     /**
      * 构造方法
      */
-    private ApiBox(Builder builder, InputStream[] certificates) {
-        init(builder, certificates);
-    }
-
-    private void init(Builder builder, InputStream[] certificates) {
+    private ApiBox(Builder builder) {
         //1.设置应用上下文、debug参数\
         ConstantsLib.DEBUG = builder.debug;
         ConstantsLib.REQUEST_KEY = builder.reqKey;
         this.application = builder.application;
         this.cacheFile = builder.cacheDir;
         this.serviceMap = new HashMap<>();
-        if (builder.connetTimeOut > 0) {
+        if(builder.connetTimeOut > 0){
             this.CONNECT_TIME_OUT = builder.connetTimeOut;
         }
-        if (builder.readTimeOut > 0) {
+        if(builder.readTimeOut > 0){
             this.READ_TIME_OUT = builder.readTimeOut;
         }
 
-        if (builder.writeTimeOut > 0) {
+        if(builder.writeTimeOut > 0){
             this.WRITE_TIME_OUT = builder.writeTimeOut;
         }
 
@@ -115,7 +107,7 @@ public class ApiBox {
         gson = getReponseGson();
 
         //3.okhttp
-        okHttpClient = getClient(certificates);
+        okHttpClient = getClient();
     }
 
     /**
@@ -125,10 +117,10 @@ public class ApiBox {
         //4.创建retrofit. 3.1 请求客户端 3.2 GsonAdpter转换类型 3.3 支持Rxjava 3.4.基url
 
         //1.缓存中获取
-        if (TextUtils.isEmpty(baseUrl)) {
+        if(TextUtils.isEmpty(baseUrl)){
             baseUrl = "";
         }
-        Object serviceObj = serviceMap.get(serviceClass.getName() + baseUrl);
+        Object serviceObj = serviceMap.get(serviceClass.getName()+baseUrl);
         if (serviceObj != null) {
             return (T) serviceObj;
         }
@@ -141,7 +133,7 @@ public class ApiBox {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
         T service = retrofit.create(serviceClass);
-        serviceMap.put((String) TextUtils.concat(serviceClass.getName(), baseUrl), service);
+        serviceMap.put(serviceClass.getName()+baseUrl, service);
         return service;
     }
 
@@ -167,18 +159,17 @@ public class ApiBox {
             this.debug = debug;
             return this;
         }
-
-        public Builder reqKey(String reqKey) {
+        public Builder reqKey(String reqKey){
             this.reqKey = reqKey;
             return this;
         }
 
-        public Builder connetTimeOut(int connetTime) {
+        public Builder connetTimeOut(int connetTime){
             this.connetTimeOut = connetTime;
             return this;
         }
 
-        public Builder readTimeOut(int readTimeOut) {
+        public Builder readTimeOut(int readTimeOut){
             this.readTimeOut = readTimeOut;
             return this;
         }
@@ -204,53 +195,35 @@ public class ApiBox {
 
     /**
      * 创建ok客户端
-     * certificates:证书文件流  ==null https  !=null http
      */
-    private OkHttpClient getClient(InputStream[] certificates) {
+    private OkHttpClient getClient() {
         //1. 设置打印log
 //        HttpLoggingInterceptor interceptor = getLogInterceptor();
 
         //2.支持https
+//        SSLSocketFactory sslSocketFactory = HttpsUtils.getSslSocketFactory(null, null, null);
+        HostnameVerifier hostnameVerifier = HttpsUtils.getHostnameVerifier();
         // 如果使用到HTTPS，我们需要创建SSLSocketFactory，并设置到client
-        SSLSocketFactory  sslSocketFactory = HttpsUtils.getSslSocketFactory(certificates, null, null);
+        SSLSocketFactory sslSocketFactory = HttpsUtils.getSslFactory();
 
         //3.缓存
         Cache cache = getReponseCache();
 
         //4.配置创建okhttp客户端
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(getLogInterceptor())//
+                .connectTimeout(CONNECT_TIME_OUT, TimeUnit.MILLISECONDS) //与服务器连接超时时间
+                .readTimeout(READ_TIME_OUT, TimeUnit.MILLISECONDS)
+                .writeTimeout(WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
+                .retryOnConnectionFailure(true)//路由等失败自动重连
+                .sslSocketFactory(sslSocketFactory)//https 绕过验证
+                .hostnameVerifier(hostnameVerifier)
+//                .cache(cache)//缓存
+//                .addNetworkInterceptor(new HttpCacheInterceptor())//
+//                .cookieJar()//cookie
+                .build();
 //        builder.interceptors().add(interceptor);
-        return buildClient(certificates==null?null:sslSocketFactory);
-    }
-
-    private OkHttpClient buildClient(SSLSocketFactory sslSocketFactory) {
-        HostnameVerifier hostnameVerifier = HttpsUtils.getHostnameVerifier();
-
-        return sslSocketFactory == null ?
-                new OkHttpClient.Builder()
-                        .addInterceptor(getLogInterceptor())//
-                        .connectTimeout(CONNECT_TIME_OUT, TimeUnit.MILLISECONDS) //与服务器连接超时时间
-                        .readTimeout(READ_TIME_OUT, TimeUnit.MILLISECONDS)
-                        .writeTimeout(WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
-                        .retryOnConnectionFailure(true)//路由等失败自动重连
-                        .hostnameVerifier(hostnameVerifier)
-//                .cache(cache)//缓存
-//                .addNetworkInterceptor(new HttpCacheInterceptor())//
-//                .cookieJar()//cookie
-                        .build()
-                :
-                new OkHttpClient.Builder()
-                        .addInterceptor(getLogInterceptor())//
-                        .connectTimeout(CONNECT_TIME_OUT, TimeUnit.MILLISECONDS) //与服务器连接超时时间
-                        .readTimeout(READ_TIME_OUT, TimeUnit.MILLISECONDS)
-                        .writeTimeout(WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
-                        .retryOnConnectionFailure(true)//路由等失败自动重连
-                        .hostnameVerifier(hostnameVerifier)
-                        .sslSocketFactory(sslSocketFactory)//https 绕过验证
-//                .cache(cache)//缓存
-//                .addNetworkInterceptor(new HttpCacheInterceptor())//
-//                .cookieJar()//cookie
-                        .build();
-
+        return okHttpClient;
     }
 
     /**
@@ -268,7 +241,6 @@ public class ApiBox {
         }
         return interceptor;
     }
-
     /**
      * 缓存路径
      *
@@ -292,12 +264,11 @@ public class ApiBox {
 
     /**
      * 方法描述：取消所有请求
-     * <p>
-     *
+     *<p>
      * @param
      * @return
      */
-    public void cancleAllRequest() {
+    public   void cancleAllRequest(){
         okHttpClient.dispatcher().cancelAll();
     }
 
