@@ -193,12 +193,11 @@ public class ApiBox {
                 SingletonHolder.INSTANCE = apiBox;
             } else {
                 SingletonHolder.INSTANCE.application = this.application;
-                ConstantsLib.DEBUG = this.debug;
-                ConstantsLib.REQUEST_KEY = this.reqKey;
-                TagUtil.IS_SHOW_LOG=this.debug;
-                ConstantsLib.APP_ID = Major.eUtil.binstrToStr(TextUtils.isEmpty(appId)?"":appId);
-
             }
+            ConstantsLib.DEBUG = this.debug;
+            ConstantsLib.REQUEST_KEY = this.reqKey;
+            TagUtil.IS_SHOW_LOG=this.debug;
+            ConstantsLib.APP_ID = Major.eUtil.binstrToStr(TextUtils.isEmpty(appId)?"":appId);
             return SingletonHolder.INSTANCE;
         }
 
