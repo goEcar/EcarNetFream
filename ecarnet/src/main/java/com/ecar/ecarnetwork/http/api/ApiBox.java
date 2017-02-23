@@ -8,6 +8,8 @@ import com.ecar.ecarnetwork.http.converter.ConverterFactory;
 import com.ecar.ecarnetwork.http.util.ConstantsLib;
 import com.ecar.ecarnetwork.http.util.HttpsUtils;
 import com.ecar.ecarnetwork.http.util.NetWorkUtil;
+import com.ecar.ecarnetwork.util.major.Major;
+import com.ecar.util.TagUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -156,6 +158,7 @@ public class ApiBox {
         }
 
         public Builder debug(boolean debug) {
+            TagUtil.IS_SHOW_LOG=debug;
             this.debug = debug;
             return this;
         }
@@ -164,7 +167,7 @@ public class ApiBox {
             return this;
         }
         public Builder appId(String appId){
-            ConstantsLib.APP_ID = appId;
+            ConstantsLib.APP_ID = Major.eUtil.binstrToStr(TextUtils.isEmpty(appId)?"":appId);
             return this;
         }
 
