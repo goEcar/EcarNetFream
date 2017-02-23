@@ -163,6 +163,10 @@ public class ApiBox {
             this.reqKey = reqKey;
             return this;
         }
+        public Builder appId(String appId){
+            ConstantsLib.APP_ID = appId;
+            return this;
+        }
 
         public Builder connetTimeOut(int connetTime){
             this.connetTimeOut = connetTime;
@@ -256,7 +260,6 @@ public class ApiBox {
      */
     private Gson getReponseGson() {
         Gson gson = new GsonBuilder()
-//              .setDateFormat("yyyy-MM-dd''HH:mm:ss")//接口中都是以long型数据返回
                 .serializeNulls()
                 .create();
         return gson;
