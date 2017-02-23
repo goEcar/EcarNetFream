@@ -146,6 +146,8 @@ public class ApiBox {
         private Application application;//应用上下文(需注入参数)
         private File cacheDir;//缓存路径
         private boolean debug;
+        private String  appId;
+
         private String reqKey;
         private int connetTimeOut;
         private int readTimeOut;
@@ -158,7 +160,6 @@ public class ApiBox {
         }
 
         public Builder debug(boolean debug) {
-            TagUtil.IS_SHOW_LOG=debug;
             this.debug = debug;
             return this;
         }
@@ -167,7 +168,7 @@ public class ApiBox {
             return this;
         }
         public Builder appId(String appId){
-            ConstantsLib.APP_ID = Major.eUtil.binstrToStr(TextUtils.isEmpty(appId)?"":appId);
+            this.appId=appId;
             return this;
         }
 
@@ -194,6 +195,9 @@ public class ApiBox {
                 SingletonHolder.INSTANCE.application = this.application;
                 ConstantsLib.DEBUG = this.debug;
                 ConstantsLib.REQUEST_KEY = this.reqKey;
+                TagUtil.IS_SHOW_LOG=this.debug;
+                ConstantsLib.APP_ID = Major.eUtil.binstrToStr(TextUtils.isEmpty(appId)?"":appId);
+
             }
             return SingletonHolder.INSTANCE;
         }
