@@ -43,7 +43,7 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
  * <p>
  * 修改人:   happy
  * <p>
- * 修改时间: 2016/6/22 0022 上午 10:42
+ * 修改时间: 2016/6/22 0022 上午 10:43
  * <p>
  * 修改备注: BaseUrl 、Debug 、应用上下文需要作为参数注入
  * <p>
