@@ -49,6 +49,8 @@ public class Major {
 
     public static final String PARAMS_USER_PHONE_NAME = "userPhoneNum";
 
+    public static final String lastPath = "data";
+
     protected static SettingPreferences spUtil = SettingPreferences.getDefault(ApiBox.getInstance().application);
 
     /**
