@@ -20,7 +20,6 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
-import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
 
 
@@ -87,8 +86,8 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
                  */
                 ex = new CommonException(e, CommonException.FLAG_PARSE_ERROR);
                 onUnifiedError(ex);   //
-            } else if (e instanceof HttpException
-                    || e instanceof ConnectException
+            } else if (
+                     e instanceof ConnectException
                     || e instanceof SocketTimeoutException
                     || e instanceof SocketException || e instanceof UnknownHostException) {
                 /**
