@@ -26,7 +26,7 @@ import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-public class LoginPresenter extends LoginContract.Presenter{
+public class LoginPresenter extends LoginContract.Presenter {
 
     /**
      * 单元测试 采用依赖参数 构造时 一起注入，方便mockito
@@ -36,7 +36,7 @@ public class LoginPresenter extends LoginContract.Presenter{
      * @param model
      */
     public LoginPresenter(Activity context, LoginContract.View view, LoginContract.Model model) {
-        super(context,view,model);
+        super(context, view, model);
     }
 
     @Override
@@ -56,15 +56,15 @@ public class LoginPresenter extends LoginContract.Presenter{
     }
 
 
-    private void rxLogin1(String name,String pwd){
+    private void rxLogin1(String name, String pwd) {
 
         //1.订阅者 泛型：最终想要获取的数据类型
         //一般弹toast的失败处理已处理，若需改写重写 onUserError 并去掉super(xx).
-        BaseSubscriber<ResBase> subscriber = new BaseSubscriber<ResBase>(context,view) {
+        BaseSubscriber<ResBase> subscriber = new BaseSubscriber<ResBase>(context, view) {
 
             @Override
             protected void onUserSuccess(ResBase resBase) {
-                view.showMsg("单个请求"+resBase.msg);
+                view.showMsg("单个请求" + resBase.msg);
             }
 
             /**
@@ -75,7 +75,7 @@ public class LoginPresenter extends LoginContract.Presenter{
             @Override
             protected void onCheckNgisFailed(Context context, InvalidException commonException) {
                 super.onCheckNgisFailed(context, commonException);
-                if(commonException.getResObj()!=null){
+                if (commonException.getResObj() != null) {
                     ResBase resBase = commonException.getResObj();
                 }
             }
@@ -83,24 +83,25 @@ public class LoginPresenter extends LoginContract.Presenter{
             @Override
             protected void onUnifiedError(CommonException ex) {
                 super.onUnifiedError(ex);
-//                try {
-                    int i = 1 / 0;
-//                }catch (Exception e){
-//                    e.printStackTrace();
-//                }
+////                try {
+//                    int i = 1 / 0;
+////                }catch (Exception e){
+//                    ex.printStackTrace();
             }
-        };
+    }
 
-        //一个请求（登录）
-        Subscription subscribe = Datacenter.get().login(name, pwd).compose(RxUtils.getScheduler(true, view)).subscribe(subscriber);
+    ;
+
+    //一个请求（登录）
+    Subscription subscribe = Datacenter.get().login(name, pwd).compose(RxUtils.getScheduler(true, view)).subscribe(subscriber);
         rxManage.add(subscribe);//添加到订阅集合中
 
 
-    }
+}
 
     private void rxLogin3(String name, String pwd) {
         //1.订阅者 泛型：最终想要获取的数据类型
-        BaseSubscriber<ResBase> subscriber = new BaseSubscriber<ResBase>(context,view) {
+        BaseSubscriber<ResBase> subscriber = new BaseSubscriber<ResBase>(context, view) {
             @Override
             protected void onUserSuccess(ResBase resBase) {
                 view.showMsg(resBase.msg);
@@ -116,7 +117,7 @@ public class LoginPresenter extends LoginContract.Presenter{
                 /**
                  * 此处会出错，还在子线程中. 执行前需要先指定观察的线程位置,即login(xx,xx)后面的observeOn
                  */
-                view.showMsg("链式请求第一个响应"+resLogin.msg);
+                view.showMsg("链式请求第一个响应" + resLogin.msg);
 //                view.loginSuccess(resLogin);//使用 当前获得的数据。区别于map 改变数据的操作
             }
         }).flatMap(new Func1<ResLogin, Observable<ResBase>>() {
@@ -133,14 +134,13 @@ public class LoginPresenter extends LoginContract.Presenter{
                 }
                 return result;
             }
-        }).delay(4000, TimeUnit.MILLISECONDS).compose(RxUtils.getScheduler(true, view)).subscribe( subscriber);
+        }).delay(4000, TimeUnit.MILLISECONDS).compose(RxUtils.getScheduler(true, view)).subscribe(subscriber);
 
         rxManage.add(subscribe1);//添加到订阅集合中
     }
 
 
-
-    private void rxLogin2(String name,String pwd){
+    private void rxLogin2(String name, String pwd) {
         //        // 异步网络请求User数据，并在onNext(ResBase)返回 ---测试单元测试使用 例子
         Scheduler scheduler = AndroidSchedulers.mainThread();
         Subscription subscribe1 = Datacenter.get().login(name, pwd)
@@ -153,11 +153,6 @@ public class LoginPresenter extends LoginContract.Presenter{
                     }
                 });
     }
-
-
-
-
-
 
 
     @Override
