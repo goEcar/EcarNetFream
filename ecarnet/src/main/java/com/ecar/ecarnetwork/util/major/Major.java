@@ -115,7 +115,7 @@ public class Major {
      * @return：
      */
     public static TreeMap<String, String> securityKeyMethodEnc(TreeMap<String, String> tMap,boolean encode,boolean isSign,boolean isNeedVe) {
-        return getSecurityMapKeys(tMap.toString(), encode, isSign,isNeedVe, ConstantsLib.APP_ID, ConstantsLib.REQUEST_KEY);
+        return getSecurityMapKeys(tMap, encode, isSign,isNeedVe, ConstantsLib.APP_ID, ConstantsLib.REQUEST_KEY);
 
     }
 
@@ -126,7 +126,7 @@ public class Major {
      * @return：
      */
     public static TreeMap<String, String> securityKeyMethodEnc(TreeMap<String, String> tMap) {
-        return getSecurityMapKeys(tMap.toString(), true, true,true, ConstantsLib.APP_ID, ConstantsLib.REQUEST_KEY);
+        return getSecurityMapKeys(tMap, true, true,true, ConstantsLib.APP_ID, ConstantsLib.REQUEST_KEY);
 
     }
 
@@ -137,7 +137,7 @@ public class Major {
      * @return：
      */
     public static TreeMap<String, String> securityKeyMethodNoEnc(TreeMap<String, String> tMap) {
-        return getSecurityMapKeys(tMap.toString(), false, true,true, ConstantsLib.APP_ID, ConstantsLib.REQUEST_KEY);
+        return getSecurityMapKeys(tMap, false, true,true, ConstantsLib.APP_ID, ConstantsLib.REQUEST_KEY);
 
     }
 
@@ -148,7 +148,7 @@ public class Major {
 //     * @param：encode:是否添加encode
 //     * @return：  TreeMap<String, String>
 //     */
-    protected static TreeMap<String, String> getSecurityMapKeys(String tMap,
+    protected static TreeMap<String, String> getSecurityMapKeys(TreeMap tMap,
                                                                 boolean encode,
                                                                 boolean isSign,
                                                                 boolean isNeedVe,
