@@ -3,10 +3,12 @@ package com.ecar.ecarnetwork.http.converter;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.ecar.ecarnet.BuildConfig;
 import com.ecar.ecarnetwork.bean.ResBase;
 import com.ecar.ecarnetwork.db.SettingPreferences;
 import com.ecar.ecarnetwork.http.api.ApiBox;
 import com.ecar.ecarnetwork.http.exception.InvalidException;
+import com.ecar.ecarnetwork.http.util.ConstantsLib;
 import com.ecar.ecarnetwork.http.util.InvalidUtil;
 import com.ecar.ecarnetwork.http.util.TagLibUtil;
 import com.ecar.ecarnetwork.util.uvtKeys;
@@ -61,7 +63,7 @@ public class ResponseConverter<T> implements Converter<ResponseBody, T> {
         Log.i("thread",Thread.currentThread().getName()) ;
         try {
             base = gson.fromJson(response, type);
-            if (base != null&& !InvalidUtil.checkSign(base.sign, response)) {//校验错误
+            if (base != null&& !InvalidUtil.checkSign(base.sign, response) && ConstantsLib.VeriNgis) {//校验错误
                 throw new InvalidException(InvalidException.FLAG_ERROR_RESPONCE_CHECK,base.msg,base);
             }
 
