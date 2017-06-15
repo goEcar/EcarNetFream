@@ -166,7 +166,7 @@ public class ApiBox {
             return this;
         }
         public Builder veriNgis(boolean veriNgis) {
-            this.veriNgis = veriNgis;//设置 绕过参数
+            this.veriNgis = veriNgis;//设置绕过参数
             return this;
         }
 
