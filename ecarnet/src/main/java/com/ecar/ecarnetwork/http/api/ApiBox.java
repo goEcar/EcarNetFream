@@ -90,6 +90,7 @@ public class ApiBox {
     private ApiBox(Builder builder) {
         //1.设置应用上下文、debug参数\
         ConstantsLib.DEBUG = builder.debug;
+        ConstantsLib.VeriNgis = builder.veriNgis;
         ConstantsLib.REQUEST_KEY = builder.reqKey;
         this.application = builder.application;
         this.cacheFile = builder.cacheDir;
@@ -152,6 +153,7 @@ public class ApiBox {
         private int connetTimeOut;
         private int readTimeOut;
         private int writeTimeOut;
+        private boolean veriNgis = true;
 
         public Builder application(Application application) {
             this.application = application;
@@ -163,6 +165,11 @@ public class ApiBox {
             this.debug = debug;
             return this;
         }
+        public Builder veriNgis(boolean veriNgis) {
+            this.veriNgis = veriNgis;//设置绕过参数
+            return this;
+        }
+
         public Builder reqKey(String reqKey){
             this.reqKey = reqKey;
             return this;
@@ -194,6 +201,7 @@ public class ApiBox {
             } else {
                 SingletonHolder.INSTANCE.application = this.application;
                 ConstantsLib.DEBUG = this.debug;
+                ConstantsLib.VeriNgis = this.veriNgis;
                 ConstantsLib.REQUEST_KEY = this.reqKey;
                 TagUtil.IS_SHOW_LOG=this.debug;
             }

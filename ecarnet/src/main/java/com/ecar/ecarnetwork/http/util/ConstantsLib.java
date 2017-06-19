@@ -29,5 +29,6 @@ public class ConstantsLib {
      * Log 日志开关 发布版本设为false
      */
     public static boolean DEBUG = false;
+    public static boolean VeriNgis = true;
 
 }
