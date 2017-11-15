@@ -1,7 +1,6 @@
 package com.ecar.ecarnetwork.util.retrofit;
 
 
-import com.ecar.ecarnetwork.util.file.FileUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,7 +44,7 @@ public class MockRetrofitHelper {
             // 模拟网络数据
             String content = null;
             try {
-                content = FileUtil.readTextFile(new File(path));
+//                content = File1Util.readTextFile(new File(path));
             } catch (Exception e) {
                 e.printStackTrace();
             }

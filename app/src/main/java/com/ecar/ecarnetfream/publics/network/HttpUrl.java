@@ -20,7 +20,7 @@ public class HttpUrl {
     public static String Base_Url_downClient;
 
     static {
-        getUrl(URL_TYPE);
+        getUrl(6);
     }
 
     /**
@@ -32,13 +32,13 @@ public class HttpUrl {
         switch (index) {
             case GET_DEVELOP:// 开发环境
 
-                Url_Common = "http://szchmtech.3322.org:9009";
-                Url_DwonUp = "http://szchmtech.3322.org:9009";
+                Url_Common = "http://10.50.50.8:8999";
+                Url_DwonUp = "http://10.50.50.8:8999";
 
 
-                Base_Url = DataFormatUtil.addText(sb, Url_Common, "/parkCloud/system/data?");
-                Base_Url_upClient = DataFormatUtil.addText(sb, Url_DwonUp, "/parkCloud/system/upClient?");
-                Base_Url_downClient = DataFormatUtil.addText(sb, Url_DwonUp, "/parkCloud/system/image?");
+                Base_Url = DataFormatUtil.addText(sb, Url_Common, "/");//parkCloud/system/data?
+                Base_Url_upClient = DataFormatUtil.addText(sb, Url_DwonUp, "/");//parkCloud/system/upClient?
+                Base_Url_downClient = DataFormatUtil.addText(sb, Url_DwonUp, "/");//parkCloud/system/image?
 
 
                 break;
@@ -63,6 +63,35 @@ public class HttpUrl {
                 Base_Url_downClient = DataFormatUtil.addText(sb, Url_DwonUp, "/system/image");//  /system/image?
 
 
+                break;
+            case 4:// 测试https使用
+                Url_Common = "https://kyfw.12306.cn/otn/";//https://kyfw.12306.cn/otn/
+                Url_DwonUp = "https://kyfw.12306.cn/otn/";
+
+                Base_Url = DataFormatUtil.addText(sb, Url_Common, "");//  /system/data?
+
+                Base_Url_upClient = DataFormatUtil.addText(sb, Url_DwonUp, "");//  /system/upClient?
+                Base_Url_downClient = DataFormatUtil.addText(sb, Url_DwonUp, "");//  /system/image?
+
+
+                break;
+            case 5:// 测试https使用
+                Url_Common = "https://192.168.0.115:6071/memberapi/Index.aspx/";//https://kyfw.12306.cn/otn/
+                Url_DwonUp = "https://192.168.0.115:6071/memberapi/Index.aspx/";
+
+                Base_Url = DataFormatUtil.addText(sb, Url_Common, "");//  /system/data?
+
+                Base_Url_upClient = DataFormatUtil.addText(sb, Url_DwonUp, "");//  /system/upClient?
+                Base_Url_downClient = DataFormatUtil.addText(sb, Url_DwonUp, "");//  /system/image?
+                break;
+            case 6:// 测试https使用
+                Url_Common = "https://demo.ecaraypark.com:443/system/data/";//https://kyfw.12306.cn/otn/
+                Url_DwonUp = "https://demo.ecaraypark.com:443/system/data/";
+
+                Base_Url = DataFormatUtil.addText(sb, Url_Common, "");//  /system/data?
+
+                Base_Url_upClient = DataFormatUtil.addText(sb, Url_DwonUp, "");//  /system/upClient?
+                Base_Url_downClient = DataFormatUtil.addText(sb, Url_DwonUp, "");//  /system/image?
                 break;
         }
     }

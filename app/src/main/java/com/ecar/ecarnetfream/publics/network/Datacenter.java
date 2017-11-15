@@ -122,4 +122,39 @@ public class Datacenter {
         MultipartBody.Part filePart = MultipartBody.Part.createFormData("content", "1467362758050.png", fileOne);
         return apiService.uploadPic(HttpUrl.Base_Url_upClient, reMap, filePart);
     }
+
+    public Observable<ResLogin> testTJ() {
+        // 添加参数到集合
+        TreeMap<String, String> tMap = new TreeMap<>();
+        tMap.put("versontype", "1");
+        tMap.put("method", "haspaypwdandbank");
+        tMap.put("parkuserid", "17061213510128148");
+        tMap.put("banktype", "00");
+        tMap.put("appkey", "101280918");
+        tMap.put("security", "3341810880d39411bbfff3a6b25b6618");
+        tMap.put("mobilecode", "866657025103524");
+        tMap.put("timestamp", "20171114103847");
+        tMap.put("SID", "sid6eb141fe937f79dfbab5ae595a9129af");
+        tMap.put("sign", "e65e2a2524b0a74d55b7d7d10f1e6563");
+        Observable<ResLogin> observable = apiService.login(tMap);//ApiBox.getInstance().createService(ApiService.class, HttpUrl.Base_Url).login(reMap);
+        return observable;
+    }
+
+    public Observable<ResLogin> testSaas() {
+        // 添加参数到集合
+        TreeMap<String, String> tMap = new TreeMap<>();
+        tMap.put("ClientType", "android");
+        tMap.put("appId", "005424930");
+        tMap.put("comid", "200000005");
+        tMap.put("method", "getMebParkStatus");
+        tMap.put("module", "app");
+        tMap.put("service", "Std");
+        tMap.put("sign", "75ce6ae732307c8d0dd424f9c3c48d8d");
+        tMap.put("ts", "1510654906647");
+        tMap.put("u", "20160623105229613269811315537012");
+        tMap.put("v", "20171114182146529370876523953850");
+        tMap.put("ve", "2");
+        Observable<ResLogin> observable = apiService.login(tMap);//ApiBox.getInstance().createService(ApiService.class, HttpUrl.Base_Url).login(reMap);
+        return observable;
+    }
 }

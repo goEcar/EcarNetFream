@@ -53,6 +53,25 @@ public class LoginPresenter extends LoginContract.Presenter {
 
         rxLogin1(name, pwd);
 //        rxLogin3(name, pwd);
+//        testTJ();
+    }
+
+    private void testTJ() {
+
+        //1.订阅者 泛型：最终想要获取的数据类型
+        //一般弹toast的失败处理已处理，若需改写重写 onUserError 并去掉super(xx).
+        BaseSubscriber<ResBase> subscriber = new BaseSubscriber<ResBase>(context, view) {
+
+            @Override
+            protected void onUserSuccess(ResBase resBase) {
+                view.showMsg("单个请求" + resBase.msg);
+            }
+
+        };
+
+        //一个请求（登录）
+        Subscription subscribe = Datacenter.get().testSaas().compose(RxUtils.getScheduler(true, view)).subscribe(subscriber);
+        rxManage.add(subscribe);//添加到订阅集合中
     }
 
 
@@ -88,16 +107,12 @@ public class LoginPresenter extends LoginContract.Presenter {
 ////                }catch (Exception e){
 //                    ex.printStackTrace();
             }
-    }
+        };
 
-    ;
-
-    //一个请求（登录）
-    Subscription subscribe = Datacenter.get().login(name, pwd).compose(RxUtils.getScheduler(true, view)).subscribe(subscriber);
+        //一个请求（登录）
+        Subscription subscribe = Datacenter.get().login(name, pwd).compose(RxUtils.getScheduler(true, view)).subscribe(subscriber);
         rxManage.add(subscribe);//添加到订阅集合中
-
-
-}
+    }
 
     private void rxLogin3(String name, String pwd) {
         //1.订阅者 泛型：最终想要获取的数据类型

@@ -15,6 +15,7 @@ import com.google.gson.GsonBuilder;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -29,6 +30,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
+import okio.Buffer;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 
@@ -66,6 +68,7 @@ public class ApiBox {
 
     public Application application;//应用上下文(需注入参数)
     private File cacheFile;//缓存路径
+    private final InputStream[] inputStreams;
 
     private Map<String, Object> serviceMap;
 
@@ -88,12 +91,13 @@ public class ApiBox {
      * 构造方法
      */
     private ApiBox(Builder builder) {
-        //1.设置应用上下文、debug参数\
+        //1.设置应用上下文、debug参数
         ConstantsLib.DEBUG = builder.debug;
         ConstantsLib.VeriNgis = builder.veriNgis;
         ConstantsLib.REQUEST_KEY = builder.reqKey;
         this.application = builder.application;
         this.cacheFile = builder.cacheDir;
+        this.inputStreams = builder.inputStreams;
         this.serviceMap = new HashMap<>();
         if(builder.connetTimeOut > 0){
             this.CONNECT_TIME_OUT = builder.connetTimeOut;
@@ -154,6 +158,7 @@ public class ApiBox {
         private int readTimeOut;
         private int writeTimeOut;
         private boolean veriNgis = true;
+        private InputStream[] inputStreams;
 
         public Builder application(Application application) {
             this.application = application;
@@ -194,6 +199,11 @@ public class ApiBox {
             return this;
         }
 
+        public Builder inputStreams(InputStream[] inputStreams) {
+            this.inputStreams = inputStreams;
+            return this;
+        }
+
         public ApiBox build() {
             if (SingletonHolder.INSTANCE == null) {
                 ApiBox apiBox = new ApiBox(this);
@@ -224,6 +234,12 @@ public class ApiBox {
         HostnameVerifier hostnameVerifier = HttpsUtils.getHostnameVerifier();
         // 如果使用到HTTPS，我们需要创建SSLSocketFactory，并设置到client
         SSLSocketFactory sslSocketFactory = HttpsUtils.getSslFactory();
+        if(inputStreams!=null){
+//            InputStream inputStream = new Buffer().writeUtf8(saasKey).inputStream();
+            sslSocketFactory = HttpsUtils.setCertificates(inputStreams);
+        }
+
+
 
         //3.缓存
         Cache cache = getReponseCache();
@@ -236,7 +252,7 @@ public class ApiBox {
                 .writeTimeout(WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
                 .retryOnConnectionFailure(true)//路由等失败自动重连
                 .sslSocketFactory(sslSocketFactory)//https 绕过验证
-                .hostnameVerifier(hostnameVerifier)
+//                .hostnameVerifier(hostnameVerifier)
 //                .cache(cache)//缓存
 //                .addNetworkInterceptor(new HttpCacheInterceptor())//
 //                .cookieJar()//cookie
@@ -283,8 +299,6 @@ public class ApiBox {
     /**
      * 方法描述：取消所有请求
      *<p>
-     * @param
-     * @return
      */
     public   void cancleAllRequest(){
         okHttpClient.dispatcher().cancelAll();

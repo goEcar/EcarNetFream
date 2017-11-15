@@ -1,19 +1,59 @@
 package com.ecar.ecarnetwork.util.file;
 
+import android.app.Application;
+import android.content.Context;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
+import okio.Buffer;
 
 /**
  * 文件读写类
  *
  * @author Administrator
  */
-public class FileUtil {
+public class EFileUtil {
+
+
+    /**
+     * 字符串转成流
+     */
+    public static InputStream[] getInputStreams(String... keys) {
+        if (keys == null || keys.length == 0) {
+            return null;
+        }
+        int size = keys.length;
+        InputStream[] inputStreams = new InputStream[size];
+        for (int i = 0; i < size; i++) {
+            inputStreams[i] = new Buffer().writeUtf8(keys[i]).inputStream();
+        }
+        return inputStreams;
+    }
+
+    public static InputStream[] getAssetsInputStream(Context mContext, String... keys) {
+        try {
+            if (keys == null || keys.length == 0) {
+                return null;
+            }
+            int size = keys.length;
+            InputStream[] inputStreams = new InputStream[size];
+            for (int i = 0; i < size; i++) {
+                inputStreams[i] = mContext.getAssets().open(keys[i]);
+            }
+            return inputStreams;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     /**
      * 读取文件中字符串
      *

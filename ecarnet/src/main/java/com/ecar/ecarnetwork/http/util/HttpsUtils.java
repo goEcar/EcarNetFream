@@ -213,4 +213,50 @@ public class HttpsUtils {
         }
         return sslSocketFactory;
     }
+
+    public static SSLSocketFactory setCertificates(InputStream... certificates)
+    {
+        SSLSocketFactory sslSocketFactory = null;
+        try
+        {
+            CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
+            KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+//            keyStore.load(certificate,"123456".toCharArray());
+            keyStore.load(null);
+            int index = 0;
+            for (InputStream certificate : certificates)
+            {
+                String certificateAlias = Integer.toString(index++);
+                keyStore.setCertificateEntry(certificateAlias, certificateFactory.generateCertificate(certificate));
+
+                try
+                {
+                    if (certificate != null)
+                        certificate.close();
+                } catch (IOException e)
+                {
+                }
+            }
+
+            SSLContext sslContext = SSLContext.getInstance("TLS");
+
+            TrustManagerFactory trustManagerFactory =
+                    TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+
+            trustManagerFactory.init(keyStore);
+            sslContext.init
+                    (
+                            null,
+                            trustManagerFactory.getTrustManagers(),
+                            new SecureRandom()
+                    );
+            sslSocketFactory = sslContext.getSocketFactory();
+
+
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return sslSocketFactory;
+    }
 }

@@ -117,10 +117,10 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
             resetContext();
             if(ConstantsLib.DEBUG && ex!=null){
                 e.printStackTrace();
-                String errorMsg = ex.getMessage().toString();
+                String errorMsg = ex.getMessage();
                 TagLibUtil.showLogError(BaseSubscriber.class.getSimpleName() + ": " + errorMsg);
                 //bug写入日志
-//            FileUtil.writeDebugTextFile(errorMsg);//不能简单的这么写，要考虑弄线程池处理
+//            File1Util.writeDebugTextFile(errorMsg);//不能简单的这么写，要考虑弄线程池处理
             }
         }catch (Exception exception){
 //            ex = new CommonException(exception, CommonException.FLAG_UNKNOWN);
