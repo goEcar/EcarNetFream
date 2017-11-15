@@ -103,7 +103,7 @@ public class App extends Application{
         InputStream[] inputStreams = EFileUtil.getAssetsInputStream(this,"ecaraypark.cer");//在资产目录下的证书文件名
         builder.inputStreams(inputStreams).build();
 
-        //测试
+        // 测 试
     }
 
     public static App getInstance() {
