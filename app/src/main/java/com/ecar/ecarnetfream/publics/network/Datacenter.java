@@ -86,6 +86,7 @@ public class Datacenter {
          */
         Observable<ResLogin> observable = apiService.login(treeMap);//ApiBox.getInstance().createService(ApiService.class, HttpUrl.Base_Url).login(reMap);
 //        ApiBox.getInstance().cancleAllRequest();
+//        Observable<ResLogin> observable = apiService.login("https://218.17.99.52:1322/memberapi/Index.aspx?versontype=1&method=login&mobileno=18670006357&pwd=dc483e80a7a0bd9ef71d8cf973673924&ostype=android_4.3&phonetype=X9007&appversion=1.2.6&appkey=101280918&security=0d7c4e48454c3f94e310686fe6772dee&mobilecode=865568026165332&timestamp=20171124091129&sign=0de90d7cc480bbf449f6df4d943e8d25");//ApiBox.getInstance().createService(ApiService.class, HttpUrl.Base_Url).login(reMap);
 
         return observable;
     }

@@ -55,7 +55,6 @@ public class ResponseConverter<T> implements Converter<ResponseBody, T> {
         String response = null;
         try {
             response = value.string();
-            TagLibUtil.showToast(ApiBox.getInstance().application,"收到服务器响应："+response);
         } catch (IOException e) {
             e.printStackTrace();
             TagLibUtil.showLogDebug("请求成功，获取返回值失败");

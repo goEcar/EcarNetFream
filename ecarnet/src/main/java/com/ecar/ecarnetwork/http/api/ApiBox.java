@@ -245,20 +245,25 @@ public class ApiBox {
         Cache cache = getReponseCache();
 
         //4.配置创建okhttp客户端
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+        OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder()
                 .addInterceptor(getLogInterceptor())//
                 .connectTimeout(CONNECT_TIME_OUT, TimeUnit.MILLISECONDS) //与服务器连接超时时间
                 .readTimeout(READ_TIME_OUT, TimeUnit.MILLISECONDS)
                 .writeTimeout(WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
                 .retryOnConnectionFailure(true)//路由等失败自动重连
                 .sslSocketFactory(sslSocketFactory)//https 绕过验证
-//                .hostnameVerifier(hostnameVerifier)
+                .hostnameVerifier(hostnameVerifier)
 //                .cache(cache)//缓存
 //                .addNetworkInterceptor(new HttpCacheInterceptor())//
 //                .cookieJar()//cookie
-                .build();
+                ;
 //        builder.interceptors().add(interceptor);
-        return okHttpClient;
+//        if(HttpsUtils.isLowVersion()){
+//            okHttpClientBuilder = HttpsUtils.enableTls12OnPreLollipop(okHttpClientBuilder);
+//        }else {
+//            okHttpClientBuilder.sslSocketFactory(HttpsUtils.getSslFactory());
+//        }
+        return okHttpClientBuilder.build();
     }
 
     /**

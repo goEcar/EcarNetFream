@@ -1,5 +1,10 @@
 package com.ecar.ecarnetwork.http.util;
 
+import android.os.Build;
+import android.util.Log;
+
+import com.ecar.ecarnetwork.http.ssl.Tls12SocketFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyManagementException;
@@ -12,6 +17,8 @@ import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.KeyManager;
@@ -22,6 +29,10 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
+
+import okhttp3.ConnectionSpec;
+import okhttp3.OkHttpClient;
+import okhttp3.TlsVersion;
 
 public class HttpsUtils {
     public HttpsUtils() {
@@ -258,5 +269,59 @@ public class HttpsUtils {
             e.printStackTrace();
         }
         return sslSocketFactory;
+    }
+
+    public static OkHttpClient.Builder enableTls12OnPreLollipop(OkHttpClient.Builder client) {
+        if (Build.VERSION.SDK_INT >= 16 && Build.VERSION.SDK_INT < 22) {
+            try {
+                // 这里直接创建一个不做证书串验证的TrustManager
+                final TrustManager[] trustAllCerts = new TrustManager[]{
+                        new X509TrustManager() {
+                            @Override
+                            public void checkClientTrusted(X509Certificate[] chain, String authType)
+                                    throws CertificateException {
+                            }
+
+                            @Override
+                            public void checkServerTrusted(X509Certificate[] chain, String authType)
+                                    throws CertificateException {
+                            }
+
+                            @Override
+                            public X509Certificate[] getAcceptedIssuers() {
+                                return new X509Certificate[]{};
+                            }
+                        }
+                };
+
+                // Install the all-trusting trust manager
+                // Create an ssl socket factory with our all-trusting manager
+                SSLContext sc = SSLContext.getInstance("TLSv1.2");
+                sc.init(null, trustAllCerts, new SecureRandom());
+                client.sslSocketFactory(new Tls12SocketFactory(sc.getSocketFactory()));
+
+                ConnectionSpec cs = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
+                        .tlsVersions(TlsVersion.TLS_1_2)
+                        .build();
+
+                List<ConnectionSpec> specs = new ArrayList<>();
+                specs.add(cs);
+                specs.add(ConnectionSpec.COMPATIBLE_TLS);
+                specs.add(ConnectionSpec.CLEARTEXT);
+
+                client.connectionSpecs(specs);
+            } catch (Exception exc) {
+                Log.e("OkHttpTLSCompat", "Error while setting TLS 1.2", exc);
+            }
+        }
+
+        return client;
+    }
+
+    public static boolean isLowVersion(){
+        if(Build.VERSION.SDK_INT >= 16 && Build.VERSION.SDK_INT < 21){
+            return true;
+        }
+        return false;
     }
 }

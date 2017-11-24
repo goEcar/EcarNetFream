@@ -50,6 +50,9 @@ public interface ApiService {
     @GET(".")
     Observable<ResLogin> login(@QueryMap TreeMap<String, String> map);
 
+    @GET
+    Observable<ResLogin> login(@Url String str);
+
     @Multipart
     @POST("")
     Observable<ResBase> uploadPic(@Url String url, @QueryMap TreeMap<String, String> map, @Part MultipartBody.Part file);
