@@ -14,25 +14,26 @@ import com.ecar.ecarnetwork.interfaces.security.IInvalid;
 import com.google.gson.JsonParseException;
 
 import org.json.JSONException;
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
 
 import java.net.ConnectException;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+
 
 /**
  * 订阅者基类：对异常统一处理
  * 目测权限处理可以放这里做
  */
-public abstract class BaseSubscriber<T> implements Subscriber<T> {
+public abstract class BaseObserver<T> implements Observer<T> {
 
     private Context context;
     private IInvalid iInvalid;
 
-    public BaseSubscriber(Context context, IInvalid iInvalid) {
+    public BaseObserver(Context context, IInvalid iInvalid) {
         this.context = context;
         this.iInvalid = iInvalid;
     }
@@ -116,7 +117,7 @@ public abstract class BaseSubscriber<T> implements Subscriber<T> {
             if (ConstantsLib.DEBUG && ex != null) {
                 e.printStackTrace();
                 String errorMsg = ex.getMessage();
-                TagLibUtil.showLogError(BaseSubscriber.class.getSimpleName() + ": " + errorMsg);
+                TagLibUtil.showLogError(BaseObserver.class.getSimpleName() + ": " + errorMsg);
                 //bug写入日志
 //            File1Util.writeDebugTextFile(errorMsg);//不能简单的这么写，要考虑弄线程池处理
             }
@@ -213,9 +214,10 @@ public abstract class BaseSubscriber<T> implements Subscriber<T> {
         }
     }
 
-
     @Override
-    public void onSubscribe(Subscription s) {
+    public void onSubscribe(Disposable d) {
 
     }
+
+
 }

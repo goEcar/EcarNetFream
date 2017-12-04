@@ -3,7 +3,6 @@ package com.ecar.ecarnetwork.http.api;
 import android.app.Application;
 import android.text.TextUtils;
 
-import com.ecar.ecarnetwork.db.SettingPreferences;
 import com.ecar.ecarnetwork.http.converter.ConverterFactory;
 import com.ecar.ecarnetwork.http.util.ConstantsLib;
 import com.ecar.ecarnetwork.http.util.HttpsUtils;
@@ -30,9 +29,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
-import okio.Buffer;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 /**
  * ===============================================
@@ -99,14 +97,14 @@ public class ApiBox {
         this.cacheFile = builder.cacheDir;
         this.inputStreams = builder.inputStreams;
         this.serviceMap = new HashMap<>();
-        if(builder.connetTimeOut > 0){
+        if (builder.connetTimeOut > 0) {
             this.CONNECT_TIME_OUT = builder.connetTimeOut;
         }
-        if(builder.readTimeOut > 0){
+        if (builder.readTimeOut > 0) {
             this.READ_TIME_OUT = builder.readTimeOut;
         }
 
-        if(builder.writeTimeOut > 0){
+        if (builder.writeTimeOut > 0) {
             this.WRITE_TIME_OUT = builder.writeTimeOut;
         }
 
@@ -124,10 +122,10 @@ public class ApiBox {
         //4.创建retrofit. 3.1 请求客户端 3.2 GsonAdpter转换类型 3.3 支持Rxjava 3.4.基url
 
         //1.缓存中获取
-        if(TextUtils.isEmpty(baseUrl)){
+        if (TextUtils.isEmpty(baseUrl)) {
             baseUrl = "";
         }
-        Object serviceObj = serviceMap.get(serviceClass.getName()+baseUrl);
+        Object serviceObj = serviceMap.get(serviceClass.getName() + baseUrl);
         if (serviceObj != null) {
             return (T) serviceObj;
         }
@@ -137,10 +135,10 @@ public class ApiBox {
                 .client(okHttpClient)
                 .baseUrl(baseUrl)
                 .addConverterFactory(ConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
         T service = retrofit.create(serviceClass);
-        serviceMap.put(serviceClass.getName()+baseUrl, service);
+        serviceMap.put(serviceClass.getName() + baseUrl, service);
         return service;
     }
 
@@ -151,7 +149,7 @@ public class ApiBox {
         private Application application;//应用上下文(需注入参数)
         private File cacheDir;//缓存路径
         private boolean debug;
-        private String  appId;
+        private String appId;
 
         private String reqKey;
         private int connetTimeOut;
@@ -170,26 +168,28 @@ public class ApiBox {
             this.debug = debug;
             return this;
         }
+
         public Builder veriNgis(boolean veriNgis) {
             this.veriNgis = veriNgis;//设置绕过参数
             return this;
         }
 
-        public Builder reqKey(String reqKey){
+        public Builder reqKey(String reqKey) {
             this.reqKey = reqKey;
             return this;
         }
-        public Builder appId(String appId){
-            this.appId=appId;
+
+        public Builder appId(String appId) {
+            this.appId = appId;
             return this;
         }
 
-        public Builder connetTimeOut(int connetTime){
+        public Builder connetTimeOut(int connetTime) {
             this.connetTimeOut = connetTime;
             return this;
         }
 
-        public Builder readTimeOut(int readTimeOut){
+        public Builder readTimeOut(int readTimeOut) {
             this.readTimeOut = readTimeOut;
             return this;
         }
@@ -213,9 +213,9 @@ public class ApiBox {
                 ConstantsLib.DEBUG = this.debug;
                 ConstantsLib.VeriNgis = this.veriNgis;
                 ConstantsLib.REQUEST_KEY = this.reqKey;
-                TagUtil.IS_SHOW_LOG=this.debug;
+                TagUtil.IS_SHOW_LOG = this.debug;
             }
-            ConstantsLib.APP_ID = Major.eUtil.binstrToStr(TextUtils.isEmpty(appId)?"":appId);
+            ConstantsLib.APP_ID = Major.eUtil.binstrToStr(TextUtils.isEmpty(appId) ? "" : appId);
 
             return SingletonHolder.INSTANCE;
         }
@@ -234,11 +234,10 @@ public class ApiBox {
         HostnameVerifier hostnameVerifier = HttpsUtils.getHostnameVerifier();
         // 如果使用到HTTPS，我们需要创建SSLSocketFactory，并设置到client
         SSLSocketFactory sslSocketFactory = HttpsUtils.getSslFactory();
-        if(inputStreams!=null){
+        if (inputStreams != null) {
 //            InputStream inputStream = new Buffer().writeUtf8(saasKey).inputStream();
             sslSocketFactory = HttpsUtils.setCertificates(inputStreams);
         }
-
 
 
         //3.缓存
@@ -281,6 +280,7 @@ public class ApiBox {
         }
         return interceptor;
     }
+
     /**
      * 缓存路径
      *
@@ -303,9 +303,9 @@ public class ApiBox {
 
     /**
      * 方法描述：取消所有请求
-     *<p>
+     * <p>
      */
-    public   void cancleAllRequest(){
+    public void cancleAllRequest() {
         okHttpClient.dispatcher().cancelAll();
     }
 

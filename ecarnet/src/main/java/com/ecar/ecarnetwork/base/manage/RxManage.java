@@ -4,10 +4,12 @@ package com.ecar.ecarnetwork.base.manage;
 
 import com.ecar.ecarnetwork.util.rx.RxUtils;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.Subscription;
-import rx.subscriptions.CompositeSubscription;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
+
+import io.reactivex.Observable;
+import io.reactivex.disposables.CompositeDisposable;
+
 
 /**
  * ===============================================
@@ -27,10 +29,10 @@ import rx.subscriptions.CompositeSubscription;
  * ===============================================
  */
 public class RxManage {
-    private CompositeSubscription subscriptions;//管理订阅者者。取消订阅后不能再次订阅
+    private CompositeDisposable subscriptions;//管理订阅者者。取消订阅后不能再次订阅
 
     public RxManage() {
-        this.subscriptions = new CompositeSubscription();
+        this.subscriptions = new CompositeDisposable();
     }
 
     /**
@@ -40,9 +42,9 @@ public class RxManage {
      */
     public void add(Subscription m) {
         if (subscriptions == null) {
-            subscriptions = new CompositeSubscription();
+            subscriptions = new CompositeDisposable();
         }
-        if (m != null && !subscriptions.isUnsubscribed()) {
+        if (m != null && !subscriptions.isDisposed()) {
             subscriptions.add(m);
         }
     }

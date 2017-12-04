@@ -16,6 +16,8 @@ import com.ecar.ecarnetwork.http.exception.InvalidException;
 import com.ecar.ecarnetwork.http.exception.UserException;
 import com.ecar.ecarnetwork.util.rx.RxUtils;
 
+import org.reactivestreams.Subscription;
+
 import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
@@ -64,9 +66,8 @@ public class LoginPresenter extends LoginContract.Presenter {
 
             @Override
             protected void onUserSuccess(ResBase resBase) {
-                view.showMsg("单个请求" + resBase.msg);
-            }
 
+            }
         };
 
         //一个请求（登录）
