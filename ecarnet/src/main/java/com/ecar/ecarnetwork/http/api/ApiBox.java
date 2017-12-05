@@ -90,9 +90,9 @@ public class ApiBox {
      */
     private ApiBox(Builder builder) {
         //1.设置应用上下文、debug参数
-        ConstantsLib.DEBUG = builder.debug;
-        ConstantsLib.VeriNgis = builder.veriNgis;
-        ConstantsLib.REQUEST_KEY = builder.reqKey;
+        ConstantsLib.getInstance().DEBUG = builder.debug;
+        ConstantsLib.getInstance().VeriNgis = builder.veriNgis;
+        ConstantsLib.getInstance().REQUEST_KEY = builder.reqKey;
         this.application = builder.application;
         this.cacheFile = builder.cacheDir;
         this.inputStreams = builder.inputStreams;
@@ -210,12 +210,12 @@ public class ApiBox {
                 SingletonHolder.INSTANCE = apiBox;
             } else {
                 SingletonHolder.INSTANCE.application = this.application;
-                ConstantsLib.DEBUG = this.debug;
-                ConstantsLib.VeriNgis = this.veriNgis;
-                ConstantsLib.REQUEST_KEY = this.reqKey;
+                ConstantsLib.getInstance().DEBUG = this.debug;
+                ConstantsLib.getInstance().VeriNgis = this.veriNgis;
+                ConstantsLib.getInstance().REQUEST_KEY = this.reqKey;
                 TagUtil.IS_SHOW_LOG = this.debug;
             }
-            ConstantsLib.APP_ID = Major.eUtil.binstrToStr(TextUtils.isEmpty(appId) ? "" : appId);
+            ConstantsLib.getInstance().APP_ID = Major.eUtil.binstrToStr(TextUtils.isEmpty(appId) ? "" : appId);
 
             return SingletonHolder.INSTANCE;
         }
@@ -273,7 +273,7 @@ public class ApiBox {
      */
     private HttpLoggingInterceptor getLogInterceptor() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        if (ConstantsLib.DEBUG) {
+        if (ConstantsLib.getInstance().DEBUG) {
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         } else {
             interceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);

@@ -113,7 +113,7 @@ public abstract class BaseSubscriber<T> extends ResourceSubscriber<T> {
                 onUnifiedError(ex);   //未知错误
             }
             resetContext();
-            if (ConstantsLib.DEBUG && ex != null) {
+            if (ConstantsLib.getInstance().DEBUG && ex != null) {
                 e.printStackTrace();
                 String errorMsg = ex.getMessage();
                 TagLibUtil.showLogError(BaseSubscriber.class.getSimpleName() + ": " + errorMsg);
@@ -124,7 +124,7 @@ public abstract class BaseSubscriber<T> extends ResourceSubscriber<T> {
 //            ex = new CommonException(exception, CommonException.FLAG_UNKNOWN);
 ////            onUnifiedError(ex);   //未知错误 这一句需删掉，网络出错会陷入无线循环。
             resetContext();
-            if (ConstantsLib.DEBUG) {
+            if (ConstantsLib.getInstance().DEBUG) {
                 if (e != null) {
                     e.printStackTrace();
                 }
@@ -132,7 +132,7 @@ public abstract class BaseSubscriber<T> extends ResourceSubscriber<T> {
                     exception.printStackTrace();
                 }
             }
-////            else if(ConstantsLib.DEBUG && exception==null){//这一句不应该执行到
+////            else if(ConstantsLib.getInstance().DEBUG && exception==null){//这一句不应该执行到
 ////                ex.printStackTrace();
 ////            }
         }

@@ -9,8 +9,9 @@ public class TagLibUtil {
     private final static String TAG = "TagLibUtil";
 
     public static void showToast(Context context, String str) {
-        if (ConstantsLib.DEBUG)
+        if (ConstantsLib.getInstance().DEBUG) {
             Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
@@ -19,8 +20,9 @@ public class TagLibUtil {
      * @param str
      */
     public static void showLogDebug(String str) {
-        if (ConstantsLib.DEBUG)
+        if (ConstantsLib.getInstance().DEBUG) {
             Log.d(TAG, str);
+        }
     }
 
     /**
@@ -29,13 +31,15 @@ public class TagLibUtil {
      * @param str
      */
     public static void showLogDebug(Class context, String str) {
-        if (ConstantsLib.DEBUG)
+        if (ConstantsLib.getInstance().DEBUG) {
             Log.d(TAG, "<" + context.getName().toString() + ">--" + str);
+        }
     }
 
     public static void showLogError(String str) {
-        if (ConstantsLib.DEBUG)
+        if (ConstantsLib.getInstance().DEBUG) {
             Log.e(TAG, str);
+        }
     }
 
     /**
@@ -44,13 +48,15 @@ public class TagLibUtil {
      * @param str
      */
     public static void showLogError(Class context, String str) {
-        if (ConstantsLib.DEBUG)
+        if (ConstantsLib.getInstance().DEBUG) {
             Log.e(TAG, "<" + context.getName().toString() + ">--" + str);
+        }
     }
 
     public static void showLogDebug(String tag, String content) {
-        if (ConstantsLib.DEBUG)
+        if (ConstantsLib.getInstance().DEBUG) {
             Log.d(tag, content);
+        }
     }
 
 }

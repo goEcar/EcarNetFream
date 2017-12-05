@@ -11,8 +11,6 @@ import com.ecar.util.CastStringUtil;
 
 import java.util.TreeMap;
 
-import static com.ecar.util.CastStringUtil.stringToTreeMap;
-
 
 /**
  * ===============================================
@@ -114,8 +112,8 @@ public class Major {
      * @param：
      * @return：
      */
-    public static TreeMap<String, String> securityKeyMethodEnc(TreeMap<String, String> tMap,boolean encode,boolean isSign,boolean isNeedVe) {
-        return getSecurityMapKeys(tMap, encode, isSign,isNeedVe, ConstantsLib.APP_ID, ConstantsLib.REQUEST_KEY);
+    public static TreeMap<String, String> securityKeyMethodEnc(TreeMap<String, String> tMap, boolean encode, boolean isSign, boolean isNeedVe) {
+        return getSecurityMapKeys(tMap, encode, isSign, isNeedVe, ConstantsLib.getInstance().APP_ID, ConstantsLib.getInstance().REQUEST_KEY);
 
     }
 
@@ -126,7 +124,7 @@ public class Major {
      * @return：
      */
     public static TreeMap<String, String> securityKeyMethodEnc(TreeMap<String, String> tMap) {
-        return getSecurityMapKeys(tMap, true, true,true, ConstantsLib.APP_ID, ConstantsLib.REQUEST_KEY);
+        return getSecurityMapKeys(tMap, true, true, true, ConstantsLib.getInstance().APP_ID, ConstantsLib.getInstance().REQUEST_KEY);
 
     }
 
@@ -137,7 +135,7 @@ public class Major {
      * @return：
      */
     public static TreeMap<String, String> securityKeyMethodNoEnc(TreeMap<String, String> tMap) {
-        return getSecurityMapKeys(tMap, false, true,true, ConstantsLib.APP_ID, ConstantsLib.REQUEST_KEY);
+        return getSecurityMapKeys(tMap, false, true, true, ConstantsLib.getInstance().APP_ID, ConstantsLib.getInstance().REQUEST_KEY);
 
     }
 
@@ -160,11 +158,7 @@ public class Major {
                 isSign,
                 isNeedVe,
                 appid,
-                 eUtil.binstrToStr(requestKey)));
+                eUtil.binstrToStr(requestKey)));
     }
-
-
-
-
 
 }

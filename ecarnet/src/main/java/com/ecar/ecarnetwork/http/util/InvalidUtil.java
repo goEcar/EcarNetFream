@@ -30,7 +30,7 @@ public class InvalidUtil {
      * @return true 符合sign规则
      */
     public static boolean checkSign(String sign,String content) {
-        return Major.eUtil.checkSign(sign,content,ConstantsLib.REQUEST_KEY);
+        return Major.eUtil.checkSign(sign,content,ConstantsLib.getInstance().REQUEST_KEY);
     }
 
 
