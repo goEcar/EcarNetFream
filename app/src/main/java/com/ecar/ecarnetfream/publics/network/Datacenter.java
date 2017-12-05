@@ -43,8 +43,6 @@ import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
 import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -68,31 +66,8 @@ public class Datacenter {
         return datacenter;
     }
 
-    public Observable<ResLogin> loginO(String mobileno, String pwd) {
-        Observable<TreeMap<String, String>> treeMapObservable = Observable.create(new ObservableOnSubscribe<TreeMap<String, String>>() {
-            @Override
-            public void subscribe(ObservableEmitter<TreeMap<String, String>> subscriber) throws Exception {
-                TreeMap<String, String> tMap = Major.getTreeMapNoneKey();
-                tMap.put(Major.PARAMS_USER_PHONE_NAME, mobileno);
-                tMap.put("userPwd", MD5Util.to32Md5(pwd));
-                tMap.put(Major.PARAMS_METHOD, "appLogin");
-                /**
-                 * 获得加密的sign TreeMap
-                 */
-                TreeMap<String, String> reMap = Major.securityKeyMethodEnc(tMap);
-                subscriber.onNext(reMap);
-            }
-        });
 
-        TreeMap<String, String> treeMap = treeMapObservable.blockingFirst();
-        /**
-         * 代理类调用方法获取Observable
-         */
-        Observable<ResLogin> observable = apiService.loginO(treeMap);
-        return observable;
-    }
-
-    public Flowable<ResLogin> loginF(String mobileno, String pwd) {
+    public Flowable<ResLogin> login(String mobileno, String pwd) {
         Flowable<TreeMap<String, String>> treeMapObservable = Flowable.create(new FlowableOnSubscribe<TreeMap<String, String>>() {
             @Override
             public void subscribe(FlowableEmitter<TreeMap<String, String>> subscriber) throws Exception {
@@ -112,7 +87,7 @@ public class Datacenter {
         /**
          * 代理类调用方法获取Observable
          */
-        Flowable<ResLogin> observable = apiService.loginF(treeMap);
+        Flowable<ResLogin> observable = apiService.login(treeMap);
         return observable;
     }
 
@@ -121,7 +96,7 @@ public class Datacenter {
         return null;
     }
 
-    public Observable<ResBase> uploadPic(String path) {
+    public Flowable<ResBase> uploadPic(String path) {
         // 添加参数到集合
         TreeMap<String, String> tMap = Major.getTreeMapByV();
         tMap.put(Major.PARAMS_METHOD, "upLoadImgForApp");
@@ -150,7 +125,7 @@ public class Datacenter {
         return apiService.uploadPic(HttpUrl.Base_Url_upClient, reMap, filePart);
     }
 
-    public Observable<ResLogin> testTJ() {
+    public Flowable<ResLogin> testTJ() {
         // 添加参数到集合
         TreeMap<String, String> tMap = new TreeMap<>();
         tMap.put("versontype", "1");
@@ -163,11 +138,11 @@ public class Datacenter {
         tMap.put("timestamp", "20171114103847");
         tMap.put("SID", "sid6eb141fe937f79dfbab5ae595a9129af");
         tMap.put("sign", "e65e2a2524b0a74d55b7d7d10f1e6563");
-        Observable<ResLogin> observable = apiService.loginO(tMap);//ApiBox.getInstance().createService(ApiService.class, HttpUrl.Base_Url).login(reMap);
+        Flowable<ResLogin> observable = apiService.login(tMap);//ApiBox.getInstance().createService(ApiService.class, HttpUrl.Base_Url).login(reMap);
         return observable;
     }
 
-    public Observable<ResLogin> testSaas() {
+    public Flowable<ResLogin> testSaas() {
         // 添加参数到集合
         TreeMap<String, String> tMap = new TreeMap<>();
         tMap.put("ClientType", "android");
@@ -181,7 +156,7 @@ public class Datacenter {
         tMap.put("u", "20160623105229613269811315537012");
         tMap.put("v", "20171114182146529370876523953850");
         tMap.put("ve", "2");
-        Observable<ResLogin> observable = apiService.loginO(tMap);//ApiBox.getInstance().createService(ApiService.class, HttpUrl.Base_Url).login(reMap);
+        Flowable<ResLogin> observable = apiService.login(tMap);//ApiBox.getInstance().createService(ApiService.class, HttpUrl.Base_Url).login(reMap);
         return observable;
     }
 }

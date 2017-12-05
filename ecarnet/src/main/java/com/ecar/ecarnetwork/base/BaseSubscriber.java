@@ -14,8 +14,6 @@ import com.ecar.ecarnetwork.interfaces.security.IInvalid;
 import com.google.gson.JsonParseException;
 
 import org.json.JSONException;
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
 
 import java.net.ConnectException;
 import java.net.SocketException;
@@ -214,6 +212,5 @@ public abstract class BaseSubscriber<T> extends ResourceSubscriber<T> {
             iInvalid.reLogin(context, msg);
         }
     }
-
 
 }

@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import io.reactivex.Flowable;
-import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
@@ -42,32 +41,27 @@ import retrofit2.http.Url;
  * ===============================================
  */
 public interface ApiService {
-    /**
-     * 获取登录的信息
-     */
-    @GET(".")
-    Observable<ResLogin> loginO(@QueryMap TreeMap<String, String> map);
 
     @GET(".")
-    Flowable<ResLogin> loginF(@QueryMap TreeMap<String, String> map);
+    Flowable<ResLogin> login(@QueryMap TreeMap<String, String> map);
 
     @GET
-    Observable<ResLogin> login(@Url String str);
+    Flowable<ResLogin> login(@Url String str);
 
     @Multipart
     @POST("")
-    Observable<ResBase> uploadPic(@Url String url, @QueryMap TreeMap<String, String> map, @Part MultipartBody.Part file);
+    Flowable<ResBase> uploadPic(@Url String url, @QueryMap TreeMap<String, String> map, @Part MultipartBody.Part file);
 
     @FormUrlEncoded
     @POST(".")
-    Observable<ResBase> getResult(@FieldMap(encoded = true) Map<String, Object> params);
+    Flowable<ResBase> getResult(@FieldMap(encoded = true) Map<String, Object> params);
 
     @POST(".")
-    Observable<ResBase> getResult2(@Body RequestBody requestBody);
+    Flowable<ResBase> getResult2(@Body RequestBody requestBody);
 
     @FormUrlEncoded
     @POST("?zipFlag=0")
-    Observable<ResBase> getResult3(@Query("commLen") String commLen, @Field(value = "jsonContent", encoded = true) String content);
+    Flowable<ResBase> getResult3(@Query("commLen") String commLen, @Field(value = "jsonContent", encoded = true) String content);
 }
 
 

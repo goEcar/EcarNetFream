@@ -13,7 +13,6 @@ import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //FlowableSubscriber  ResourceSubscrible
         Flowable.just("123").subscribe(new Subscriber<String>() {
             @Override
             public void onSubscribe(Subscription s) {
@@ -45,15 +45,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        Observer observer = new Observer() {
+        Observable.just("123").subscribe(new Observer<String>() {
             @Override
             public void onSubscribe(Disposable d) {
 
             }
 
             @Override
-            public void onNext(Object o) {
+            public void onNext(String s) {
 
             }
 
@@ -66,32 +65,23 @@ public class MainActivity extends AppCompatActivity {
             public void onComplete() {
 
             }
-        };
-
-
-        Observable.just("123").subscribe(observer);
-
-        Flowable.just("123").subscribe(new Subscriber<String>() {
-            @Override
-            public void onSubscribe(Subscription s) {
-
-            }
-
-            @Override
-            public void onNext(String s) {
-
-            }
-
-            @Override
-            public void onError(Throwable t) {
-
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
         });
+
+
+        Flowable.just("123").subscribe(new Consumer<String>() {
+            @Override
+            public void accept(String s) throws Exception {
+
+            }
+        }, Throwable::printStackTrace);
+
+
+        Observable.just("123").subscribe(new Consumer<String>() {
+            @Override
+            public void accept(String s) throws Exception {
+
+            }
+        }, Throwable::printStackTrace);
 
 
     }

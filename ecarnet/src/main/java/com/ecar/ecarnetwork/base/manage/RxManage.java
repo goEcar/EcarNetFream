@@ -1,7 +1,6 @@
 package com.ecar.ecarnetwork.base.manage;
 
 
-import com.ecar.ecarnetwork.util.rx.RxFUtils;
 import com.ecar.ecarnetwork.util.rx.RxUtils;
 
 import io.reactivex.Flowable;
@@ -68,7 +67,7 @@ public class RxManage {
      */
     public void addSubscription(Flowable observable, ResourceSubscriber subscriber) {
         if (observable != null && subscriber != null) {
-            subscriptions.add((Disposable) observable.compose(RxFUtils.rxScheduler()).subscribeWith(subscriber));
+            subscriptions.add((Disposable) observable.compose(RxUtils.rxScheduler()).subscribeWith(subscriber));
         }
     }
 }

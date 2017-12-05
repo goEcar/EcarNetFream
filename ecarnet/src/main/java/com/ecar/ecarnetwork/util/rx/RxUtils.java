@@ -37,14 +37,14 @@ public class RxUtils {
      * @param <T>
      * @return
      */
-    public static <T> ObservableTransformer<T, T> getScheduler(boolean isLoading, final ILoading loading) {
-        ObservableTransformer<Object, Object> transformer = null;
+    public static <T> FlowableTransformer<T, T> getScheduler(boolean isLoading, final ILoading loading) {
+        FlowableTransformer<Object, Object> transformer = null;
         if (isLoading) {
             transformer = rxSchedulerLoading(loading);
         } else {
             transformer = rxScheduler();
         }
-        return (ObservableTransformer<T, T>) transformer;
+        return (FlowableTransformer<T, T>) transformer;
     }
 
     /**
@@ -54,14 +54,15 @@ public class RxUtils {
      * @param <T>
      * @return
      */
-    public static <T> ObservableTransformer<T, T> rxSchedulerLoading(final ILoading loading) {
-        return new ObservableTransformer<T, T>() {
+    public static <T> FlowableTransformer<T, T> rxSchedulerLoading(final ILoading loading) {
+        return new FlowableTransformer<T, T>() {
+
             @Override
-            public ObservableSource<T> apply(Observable<T> tObservable) {
+            public Publisher<T> apply(Flowable<T> tObservable) {
                 return tObservable.subscribeOn(Schedulers.io())
-                        .doOnSubscribe(new Consumer<Disposable>() {
+                        .doOnSubscribe(new Consumer<Subscription>() {
                             @Override
-                            public void accept(Disposable disposable) throws Exception {
+                            public void accept(Subscription subscription) throws Exception {
                                 if (loading != null) {
                                     loading.showLoading();
 //                                    TagUtil.showLogError("loading show");
@@ -105,11 +106,11 @@ public class RxUtils {
 //    }
 
 
-    public static <T> ObservableTransformer<T, T> rxScheduler() {
-        return new ObservableTransformer<T, T>() {
+    public static <T> FlowableTransformer<T, T> rxScheduler() {
+        return new FlowableTransformer<T, T>() {
             @Override
-            public ObservableSource<T> apply(Observable<T> tObservable) {
-            return tObservable.subscribeOn(Schedulers.io())
+            public Publisher<T> apply(Flowable<T> tObservable) {
+                return tObservable.subscribeOn(Schedulers.io())
 //                        .subscribeOn(AndroidSchedulers.mainThread())
                         .unsubscribeOn(AndroidSchedulers.mainThread())
                         .observeOn(AndroidSchedulers.mainThread());
