@@ -33,8 +33,6 @@ import com.ecar.ecarnetwork.http.api.ApiBox;
 import com.ecar.ecarnetwork.http.exception.UserException;
 import com.ecar.ecarnetwork.util.major.Major;
 
-import org.reactivestreams.Subscriber;
-
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,7 +48,6 @@ import io.reactivex.ObservableOnSubscribe;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-
 
 
 public class Datacenter {
@@ -71,24 +68,31 @@ public class Datacenter {
         return datacenter;
     }
 
-//    public Observable<ResLogin> login(String mobileno, String pwd) {
-//        Observable<TreeMap<String, String>> treeMapObservable = Observable.create(new ObservableOnSubscribe<TreeMap<String, String>>() {
-//            @Override
-//            public void subscribe(ObservableEmitter<TreeMap<String, String>> subscriber) throws Exception {
-//                TreeMap<String, String> tMap = Major.getTreeMapNoneKey();
-//                tMap.put(Major.PARAMS_USER_PHONE_NAME, mobileno);
-//                tMap.put("userPwd", MD5Util.to32Md5(pwd));
-//                tMap.put(Major.PARAMS_METHOD, "appLogin");
-//                /**
-//                 * 获得加密的sign TreeMap
-//                 */
-//                TreeMap<String, String> reMap = Major.securityKeyMethodEnc(tMap);
-//                subscriber.onNext(reMap);
-//            }
-//        });
+    public Observable<ResLogin> loginO(String mobileno, String pwd) {
+        Observable<TreeMap<String, String>> treeMapObservable = Observable.create(new ObservableOnSubscribe<TreeMap<String, String>>() {
+            @Override
+            public void subscribe(ObservableEmitter<TreeMap<String, String>> subscriber) throws Exception {
+                TreeMap<String, String> tMap = Major.getTreeMapNoneKey();
+                tMap.put(Major.PARAMS_USER_PHONE_NAME, mobileno);
+                tMap.put("userPwd", MD5Util.to32Md5(pwd));
+                tMap.put(Major.PARAMS_METHOD, "appLogin");
+                /**
+                 * 获得加密的sign TreeMap
+                 */
+                TreeMap<String, String> reMap = Major.securityKeyMethodEnc(tMap);
+                subscriber.onNext(reMap);
+            }
+        });
 
+        TreeMap<String, String> treeMap = treeMapObservable.blockingFirst();
+        /**
+         * 代理类调用方法获取Observable
+         */
+        Observable<ResLogin> observable = apiService.loginO(treeMap);
+        return observable;
+    }
 
-    public Flowable<ResLogin> login(String mobileno, String pwd) {
+    public Flowable<ResLogin> loginF(String mobileno, String pwd) {
         Flowable<TreeMap<String, String>> treeMapObservable = Flowable.create(new FlowableOnSubscribe<TreeMap<String, String>>() {
             @Override
             public void subscribe(FlowableEmitter<TreeMap<String, String>> subscriber) throws Exception {
@@ -103,35 +107,15 @@ public class Datacenter {
                 subscriber.onNext(reMap);
             }
         }, BackpressureStrategy.BUFFER);
-
-
-//        Observable<TreeMap<String, String>> treeMapObservable = Observable.create(new Observable.OnSubscribe<TreeMap<String, String>>() {
-//            @Override
-//            public void call(Subscriber<? super TreeMap<String, String>> subscriber) {
-//                TreeMap<String, String> tMap = Major.getTreeMapNoneKey();
-//                tMap.put(Major.PARAMS_USER_PHONE_NAME, mobileno);
-//                tMap.put("userPwd", MD5Util.to32Md5(pwd));
-//                tMap.put(Major.PARAMS_METHOD, "appLogin");
-//                /**
-//                 * 获得加密的sign TreeMap
-//                 */
-//                TreeMap<String, String> reMap = Major.securityKeyMethodEnc(tMap);
-//                subscriber.onNext(reMap);
-//            }
-//        });
-
-//        TreeMap<String, String> treeMap = treeMapObservable.toBlocking().first();
         TreeMap<String, String> treeMap = treeMapObservable.blockingFirst();
 
         /**
          * 代理类调用方法获取Observable
          */
-        Flowable<ResLogin> observable = apiService.login(treeMap);//ApiBox.getInstance().createService(ApiService.class, HttpUrl.Base_Url).login(reMap);
-//        ApiBox.getInstance().cancleAllRequest();
-//        Observable<ResLogin> observable = apiService.login("https://218.17.99.52:1322/memberapi/Index.aspx?versontype=1&method=login&mobileno=18670006357&pwd=dc483e80a7a0bd9ef71d8cf973673924&ostype=android_4.3&phonetype=X9007&appversion=1.2.6&appkey=101280918&security=0d7c4e48454c3f94e310686fe6772dee&mobilecode=865568026165332&timestamp=20171124091129&sign=0de90d7cc480bbf449f6df4d943e8d25");//ApiBox.getInstance().createService(ApiService.class, HttpUrl.Base_Url).login(reMap);
-
+        Flowable<ResLogin> observable = apiService.loginF(treeMap);
         return observable;
     }
+
 
     public Observable<ResLogin> sign(String name, String pass) {
         return null;
@@ -166,7 +150,7 @@ public class Datacenter {
         return apiService.uploadPic(HttpUrl.Base_Url_upClient, reMap, filePart);
     }
 
-    public Flowable<ResLogin> testTJ() {
+    public Observable<ResLogin> testTJ() {
         // 添加参数到集合
         TreeMap<String, String> tMap = new TreeMap<>();
         tMap.put("versontype", "1");
@@ -179,11 +163,11 @@ public class Datacenter {
         tMap.put("timestamp", "20171114103847");
         tMap.put("SID", "sid6eb141fe937f79dfbab5ae595a9129af");
         tMap.put("sign", "e65e2a2524b0a74d55b7d7d10f1e6563");
-        Flowable<ResLogin> observable = apiService.login(tMap);//ApiBox.getInstance().createService(ApiService.class, HttpUrl.Base_Url).login(reMap);
+        Observable<ResLogin> observable = apiService.loginO(tMap);//ApiBox.getInstance().createService(ApiService.class, HttpUrl.Base_Url).login(reMap);
         return observable;
     }
 
-    public Flowable<ResLogin> testSaas() {
+    public Observable<ResLogin> testSaas() {
         // 添加参数到集合
         TreeMap<String, String> tMap = new TreeMap<>();
         tMap.put("ClientType", "android");
@@ -197,7 +181,7 @@ public class Datacenter {
         tMap.put("u", "20160623105229613269811315537012");
         tMap.put("v", "20171114182146529370876523953850");
         tMap.put("ve", "2");
-        Flowable<ResLogin> observable = apiService.login(tMap);//ApiBox.getInstance().createService(ApiService.class, HttpUrl.Base_Url).login(reMap);
+        Observable<ResLogin> observable = apiService.loginO(tMap);//ApiBox.getInstance().createService(ApiService.class, HttpUrl.Base_Url).login(reMap);
         return observable;
     }
 }

@@ -1,8 +1,6 @@
 package com.ecar.ecarnetfream.publics.network.api;
 
 
-
-
 import com.ecar.ecarnetfream.login.entity.ResLogin;
 import com.ecar.ecarnetwork.bean.ResBase;
 
@@ -48,7 +46,10 @@ public interface ApiService {
      * 获取登录的信息
      */
     @GET(".")
-    Flowable<ResLogin> login(@QueryMap TreeMap<String, String> map);
+    Observable<ResLogin> loginO(@QueryMap TreeMap<String, String> map);
+
+    @GET(".")
+    Flowable<ResLogin> loginF(@QueryMap TreeMap<String, String> map);
 
     @GET
     Observable<ResLogin> login(@Url String str);
@@ -66,7 +67,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("?zipFlag=0")
-    Observable<ResBase> getResult3(@Query("commLen") String commLen, @Field(value = "jsonContent",encoded = true)  String content);
+    Observable<ResBase> getResult3(@Query("commLen") String commLen, @Field(value = "jsonContent", encoded = true) String content);
 }
 
 

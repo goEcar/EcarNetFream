@@ -8,10 +8,12 @@ import android.text.TextUtils;
 import com.ecar.ecarnetfream.login.interfaces.LoginContract;
 import com.ecar.ecarnetfream.publics.network.Datacenter;
 import com.ecar.ecarnetfream.publics.util.TagUtil;
+import com.ecar.ecarnetwork.base.BaseObserver;
 import com.ecar.ecarnetwork.base.BaseSubscriber;
 import com.ecar.ecarnetwork.bean.ResBase;
 import com.ecar.ecarnetwork.http.exception.CommonException;
 import com.ecar.ecarnetwork.http.exception.InvalidException;
+import com.ecar.ecarnetwork.util.rx.RxFUtils;
 import com.ecar.ecarnetwork.util.rx.RxUtils;
 
 import io.reactivex.disposables.Disposable;
@@ -41,7 +43,8 @@ public class LoginPresenter extends LoginContract.Presenter {
         }
         if (TextUtils.isEmpty(pwd) || name.length() < 6) return;
 
-        rxLogin1(name, pwd);
+//        rxLoginO(name, pwd);
+        rxLoginF(name, pwd);
 //        rxLogin3(name, pwd);
 //        testTJ();
     }
@@ -50,7 +53,7 @@ public class LoginPresenter extends LoginContract.Presenter {
 
         //1.订阅者 泛型：最终想要获取的数据类型
         //一般弹toast的失败处理已处理，若需改写重写 onUserError 并去掉super(xx).
-        BaseSubscriber<ResBase> subscriber = new BaseSubscriber<ResBase>(context, view) {
+        BaseObserver<ResBase> subscriber = new BaseObserver<ResBase>(context, view) {
 
             @Override
             protected void onUserSuccess(ResBase resBase) {
@@ -58,14 +61,54 @@ public class LoginPresenter extends LoginContract.Presenter {
             }
         };
 
+        Datacenter.get().testSaas().compose(RxUtils.getScheduler(true, view)).subscribe(subscriber);
+
+
         //一个请求（登录）
-        Disposable subscribe = Datacenter.get().testSaas().compose(RxUtils.getScheduler(true, view)).subscribeWith(subscriber);
 //       Datacenter.get().testSaas().compose(RxUtils.getScheduler(true, view)).subscribe(subscriber);
-        rxManage.add(subscribe);//添加到订阅集合中
+//        rxManage.add(subscribe);//添加到订阅集合中
+    }
+
+    private void rxLoginO(String name, String pwd) {
+
+        //1.订阅者 泛型：最终想要获取的数据类型
+        //一般弹toast的失败处理已处理，若需改写重写 onUserError 并去掉super(xx).
+        BaseObserver<ResBase> subscriber = new BaseObserver<ResBase>(context, view) {
+
+            @Override
+            protected void onUserSuccess(ResBase resBase) {
+                view.showMsg("单个请求" + resBase.msg);
+            }
+
+            /**
+             * 第三方 返回校验失败
+             * @param context
+             * @param commonException
+             */
+            @Override
+            protected void onCheckNgisFailed(Context context, InvalidException commonException) {
+                super.onCheckNgisFailed(context, commonException);
+                if (commonException.getResObj() != null) {
+                    ResBase resBase = commonException.getResObj();
+                }
+            }
+
+            @Override
+            protected void onUnifiedError(CommonException ex) {
+                super.onUnifiedError(ex);
+
+            }
+        };
+
+        Datacenter.get().loginO(name, pwd).compose(RxUtils.getScheduler(true, view)).subscribe(subscriber);
+
+//        一个请求（登录）
+//        Disposable subscribe = Datacenter.get().loginF(name, pwd).compose(RxUtils.getScheduler(true, view)).subscribeWith(subscriber);
+//        rxManage.add(subscribe);//添加到订阅集合中
     }
 
 
-    private void rxLogin1(String name, String pwd) {
+    private void rxLoginF(String name, String pwd) {
 
         //1.订阅者 泛型：最终想要获取的数据类型
         //一般弹toast的失败处理已处理，若需改写重写 onUserError 并去掉super(xx).
@@ -92,15 +135,12 @@ public class LoginPresenter extends LoginContract.Presenter {
             @Override
             protected void onUnifiedError(CommonException ex) {
                 super.onUnifiedError(ex);
-////                try {
-//                    int i = 1 / 0;
-////                }catch (Exception e){
-//                    ex.printStackTrace();
+
             }
         };
 
 //        一个请求（登录）
-        Disposable subscribe = Datacenter.get().login(name, pwd).compose(RxUtils.getScheduler(true, view)).subscribeWith(subscriber);
+        Disposable subscribe = Datacenter.get().loginF(name, pwd).compose(RxFUtils.getScheduler(true, view)).subscribeWith(subscriber);
         rxManage.add(subscribe);//添加到订阅集合中
     }
 
