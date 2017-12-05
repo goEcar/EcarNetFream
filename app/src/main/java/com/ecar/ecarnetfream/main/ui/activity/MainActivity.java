@@ -93,10 +93,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Observable.just("123").subscribe(new Observer<String>() {
-        });
-
-//        Observer.just("123").subscribe(observer);
 
     }
 }

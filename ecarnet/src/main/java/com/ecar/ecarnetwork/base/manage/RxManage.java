@@ -1,14 +1,12 @@
 package com.ecar.ecarnetwork.base.manage;
 
 
-
 import com.ecar.ecarnetwork.util.rx.RxUtils;
 
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
-
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.subscribers.ResourceSubscriber;
 
 
 /**
@@ -31,6 +29,7 @@ import io.reactivex.disposables.CompositeDisposable;
 public class RxManage {
     private CompositeDisposable subscriptions;//管理订阅者者。取消订阅后不能再次订阅
 
+
     public RxManage() {
         this.subscriptions = new CompositeDisposable();
     }
@@ -40,7 +39,7 @@ public class RxManage {
      *
      * @param m
      */
-    public void add(Subscription m) {
+    public void add(Disposable m) {
         if (subscriptions == null) {
             subscriptions = new CompositeDisposable();
         }
@@ -54,7 +53,7 @@ public class RxManage {
      */
     public void clear() {
         if (subscriptions != null) {
-            subscriptions.unsubscribe();
+            subscriptions.dispose();
             subscriptions = null;
         }
     }
@@ -66,9 +65,9 @@ public class RxManage {
      * @param observable
      * @param subscriber
      */
-    public void addSubscription(Observable observable, Subscriber subscriber) {
-        if (observable != null && subscriber != null && subscriber.isUnsubscribed()) {
-            subscriptions.add(observable.compose(RxUtils.rxScheduler()).subscribe(subscriber));
+    public void addSubscription(Flowable observable, ResourceSubscriber subscriber) {
+        if (observable != null && subscriber != null) {
+            subscriptions.add((Disposable) observable.compose(RxUtils.rxScheduler()).subscribeWith(subscriber));
         }
     }
 }

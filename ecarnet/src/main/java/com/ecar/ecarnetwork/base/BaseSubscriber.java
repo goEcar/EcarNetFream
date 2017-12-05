@@ -22,12 +22,14 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
+import io.reactivex.subscribers.ResourceSubscriber;
+
 
 /**
  * 订阅者基类：对异常统一处理
  * 目测权限处理可以放这里做
  */
-public abstract class BaseSubscriber<T> implements Subscriber<T> {
+public abstract class BaseSubscriber<T> extends ResourceSubscriber<T> {
 
     private Context context;
     private IInvalid iInvalid;
@@ -214,8 +216,4 @@ public abstract class BaseSubscriber<T> implements Subscriber<T> {
     }
 
 
-    @Override
-    public void onSubscribe(Subscription s) {
-
-    }
 }
