@@ -113,7 +113,7 @@ public class Major {
      * @return：
      */
     public static TreeMap<String, String> securityKeyMethodEnc(TreeMap<String, String> tMap, boolean encode, boolean isSign, boolean isNeedVe) {
-        return getSecurityMapKeys(tMap, encode, isSign, isNeedVe, ConstantsLib.getInstance().APP_ID, ConstantsLib.getInstance().REQUEST_KEY);
+        return getSecurityMapKeys(tMap, encode, isSign, isNeedVe, SettingPreferences.getDefault(ApiBox.getInstance().application).getAppId(), SettingPreferences.getDefault(ApiBox.getInstance().application).getReqkey());
 
     }
 
@@ -124,7 +124,7 @@ public class Major {
      * @return：
      */
     public static TreeMap<String, String> securityKeyMethodEnc(TreeMap<String, String> tMap) {
-        return getSecurityMapKeys(tMap, true, true, true, ConstantsLib.getInstance().APP_ID, ConstantsLib.getInstance().REQUEST_KEY);
+        return getSecurityMapKeys(tMap, true, true, true, SettingPreferences.getDefault(ApiBox.getInstance().application).getAppId(),SettingPreferences.getDefault(ApiBox.getInstance().application).getReqkey());
 
     }
 
@@ -135,7 +135,7 @@ public class Major {
      * @return：
      */
     public static TreeMap<String, String> securityKeyMethodNoEnc(TreeMap<String, String> tMap) {
-        return getSecurityMapKeys(tMap, false, true, true, ConstantsLib.getInstance().APP_ID, ConstantsLib.getInstance().REQUEST_KEY);
+        return getSecurityMapKeys(tMap, false, true, true, SettingPreferences.getDefault(ApiBox.getInstance().application).getAppId(), SettingPreferences.getDefault(ApiBox.getInstance().application).getReqkey());
 
     }
 

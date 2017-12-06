@@ -31,6 +31,8 @@ public class SettingPreferences {
     private final String osTag = "system";
     private final String SID = "user_sid";// 会话ID
     private final String headImgTime = "head_Img_Time";// 会话ID
+    private final String AppId = "AppIde_net";//
+    private final String reqkey = "reqkeye_net";//
 
 
     public static final int DEFAULT_VERSION = -200;// 默认版本
@@ -58,6 +60,27 @@ public class SettingPreferences {
         }
         return settingPreferences;
 
+    }
+
+    public String getAppId() {
+        return shareData.getString(AppId, "");
+    }
+
+    public void setAppId(String str) {
+        Editor editor = shareData.edit();
+        editor.putString(AppId, str);
+        editor.commit();
+    }
+
+
+    public String getReqkey() {
+        return shareData.getString(reqkey, "");
+    }
+
+    public void setReqkey(String str) {
+        Editor editor = shareData.edit();
+        editor.putString(reqkey, str);
+        editor.commit();
     }
 
     public String getUserID() {
