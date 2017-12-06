@@ -63,7 +63,7 @@ public class ResponseConverter<T> implements Converter<ResponseBody, T> {
         Log.i("thread",Thread.currentThread().getName()) ;
         try {
             base = gson.fromJson(response, type);
-            if (base != null&& !InvalidUtil.checkSign(base.sign, response) && ConstantsLib.getInstance().VeriNgis) {//校验错误
+            if (base != null&& !InvalidUtil.checkSign(base.sign, response) && ApiBox.getInstance().isVeriNgis()) {//校验错误
                 throw new InvalidException(InvalidException.FLAG_ERROR_RESPONCE_CHECK,base.msg,base);
             }
 

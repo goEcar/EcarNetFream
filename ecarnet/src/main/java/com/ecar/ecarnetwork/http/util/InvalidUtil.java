@@ -1,6 +1,8 @@
 package com.ecar.ecarnetwork.http.util;
 
 
+import com.ecar.ecarnetwork.db.SettingPreferences;
+import com.ecar.ecarnetwork.http.api.ApiBox;
 import com.ecar.ecarnetwork.util.major.Major;
 
 /**
@@ -30,7 +32,7 @@ public class InvalidUtil {
      * @return true 符合sign规则
      */
     public static boolean checkSign(String sign,String content) {
-        return Major.eUtil.checkSign(sign,content,ConstantsLib.getInstance().REQUEST_KEY);
+        return Major.eUtil.checkSign(sign,content, SettingPreferences.getDefault(ApiBox.getInstance().application).getReqkey());
     }
 
 

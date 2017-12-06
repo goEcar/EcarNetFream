@@ -5,10 +5,10 @@ import android.net.ParseException;
 import android.text.TextUtils;
 
 import com.ecar.ecarnetwork.bean.ResBase;
+import com.ecar.ecarnetwork.http.api.ApiBox;
 import com.ecar.ecarnetwork.http.exception.CommonException;
 import com.ecar.ecarnetwork.http.exception.InvalidException;
 import com.ecar.ecarnetwork.http.exception.UserException;
-import com.ecar.ecarnetwork.http.util.ConstantsLib;
 import com.ecar.ecarnetwork.http.util.TagLibUtil;
 import com.ecar.ecarnetwork.interfaces.security.IInvalid;
 import com.google.gson.JsonParseException;
@@ -113,7 +113,7 @@ public abstract class BaseSubscriber<T> extends ResourceSubscriber<T> {
                 onUnifiedError(ex);   //未知错误
             }
             resetContext();
-            if (ConstantsLib.getInstance().DEBUG && ex != null) {
+            if (ApiBox.getInstance().isDEBUG() && ex != null) {
                 e.printStackTrace();
                 String errorMsg = ex.getMessage();
                 TagLibUtil.showLogError(BaseSubscriber.class.getSimpleName() + ": " + errorMsg);
@@ -124,7 +124,7 @@ public abstract class BaseSubscriber<T> extends ResourceSubscriber<T> {
 //            ex = new CommonException(exception, CommonException.FLAG_UNKNOWN);
 ////            onUnifiedError(ex);   //未知错误 这一句需删掉，网络出错会陷入无线循环。
             resetContext();
-            if (ConstantsLib.getInstance().DEBUG) {
+            if (ApiBox.getInstance().isDEBUG()) {
                 if (e != null) {
                     e.printStackTrace();
                 }

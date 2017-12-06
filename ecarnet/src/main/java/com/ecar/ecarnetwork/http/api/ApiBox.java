@@ -3,6 +3,7 @@ package com.ecar.ecarnetwork.http.api;
 import android.app.Application;
 import android.text.TextUtils;
 
+import com.ecar.ecarnetwork.db.SettingPreferences;
 import com.ecar.ecarnetwork.http.converter.ConverterFactory;
 import com.ecar.ecarnetwork.http.util.ConstantsLib;
 import com.ecar.ecarnetwork.http.util.HttpsUtils;
@@ -56,7 +57,27 @@ public class ApiBox {
     private int READ_TIME_OUT = 10 * 1000;    // 数据读取超时时间
     private int WRITE_TIME_OUT = 10 * 1000;   //数据写入超时时间
     private static final String CACHE_NAME = "cache";   //缓存目录名称
+    /**
+     * Log 日志开关 发布版本设为false
+     */
+    private boolean DEBUG = false;
+    private boolean VeriNgis = true;
 
+    public boolean isDEBUG() {
+        return DEBUG;
+    }
+
+    public void setDEBUG(boolean DEBUG) {
+        this.DEBUG = DEBUG;
+    }
+
+    public boolean isVeriNgis() {
+        return VeriNgis;
+    }
+
+    public void setVeriNgis(boolean veriNgis) {
+        VeriNgis = veriNgis;
+    }
 
     /**
      * 单例 持有引用
@@ -90,12 +111,13 @@ public class ApiBox {
      */
     private ApiBox(Builder builder) {
         //1.设置应用上下文、debug参数
-        ConstantsLib.getInstance().DEBUG = builder.debug;
-        ConstantsLib.getInstance().VeriNgis = builder.veriNgis;
-        ConstantsLib.getInstance().REQUEST_KEY = builder.reqKey;
+        DEBUG = builder.debug;
+        VeriNgis = builder.veriNgis;
         this.application = builder.application;
         this.cacheFile = builder.cacheDir;
         this.inputStreams = builder.inputStreams;
+        SettingPreferences sp = SettingPreferences.getDefault(application);
+        sp.setReqkey(builder.reqKey);
         this.serviceMap = new HashMap<>();
         if (builder.connetTimeOut > 0) {
             this.CONNECT_TIME_OUT = builder.connetTimeOut;
@@ -210,12 +232,15 @@ public class ApiBox {
                 SingletonHolder.INSTANCE = apiBox;
             } else {
                 SingletonHolder.INSTANCE.application = this.application;
-                ConstantsLib.getInstance().DEBUG = this.debug;
-                ConstantsLib.getInstance().VeriNgis = this.veriNgis;
-                ConstantsLib.getInstance().REQUEST_KEY = this.reqKey;
+                SingletonHolder.INSTANCE.DEBUG = this.debug;
+                SingletonHolder.INSTANCE.VeriNgis = this.veriNgis;
+                SettingPreferences sp = SettingPreferences.getDefault(application);
+                sp.setReqkey(this.reqKey);
                 TagUtil.IS_SHOW_LOG = this.debug;
             }
-            ConstantsLib.getInstance().APP_ID = Major.eUtil.binstrToStr(TextUtils.isEmpty(appId) ? "" : appId);
+            SettingPreferences sp = SettingPreferences.getDefault(application);
+            sp.setReqkey(this.reqKey);
+            sp.setAppId(Major.eUtil.binstrToStr(TextUtils.isEmpty(appId) ? "" : appId));
 
             return SingletonHolder.INSTANCE;
         }
@@ -273,7 +298,7 @@ public class ApiBox {
      */
     private HttpLoggingInterceptor getLogInterceptor() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        if (ConstantsLib.getInstance().DEBUG) {
+        if (DEBUG) {
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         } else {
             interceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
