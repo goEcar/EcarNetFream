@@ -1,14 +1,13 @@
 package com.ecar.ecarnetfream.publics.network.api;
 
 
-
-
 import com.ecar.ecarnetfream.login.entity.ResLogin;
 import com.ecar.ecarnetwork.bean.ResBase;
 
 import java.util.Map;
 import java.util.TreeMap;
 
+import io.reactivex.Flowable;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
@@ -19,11 +18,9 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 import retrofit2.http.Url;
-import rx.Observable;
 
 
 /**
@@ -44,29 +41,27 @@ import rx.Observable;
  * ===============================================
  */
 public interface ApiService {
-    /**
-     * 获取登录的信息
-     */
+
     @GET(".")
-    Observable<ResLogin> login(@QueryMap TreeMap<String, String> map);
+    Flowable<ResLogin> login(@QueryMap TreeMap<String, String> map);
 
     @GET
-    Observable<ResLogin> login(@Url String str);
+    Flowable<ResLogin> login(@Url String str);
 
     @Multipart
     @POST("")
-    Observable<ResBase> uploadPic(@Url String url, @QueryMap TreeMap<String, String> map, @Part MultipartBody.Part file);
+    Flowable<ResBase> uploadPic(@Url String url, @QueryMap TreeMap<String, String> map, @Part MultipartBody.Part file);
 
     @FormUrlEncoded
     @POST(".")
-    Observable<ResBase> getResult(@FieldMap(encoded = true) Map<String, Object> params);
+    Flowable<ResBase> getResult(@FieldMap(encoded = true) Map<String, Object> params);
 
     @POST(".")
-    Observable<ResBase> getResult2(@Body RequestBody requestBody);
+    Flowable<ResBase> getResult2(@Body RequestBody requestBody);
 
     @FormUrlEncoded
     @POST("?zipFlag=0")
-    Observable<ResBase> getResult3(@Query("commLen") String commLen, @Field(value = "jsonContent",encoded = true)  String content);
+    Flowable<ResBase> getResult3(@Query("commLen") String commLen, @Field(value = "jsonContent", encoded = true) String content);
 }
 
 

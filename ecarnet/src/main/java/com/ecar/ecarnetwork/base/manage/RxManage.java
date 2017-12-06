@@ -1,13 +1,13 @@
 package com.ecar.ecarnetwork.base.manage;
 
 
-
 import com.ecar.ecarnetwork.util.rx.RxUtils;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.Subscription;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.Flowable;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.subscribers.ResourceSubscriber;
+
 
 /**
  * ===============================================
@@ -27,10 +27,11 @@ import rx.subscriptions.CompositeSubscription;
  * ===============================================
  */
 public class RxManage {
-    private CompositeSubscription subscriptions;//管理订阅者者。取消订阅后不能再次订阅
+    private CompositeDisposable subscriptions;//管理订阅者者。取消订阅后不能再次订阅
+
 
     public RxManage() {
-        this.subscriptions = new CompositeSubscription();
+        this.subscriptions = new CompositeDisposable();
     }
 
     /**
@@ -38,11 +39,11 @@ public class RxManage {
      *
      * @param m
      */
-    public void add(Subscription m) {
+    public void add(Disposable m) {
         if (subscriptions == null) {
-            subscriptions = new CompositeSubscription();
+            subscriptions = new CompositeDisposable();
         }
-        if (m != null && !subscriptions.isUnsubscribed()) {
+        if (m != null && !subscriptions.isDisposed()) {
             subscriptions.add(m);
         }
     }
@@ -52,7 +53,7 @@ public class RxManage {
      */
     public void clear() {
         if (subscriptions != null) {
-            subscriptions.unsubscribe();
+            subscriptions.dispose();
             subscriptions = null;
         }
     }
@@ -64,9 +65,9 @@ public class RxManage {
      * @param observable
      * @param subscriber
      */
-    public void addSubscription(Observable observable, Subscriber subscriber) {
-        if (observable != null && subscriber != null && subscriber.isUnsubscribed()) {
-            subscriptions.add(observable.compose(RxUtils.rxScheduler()).subscribe(subscriber));
+    public void addSubscription(Flowable observable, ResourceSubscriber subscriber) {
+        if (observable != null && subscriber != null) {
+            subscriptions.add((Disposable) observable.compose(RxUtils.rxScheduler()).subscribeWith(subscriber));
         }
     }
 }

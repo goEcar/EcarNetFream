@@ -3,20 +3,28 @@ package com.ecar.ecarnetwork.util.rx;
 
 import com.ecar.ecarnetwork.interfaces.view.ILoading;
 
+import org.reactivestreams.Publisher;
+import org.reactivestreams.Subscription;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.Observable;
-import rx.Scheduler;
-import rx.Subscriber;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
-import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.plugins.RxJavaErrorHandler;
-import rx.plugins.RxJavaPlugins;
-import rx.schedulers.Schedulers;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableTransformer;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
+import io.reactivex.ObservableTransformer;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.plugins.RxJavaPlugins;
+import io.reactivex.schedulers.Schedulers;
+
 
 public class RxUtils {
 
@@ -29,14 +37,14 @@ public class RxUtils {
      * @param <T>
      * @return
      */
-    public static <T> Observable.Transformer<T, T> getScheduler(boolean isLoading, final ILoading loading) {
-        Observable.Transformer<Object, Object> transformer = null;
+    public static <T> FlowableTransformer<T, T> getScheduler(boolean isLoading, final ILoading loading) {
+        FlowableTransformer<Object, Object> transformer = null;
         if (isLoading) {
             transformer = rxSchedulerLoading(loading);
         } else {
             transformer = rxScheduler();
         }
-        return (Observable.Transformer<T, T>) transformer;
+        return (FlowableTransformer<T, T>) transformer;
     }
 
     /**
@@ -46,14 +54,15 @@ public class RxUtils {
      * @param <T>
      * @return
      */
-    public static <T> Observable.Transformer<T, T> rxSchedulerLoading(final ILoading loading) {
-        return new Observable.Transformer<T, T>() {
+    public static <T> FlowableTransformer<T, T> rxSchedulerLoading(final ILoading loading) {
+        return new FlowableTransformer<T, T>() {
+
             @Override
-            public Observable<T> call(Observable<T> tObservable) {
+            public Publisher<T> apply(Flowable<T> tObservable) {
                 return tObservable.subscribeOn(Schedulers.io())
-                        .doOnSubscribe(new Action0() {
+                        .doOnSubscribe(new Consumer<Subscription>() {
                             @Override
-                            public void call() {
+                            public void accept(Subscription subscription) throws Exception {
                                 if (loading != null) {
                                     loading.showLoading();
 //                                    TagUtil.showLogError("loading show");
@@ -61,9 +70,9 @@ public class RxUtils {
                             }
                         })
                         .subscribeOn(AndroidSchedulers.mainThread())
-                        .doOnTerminate(new Action0() {
+                        .doOnTerminate(new Action() {
                             @Override
-                            public void call() {
+                            public void run() throws Exception {
                                 if (loading != null) {
                                     loading.dismissLoading();
 //                                    TagUtil.showLogError("loading dissmiss");
@@ -74,6 +83,7 @@ public class RxUtils {
                         .observeOn(AndroidSchedulers.mainThread());
             }
         };
+
     }
 
     /**
@@ -82,26 +92,41 @@ public class RxUtils {
      * @param <T>
      * @return
      */
-    public static <T> Observable.Transformer<T, T> rxScheduler() {
-        return new Observable.Transformer<T, T>() {
+//    public static <T> ObservableTransformer<T, T> rxScheduler() {
+//        return new ObservableTransformer<T, T>() {
+//            @Override
+//            public ObservableSource<T> apply(Observable<T> tObservable) {
+//                return tObservable.subscribeOn(Schedulers.io())
+////                        .subscribeOn(AndroidSchedulers.mainThread())
+//                        .unsubscribeOn(AndroidSchedulers.mainThread())
+//                        .observeOn(AndroidSchedulers.mainThread());
+//            }
+//        };
+//
+//    }
+
+
+    public static <T> FlowableTransformer<T, T> rxScheduler() {
+        return new FlowableTransformer<T, T>() {
             @Override
-            public Observable<T> call(Observable<T> tObservable) {
+            public Publisher<T> apply(Flowable<T> tObservable) {
                 return tObservable.subscribeOn(Schedulers.io())
 //                        .subscribeOn(AndroidSchedulers.mainThread())
                         .unsubscribeOn(AndroidSchedulers.mainThread())
                         .observeOn(AndroidSchedulers.mainThread());
             }
         };
+
     }
 
     /**
      * 自定义订阅线程
      * 观察和取消订阅在UI线程
      */
-    public static <T> Observable.Transformer<T, T> rxScheduler(final Scheduler scheduler) {
-        return new Observable.Transformer<T, T>() {
+    public static <T> ObservableTransformer<T, T> rxScheduler(final Scheduler scheduler) {
+        return new ObservableTransformer<T, T>() {
             @Override
-            public Observable<T> call(Observable<T> tObservable) {
+            public ObservableSource<T> apply(Observable<T> tObservable) {
                 return tObservable.subscribeOn(scheduler)
                         .unsubscribeOn(AndroidSchedulers.mainThread())
                         .observeOn(AndroidSchedulers.mainThread());
@@ -116,16 +141,17 @@ public class RxUtils {
     /**
      * 异步转同步
      */
-    private void toSync(){
+    private void toSync() {
 //        myObservable.toBlocking().first();
     }
+
     /**
      * 自定义处理 Rx 错误线程
      */
     public static void unifiedErrorHandler() {
-        RxJavaPlugins.getInstance().registerErrorHandler(new RxJavaErrorHandler() {
+        RxJavaPlugins.setErrorHandler(new Consumer<Throwable>() {
             @Override
-            public void handleError(Throwable e) {
+            public void accept(Throwable throwable) throws Exception {
 
             }
         });
@@ -135,9 +161,9 @@ public class RxUtils {
      * end*****异常处理相关********end
      ******************************/
 
-    public static void unsubscribe(Subscription subscription) {
-        if (subscription != null && !subscription.isUnsubscribed()) {
-            subscription.unsubscribe();
+    public static void unsubscribe(Disposable subscription) {
+        if (subscription != null && !subscription.isDisposed()) {
+            subscription.dispose();
         }
     }
 
@@ -150,12 +176,14 @@ public class RxUtils {
      * @return
      */
     public static <T> Observable<T> justOnNext(final T onNext) {
-        return Observable.create(new Observable.OnSubscribe<T>() {
+
+        return Observable.create(new ObservableOnSubscribe<T>() {
             @Override
-            public void call(Subscriber<? super T> subscriber) {
+            public void subscribe(ObservableEmitter<T> subscriber) throws Exception {
                 subscriber.onNext(onNext);
             }
         });
+
     }
 
 
@@ -168,20 +196,23 @@ public class RxUtils {
     public Observable createObservalbe() {
         String[] strs = new String[]{"1", "2", "3"};
         //方式1
-        Observable<String> observable = Observable.from(strs);
+        Observable<String> observable = Observable.fromArray(strs);
+
         //方式2
         Observable<String[]> observable1 = Observable.just(strs);//更下面的  T的返回类型不同
         Observable<String> observable2 = Observable.just("1");
         //方式3 ，最原生
-        Observable<Object> observable3 = Observable.create(new Observable.OnSubscribe<Object>() {
+
+        Observable<Object> observable3 = Observable.create(new ObservableOnSubscribe<Object>() {
             @Override
-            public void call(Subscriber<? super Object> subscriber) {
+            public void subscribe(ObservableEmitter<Object> subscriber) throws Exception {
                 //比如成功后 执行回调
                 subscriber.onNext("内容1");
                 subscriber.onNext("内容2");
-                subscriber.onCompleted();
+                subscriber.onComplete();
             }
         });
+
         return null;
     }
 
@@ -221,26 +252,28 @@ public class RxUtils {
      */
 
     private void setSchedulers() {
-        Observable observalbe = createObservalbe();//模拟得到一个被观察者
+        //模拟得到一个被观察者
+        Observable observalbe = createObservalbe();
         observalbe.subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
-                .flatMap(new Func1<Object, Observable<String>>() {
+                .flatMap(new Function() {
                     @Override
-                    public Observable<String> call(Object o) {
+                    public Object apply(Object o) throws Exception {
                         return Observable.just(o.toString());
                     }
                 })
                 .observeOn(Schedulers.io())
-                .map(new Func1() { //改变T 返回类型
+                .map(new Function() {
                     @Override
-                    public Object call(Object o) {
-                        return o;//此处原样返回
+                    public Object apply(Object o) throws Exception {
+                        //此处原样返回
+                        return o;
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1() {
+                .subscribe(new Consumer() {
                     @Override
-                    public void call(Object o) {
+                    public void accept(Object o) throws Exception {
 
                     }
                 });
@@ -459,7 +492,7 @@ public class RxUtils {
     public static <T> Observable<List<T>> fromCollection(List<T> collection) {
         List<List<T>> collectionForRx = new ArrayList<>();
         collectionForRx.add(collection);
-        return Observable.from(collectionForRx);
+        return Observable.fromIterable(collectionForRx);
     }
 }
 //    public static <T> Observable<T> fromActor(final ActorRef actor){

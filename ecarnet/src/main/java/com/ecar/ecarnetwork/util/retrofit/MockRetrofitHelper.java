@@ -1,8 +1,6 @@
 package com.ecar.ecarnetwork.util.retrofit;
 
 
-
-import java.io.File;
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -12,7 +10,7 @@ import okhttp3.Protocol;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MockRetrofitHelper {
@@ -24,14 +22,14 @@ public class MockRetrofitHelper {
 
         Retrofit retrofit = new Retrofit.Builder().baseUrl(path)
                 .client(client)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         return retrofit.create(clazz);
     }
 
-    private String path="";
+    private String path = "";
 
     public void setPath(String path) {
         this.path = path;
@@ -48,7 +46,7 @@ public class MockRetrofitHelper {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-           // String content = AssestsReader.readFile();
+            // String content = AssestsReader.readFile();
 //            String content = "[{\"name\": \"hello\"}]";
 
             ResponseBody body = ResponseBody.create(MediaType.parse("application/x-www-form-urlencoded"), content);

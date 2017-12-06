@@ -16,15 +16,17 @@ import com.ecar.ecarnetwork.http.exception.InvalidException;
 import com.ecar.ecarnetwork.http.exception.UserException;
 import com.ecar.ecarnetwork.util.rx.RxUtils;
 
+import org.reactivestreams.Publisher;
+
 import java.util.concurrent.TimeUnit;
 
-import rx.Observable;
-import rx.Scheduler;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+import io.reactivex.Flowable;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 public class LoginPresenter extends LoginContract.Presenter {
 
@@ -49,9 +51,11 @@ public class LoginPresenter extends LoginContract.Presenter {
             TagUtil.showToast(context, "账号或密码有误");
             return;
         }
-        if (TextUtils.isEmpty(pwd) || name.length() < 6) return;
+        if (TextUtils.isEmpty(pwd) || name.length() < 6) {
+            return;
+        }
 
-        rxLogin1(name, pwd);
+        rxLoginO(name, pwd);
 //        rxLogin3(name, pwd);
 //        testTJ();
     }
@@ -64,18 +68,19 @@ public class LoginPresenter extends LoginContract.Presenter {
 
             @Override
             protected void onUserSuccess(ResBase resBase) {
-                view.showMsg("单个请求" + resBase.msg);
-            }
 
+            }
         };
 
+        Datacenter.get().testSaas().compose(RxUtils.getScheduler(true, view)).subscribe(subscriber);
+
         //一个请求（登录）
-        Subscription subscribe = Datacenter.get().testSaas().compose(RxUtils.getScheduler(true, view)).subscribe(subscriber);
-        rxManage.add(subscribe);//添加到订阅集合中
+        Disposable disposable = Datacenter.get().testSaas().compose(RxUtils.getScheduler(true, view)).subscribeWith(subscriber);
+        //添加到订阅集合中
+        rxManage.add(disposable);
     }
 
-
-    private void rxLogin1(String name, String pwd) {
+    private void rxLoginO(String name, String pwd) {
 
         //1.订阅者 泛型：最终想要获取的数据类型
         //一般弹toast的失败处理已处理，若需改写重写 onUserError 并去掉super(xx).
@@ -102,16 +107,14 @@ public class LoginPresenter extends LoginContract.Presenter {
             @Override
             protected void onUnifiedError(CommonException ex) {
                 super.onUnifiedError(ex);
-////                try {
-//                    int i = 1 / 0;
-////                }catch (Exception e){
-//                    ex.printStackTrace();
+
             }
         };
 
         //一个请求（登录）
-        Subscription subscribe = Datacenter.get().login(name, pwd).compose(RxUtils.getScheduler(true, view)).subscribe(subscriber);
-        rxManage.add(subscribe);//添加到订阅集合中
+        Disposable disposable = Datacenter.get().login(name, pwd).compose(RxUtils.getScheduler(true, view)).subscribeWith(subscriber);
+        //添加到订阅集合中
+        rxManage.add(disposable);
     }
 
     private void rxLogin3(String name, String pwd) {
@@ -123,56 +126,59 @@ public class LoginPresenter extends LoginContract.Presenter {
             }
         };
 
-
         //链式请求（登录成功后上传图片）
         //2.此处有两步操作，登录成功后切换线程 在主线程显示成功提示（观察的线程可以有多次切换，订阅线程只能指定一次）
-        Subscription subscribe1 = Datacenter.get().login(name, pwd).observeOn(AndroidSchedulers.mainThread()).doOnNext(new Action1<ResLogin>() {//登录成功后回调
-            @Override
-            public void call(ResLogin resLogin) {
-                /**
-                 * 此处会出错，还在子线程中. 执行前需要先指定观察的线程位置,即login(xx,xx)后面的observeOn
-                 */
-                view.showMsg("链式请求第一个响应" + resLogin.msg);
-//                view.loginSuccess(resLogin);//使用 当前获得的数据。区别于map 改变数据的操作
-            }
-        }).flatMap(new Func1<ResLogin, Observable<ResBase>>() {
-            @Override
-            public Observable<ResBase> call(ResLogin resLogin) {
-                Observable<ResBase> result = null;
-                try {
-                    //登录成功后请求上传（写死的一张 酷派手机上的图）
-                    result = Datacenter.get().uploadPic("").compose(RxUtils.getScheduler(false, view));
-                } catch (UserException e) {
-                    throw e;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return result;
-            }
-        }).delay(4000, TimeUnit.MILLISECONDS).compose(RxUtils.getScheduler(true, view)).subscribe(subscriber);
 
-        rxManage.add(subscribe1);//添加到订阅集合中
+        //登录成功后回调
+        Flowable flowable = Datacenter.get().login(name, pwd).observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(new Consumer<ResLogin>() {
+                    @Override
+                    public void accept(ResLogin resLogin) throws Exception {
+                        /**
+                         * 此处会出错，还在子线程中. 执行前需要先指定观察的线程位置,即login(xx,xx)后面的observeOn
+                         */
+                        view.showMsg("链式请求第一个响应" + resLogin.msg);
+//                        view.loginSuccess(resLogin);//使用 当前获得的数据。区别于map 改变数据的操作
+                    }
+                }).flatMap(new Function<ResLogin, Publisher<?>>() {
+                    @Override
+                    public Publisher<?> apply(ResLogin resLogin) throws Exception {
+                        Publisher<ResBase> result = null;
+                        try {
+                            //登录成功后请求上传（写死的一张 酷派手机上的图）
+                            result = Datacenter.get().uploadPic("").compose(RxUtils.getScheduler(false, view));
+                        } catch (UserException e) {
+                            throw e;
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return result;
+                    }
+                }).delay(4000, TimeUnit.MILLISECONDS).compose(RxUtils.getScheduler(true, view));
+
+        Disposable disposable = (Disposable) flowable.subscribeWith(subscriber);
+        //添加到订阅集合中
+        rxManage.add(disposable);
     }
 
 
     private void rxLogin2(String name, String pwd) {
-        //        // 异步网络请求User数据，并在onNext(ResBase)返回 ---测试单元测试使用 例子
+        // 异步网络请求User数据，并在onNext(ResBase)返回 ---测试单元测试使用 例子
         Scheduler scheduler = AndroidSchedulers.mainThread();
-        Subscription subscribe1 = Datacenter.get().login(name, pwd)
+        Disposable disposable = Datacenter.get().login(name, pwd)
                 .subscribeOn(Schedulers.io())
                 .observeOn(scheduler)
-                .subscribe(new Action1<ResLogin>() {
+                .subscribe(new Consumer<ResLogin>() {
                     @Override
-                    public void call(ResLogin resLogin) {
+                    public void accept(ResLogin resLogin) throws Exception {
                         view.loginSuccess(resLogin);
                     }
                 });
     }
 
-
     @Override
     public void sign(String name, String pass) {
-    }
 
+    }
 
 }

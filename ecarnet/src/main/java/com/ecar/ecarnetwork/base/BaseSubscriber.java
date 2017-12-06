@@ -20,37 +20,38 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
-import rx.Subscriber;
+import io.reactivex.subscribers.ResourceSubscriber;
 
 
 /**
  * 订阅者基类：对异常统一处理
  * 目测权限处理可以放这里做
  */
-public abstract class BaseSubscriber<T> extends Subscriber<T> {
+public abstract class BaseSubscriber<T> extends ResourceSubscriber<T> {
 
     private Context context;
     private IInvalid iInvalid;
-    public BaseSubscriber(Context context,IInvalid iInvalid) {
+
+    public BaseSubscriber(Context context, IInvalid iInvalid) {
         this.context = context;
         this.iInvalid = iInvalid;
     }
 
     @Override
     public void onNext(T t) {
-        if(t instanceof ResBase){
-            ResBase base = (ResBase)t;
+        if (t instanceof ResBase) {
+            ResBase base = (ResBase) t;
             if (base.state != 1) {//非成功
-                this.onUserError(new CommonException(new UserException(base.code,base.msg,base)));
-            }else {//if(base.state == 1)
+                this.onUserError(new CommonException(new UserException(base.code, base.msg, base)));
+            } else {//if(base.state == 1)
                 this.onUserSuccess(t);
             }
-        }else{
+        } else {
             this.onOtherNext(t);
         }
     }
 
-    protected void onOtherNext(T t){
+    protected void onOtherNext(T t) {
 
     }
 
@@ -59,7 +60,7 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
     @Override
     public void onError(Throwable e) {
         CommonException ex = null;
-        try{
+        try {
             if (e instanceof UserException) {   // 用户自定义需要处理的异常
                 /**
                  * 1.自定义异常处理
@@ -67,16 +68,15 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
                 UserException resultException = (UserException) e;
                 ex = new CommonException(resultException);
                 onUserError(ex);
-            }else if(e instanceof InvalidException){
+            } else if (e instanceof InvalidException) {
                 /**
                  * 2.非法异常处理：2.1 强制重新登录 2.2 校验错误 2.3 so on
                  */
                 InvalidException commonException = (InvalidException) e;
-                if(InvalidException.FLAG_ERROR_RESPONCE_CHECK.equals(commonException.getCode())){//校验错误
-                    onCheckNgisFailed(context,commonException);
-                }
-                else if(InvalidException.FLAG_ERROR_RELOGIN.equals(commonException.getCode())){//重新登录
-                    showDialog(context,commonException.getMsg());
+                if (InvalidException.FLAG_ERROR_RESPONCE_CHECK.equals(commonException.getCode())) {//校验错误
+                    onCheckNgisFailed(context, commonException);
+                } else if (InvalidException.FLAG_ERROR_RELOGIN.equals(commonException.getCode())) {//重新登录
+                    showDialog(context, commonException.getMsg());
                 }
             } else if (e instanceof JsonParseException
                     || e instanceof JSONException
@@ -87,27 +87,25 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
                 ex = new CommonException(e, CommonException.FLAG_PARSE_ERROR);
                 onUnifiedError(ex);   //
             } else if (
-                     e instanceof ConnectException
-                    || e instanceof SocketTimeoutException
-                    || e instanceof SocketException || e instanceof UnknownHostException) {
+                    e instanceof ConnectException
+                            || e instanceof SocketTimeoutException
+                            || e instanceof SocketException || e instanceof UnknownHostException) {
                 /**
                  * 3.网络错误
                  */
-                if(e instanceof SocketTimeoutException){
+                if (e instanceof SocketTimeoutException) {
                     ex = new CommonException(e, CommonException.FLAG_NET_TIME_OUT);
-                }else{
+                } else {
                     ex = new CommonException(e, CommonException.FLAG_NET_ERROR);
                 }
                 onUnifiedError(ex);
-            }
-            else if(e instanceof SecurityException){
+            } else if (e instanceof SecurityException) {
                 /**
                  * 4.权限未许可
                  */
                 ex = new CommonException(e, CommonException.FLAG_PERMISSION_ERROR);
                 onUnifiedError(ex);
-            }
-            else {
+            } else {
                 /**
                  * 5.未知错误
                  */
@@ -115,33 +113,33 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
                 onUnifiedError(ex);   //未知错误
             }
             resetContext();
-            if(ConstantsLib.DEBUG && ex!=null){
+            if (ConstantsLib.getInstance().DEBUG && ex != null) {
                 e.printStackTrace();
                 String errorMsg = ex.getMessage();
                 TagLibUtil.showLogError(BaseSubscriber.class.getSimpleName() + ": " + errorMsg);
                 //bug写入日志
 //            File1Util.writeDebugTextFile(errorMsg);//不能简单的这么写，要考虑弄线程池处理
             }
-        }catch (Exception exception){
+        } catch (Exception exception) {
 //            ex = new CommonException(exception, CommonException.FLAG_UNKNOWN);
 ////            onUnifiedError(ex);   //未知错误 这一句需删掉，网络出错会陷入无线循环。
             resetContext();
-            if(ConstantsLib.DEBUG ){
-                if(e!=null){
+            if (ConstantsLib.getInstance().DEBUG) {
+                if (e != null) {
                     e.printStackTrace();
                 }
-                if(exception!=null){
+                if (exception != null) {
                     exception.printStackTrace();
                 }
             }
-////            else if(ConstantsLib.DEBUG && exception==null){//这一句不应该执行到
+////            else if(ConstantsLib.getInstance().DEBUG && exception==null){//这一句不应该执行到
 ////                ex.printStackTrace();
 ////            }
         }
     }
 
     @Override
-    public void onCompleted() {
+    public void onComplete() {
         resetContext();
     }
 
@@ -152,11 +150,12 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
      * 统一的 默认处理
      * 默认自动处理网络、解析、未知异常；弹提示
      * 有需要子类可以重写，不走super.onError 就可以屏蔽掉弹提示
+     *
      * @param ex
      */
-    protected void onUnifiedError(CommonException ex){
-        if(!ex.isDoNothing()){
-            showMsg(context,ex.getMsg());
+    protected void onUnifiedError(CommonException ex) {
+        if (!ex.isDoNothing()) {
+            showMsg(context, ex.getMsg());
         }
     }
 
@@ -165,9 +164,9 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
      * 接口返回 state 失败、自定义处理返回失败
      * 需要处理时 子类重写
      */
-    protected void onUserError(CommonException ex){
-        if(!ex.isDoNothing()){
-            showMsg(context,ex.getMsg());
+    protected void onUserError(CommonException ex) {
+        if (!ex.isDoNothing()) {
+            showMsg(context, ex.getMsg());
         }
     }
 
@@ -175,20 +174,21 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
     /**
      * 上下文置空
      */
-    private void resetContext(){
+    private void resetContext() {
         context = null;
     }
 
     /**
      * 提示msg
+     *
      * @param context
      * @param msg
      */
-    private void showMsg(Context context,String msg){
-        if(context!=null){
+    private void showMsg(Context context, String msg) {
+        if (context != null) {
             String reMsg = TextUtils.isEmpty(msg) ? "" : msg;
-            TagLibUtil.showToast(context,reMsg);
-        }else{
+            TagLibUtil.showToast(context, reMsg);
+        } else {
             TagLibUtil.showLogDebug("Subscriber 上下文为空");
         }
     }
@@ -197,21 +197,20 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
     /**
      * 校验码失败
      */
-    protected void onCheckNgisFailed(Context context, InvalidException commonException){
-        if(context!=null || commonException!=null){
+    protected void onCheckNgisFailed(Context context, InvalidException commonException) {
+        if (context != null || commonException != null) {
             String reMsg = TextUtils.isEmpty(commonException.getMsg()) ? "" : commonException.getMsg();
-            TagLibUtil.showToast(context,reMsg);
-        }else{
+            TagLibUtil.showToast(context, reMsg);
+        } else {
             TagLibUtil.showLogDebug("Subscriber 上下文为空");
         }
     }
 
 
-
-
-    private void showDialog(Context context,String msg) {
-          if(iInvalid != null){
-              iInvalid.reLogin(context,msg);
-          }
+    private void showDialog(Context context, String msg) {
+        if (iInvalid != null) {
+            iInvalid.reLogin(context, msg);
+        }
     }
+
 }
