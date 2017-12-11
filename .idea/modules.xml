@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://D:\AndroidStudioProject\Job\RxJava2EcarNetFream\EcarNetFream.iml" filepath="D:\AndroidStudioProject\Job\RxJava2EcarNetFream\EcarNetFream.iml" />
+      <module fileurl="file://$PROJECT_DIR$/EcarNetFream.iml" filepath="$PROJECT_DIR$/EcarNetFream.iml" />
+      <module fileurl="file://D:/AndroidStudioProject/Job/RxJava2EcarNetFream/EcarNetFream.iml" filepath="D:/AndroidStudioProject/Job/RxJava2EcarNetFream/EcarNetFream.iml" />
       <module fileurl="file://$PROJECT_DIR$/RxJava2EcarNetFream.iml" filepath="$PROJECT_DIR$/RxJava2EcarNetFream.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/ecarnet/ecarnet.iml" filepath="$PROJECT_DIR$/ecarnet/ecarnet.iml" />
