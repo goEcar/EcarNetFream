@@ -1,5 +1,7 @@
 package com.ecar.ecarnetwork.http.exception;
 
+import android.text.TextUtils;
+
 import com.ecar.ecarnetwork.bean.ResBase;
 
 /**
@@ -46,7 +48,7 @@ public class BaseException extends RuntimeException{
     }
 
     public String getCode() {
-        return code;
+        return TextUtils.isEmpty(code)?"":code;
     }
 
 
