@@ -80,7 +80,8 @@ public class RxUtils {
                             }
                         })
                         .unsubscribeOn(AndroidSchedulers.mainThread())
-                        .observeOn(AndroidSchedulers.mainThread());
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .onBackpressureDrop();
             }
         };
 
@@ -113,7 +114,8 @@ public class RxUtils {
                 return tObservable.subscribeOn(Schedulers.io())
 //                        .subscribeOn(AndroidSchedulers.mainThread())
                         .unsubscribeOn(AndroidSchedulers.mainThread())
-                        .observeOn(AndroidSchedulers.mainThread());
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .onBackpressureDrop();
             }
         };
 

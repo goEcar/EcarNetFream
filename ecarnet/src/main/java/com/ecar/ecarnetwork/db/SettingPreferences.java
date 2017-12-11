@@ -31,8 +31,8 @@ public class SettingPreferences {
     private final String osTag = "system";
     private final String SID = "user_sid";// 会话ID
     private final String headImgTime = "head_Img_Time";// 会话ID
-    private final String AppId = "AppIde_net";//
-    private final String reqkey = "reqkeye_net";//
+    private final String AppId = "ade_net";//
+    private final String reqkey = "rke_net";//
 
 
     public static final int DEFAULT_VERSION = -200;// 默认版本

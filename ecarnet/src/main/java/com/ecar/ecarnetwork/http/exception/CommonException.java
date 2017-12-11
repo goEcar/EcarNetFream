@@ -58,7 +58,7 @@ public class CommonException extends Exception {
     }
 
     public String getCode() {
-        return code;
+        return TextUtils.isEmpty(code)?"":code;
     }
 
     public ResBase getResObj() {
