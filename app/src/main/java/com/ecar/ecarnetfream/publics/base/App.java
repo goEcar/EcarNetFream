@@ -9,6 +9,7 @@ import com.ecar.ecarnetfream.publics.util.Constants;
 import com.ecar.ecarnetwork.http.api.ApiBox;
 import com.ecar.ecarnetwork.util.file.EFileUtil;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
@@ -92,15 +93,24 @@ public class App extends Application{
         mApp = this;
 
         ApiBox.Builder builder = new ApiBox.Builder();
+        builder.veriNgis(false);
         builder.application(this).debug(Constants.DEBUG).reqKey(Constants.REQUEST_KEY).appId(
 //                "110100 110011 1100110 110110 1100100 110000 110100 1100110 110010 110000 110111 110000 1100100 1100010 110110 111000 1100100 110001 110010 110101 110100 111000 110110 110011 1100110 110011 111001 110001 111000 110110 110110 111001"
                 ""
         );
+
+
+
 //        //添加证书 方式1：使用转换后的字符串去生成流； 转换方式C:\Users\Administrator>keytool -printcert -rfc -file C:\Users\Administrator\Desktop\1.cer
 //        InputStream[] inputStreams = EFileUtil.getInputStreams(saasKey);
 //        builder.inputStreams(inputStreams).build();
 //        //添加证书 方式1：使用资产目录下的证书文件
-        InputStream[] inputStreams = EFileUtil.getAssetsInputStream(this,"ecaraypark.cer");//在资产目录下的证书文件名
+        InputStream[] inputStreams = new InputStream[0];//在资产目录下的证书文件名
+        try {
+            inputStreams = EFileUtil.getAssetsInputStream(this,"ecaraypark.cer");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         builder.inputStreams(inputStreams).build();
 
         // 测  试

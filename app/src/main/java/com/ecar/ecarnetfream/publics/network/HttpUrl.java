@@ -93,6 +93,8 @@ public class HttpUrl {
                 Base_Url_upClient = DataFormatUtil.addText(sb, Url_DwonUp, "");//  /system/upClient?
                 Base_Url_downClient = DataFormatUtil.addText(sb, Url_DwonUp, "");//  /system/image?
                 break;
+            default:
+                break;
         }
     }
 

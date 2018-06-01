@@ -38,13 +38,13 @@ public class RxUtils {
      * @return
      */
     public static <T> FlowableTransformer<T, T> getScheduler(boolean isLoading, final ILoading loading) {
-        FlowableTransformer<Object, Object> transformer = null;
+        FlowableTransformer<T, T> transformer = null;
         if (isLoading) {
             transformer = rxSchedulerLoading(loading);
         } else {
             transformer = rxScheduler();
         }
-        return (FlowableTransformer<T, T>) transformer;
+        return transformer;
     }
 
     /**
@@ -105,8 +105,6 @@ public class RxUtils {
 //        };
 //
 //    }
-
-
     public static <T> FlowableTransformer<T, T> rxScheduler() {
         return new FlowableTransformer<T, T>() {
             @Override
