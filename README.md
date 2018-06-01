@@ -1,4 +1,13 @@
-# 更改Rxjava2 2017-12-5
+## 2018-6-1更新
+* BaseSubscriber继承DisposableSubscriber
+* RxUtils支持非lambda调用
+````
+Datacenter.get().testSaas()
+        .compose(RxUtils.<ResBase>getScheduler(true, view))
+        .subscribe(subscriber);
+````
+
+## 更改Rxjava2 2017-12-5
 * 目前只支持Flowable，不支持Observable
 
 ## 注意事项
