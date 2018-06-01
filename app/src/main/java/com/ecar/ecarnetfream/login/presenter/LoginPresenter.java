@@ -72,10 +72,15 @@ public class LoginPresenter extends LoginContract.Presenter {
             }
         };
 
-        Datacenter.get().testSaas().compose(RxUtils.getScheduler(true, view)).subscribe(subscriber);
+
+        Datacenter.get().testSaas()
+                .compose(RxUtils.<ResBase>getScheduler(true, view))
+                .subscribe(subscriber);
 
         //一个请求（登录）
-        Disposable disposable = Datacenter.get().testSaas().compose(RxUtils.getScheduler(true, view)).subscribeWith(subscriber);
+        Disposable disposable = Datacenter.get().testSaas()
+                .compose(RxUtils.<ResBase>getScheduler(true, view))
+                .subscribeWith(subscriber);
         //添加到订阅集合中
         rxManage.add(disposable);
     }
@@ -112,7 +117,10 @@ public class LoginPresenter extends LoginContract.Presenter {
         };
 
         //一个请求（登录）
-        Disposable disposable = Datacenter.get().login(name, pwd).compose(RxUtils.getScheduler(true, view)).subscribeWith(subscriber);
+        Disposable disposable = Datacenter.get()
+                .login(name, pwd)
+                .compose(RxUtils.<ResBase>getScheduler(true, view))
+                .subscribeWith(subscriber);
         //添加到订阅集合中
         rxManage.add(disposable);
     }
@@ -146,7 +154,8 @@ public class LoginPresenter extends LoginContract.Presenter {
                         Publisher<ResBase> result = null;
                         try {
                             //登录成功后请求上传（写死的一张 酷派手机上的图）
-                            result = Datacenter.get().uploadPic("").compose(RxUtils.getScheduler(false, view));
+                            result = Datacenter.get().uploadPic("")
+                                    .compose(RxUtils.<ResBase>getScheduler(false, view));
                         } catch (UserException e) {
                             throw e;
                         } catch (Exception e) {

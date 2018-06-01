@@ -14,20 +14,22 @@ import com.ecar.ecarnetwork.interfaces.security.IInvalid;
 import com.google.gson.JsonParseException;
 
 import org.json.JSONException;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
 
 import java.net.ConnectException;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
-import io.reactivex.subscribers.ResourceSubscriber;
+import io.reactivex.subscribers.DisposableSubscriber;
 
 
 /**
  * 订阅者基类：对异常统一处理
  * 目测权限处理可以放这里做
  */
-public abstract class BaseSubscriber<T> extends ResourceSubscriber<T> {
+public abstract class BaseSubscriber<T> extends DisposableSubscriber<T> {
 
     private Context context;
     private IInvalid iInvalid;

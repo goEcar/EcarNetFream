@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-
 import com.ecar.ecarnetfream.R;
 import com.ecar.ecarnetfream.login.interfaces.LoginContract;
 import com.ecar.ecarnetfream.login.model.LoginModel;
@@ -20,7 +19,6 @@ import com.ecar.ecarnetfream.publics.util.TagUtil;
 import com.ecar.ecarnetfream.publics.view.prompt.UpdateDialog;
 import com.ecar.ecarnetwork.bean.ResBase;
 import com.ecar.ecarnetwork.db.SettingPreferences;
-import com.ecar.factory.EncryptionUtilFactory;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -77,7 +75,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     }
 
     @Override
-    public void reLogin(Context context, String msg) {
+    public void reLogin(final Context context, String msg) {
         if (context != null) {
             TagUtil.showLogDebug("显示登出dialog" + (context instanceof Activity));
             final UpdateDialog dialog = new UpdateDialog(context);

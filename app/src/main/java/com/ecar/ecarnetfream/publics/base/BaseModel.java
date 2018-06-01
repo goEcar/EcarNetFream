@@ -28,7 +28,7 @@ public abstract class BaseModel {
 
     public BaseModel() {
         if(apiService == null){
-            this.apiService = ApiBox.getInstance().createService(ApiService.class, HttpUrl.Base_Url);
+            apiService = ApiBox.getInstance().createService(ApiService.class, HttpUrl.Base_Url);
         }
     }
 }
