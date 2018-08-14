@@ -35,7 +35,7 @@ public class TimeManager {
      */
     public synchronized long getServiceTime() {
         if (!isServerTime) {
-            //todo 这里可以加上触发获取服务器时间操作
+            //todo 这里可以加上触发获取服务器时间 操作
             return System.currentTimeMillis();
         }
 
