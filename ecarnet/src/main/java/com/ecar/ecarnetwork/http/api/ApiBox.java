@@ -9,6 +9,7 @@ import com.ecar.ecarnetwork.http.util.ConstantsLib;
 import com.ecar.ecarnetwork.http.util.HttpsUtils;
 import com.ecar.ecarnetwork.http.util.NetWorkUtil;
 import com.ecar.ecarnetwork.util.major.Major;
+import com.ecar.ecarnetwork.util.time.TimeCalibrationInterceptor;
 import com.ecar.util.TagUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -271,6 +272,7 @@ public class ApiBox {
         //4.配置创建okhttp客户端
         OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder()
                 .addInterceptor(getLogInterceptor())//
+                .addInterceptor(getTimeIntercepter())
                 .connectTimeout(CONNECT_TIME_OUT, TimeUnit.MILLISECONDS) //与服务器连接超时时间
                 .readTimeout(READ_TIME_OUT, TimeUnit.MILLISECONDS)
                 .writeTimeout(WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
@@ -304,6 +306,10 @@ public class ApiBox {
             interceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
         }
         return interceptor;
+    }
+
+    private Interceptor getTimeIntercepter(){
+        return new TimeCalibrationInterceptor();
     }
 
     /**

@@ -85,8 +85,8 @@ public class HttpUrl {
                 Base_Url_downClient = DataFormatUtil.addText(sb, Url_DwonUp, "");//  /system/image?
                 break;
             case 6:// 测试https使用
-                Url_Common = "https://demo.ecaraypark.com:443/system/data/";//https://kyfw.12306.cn/otn/
-                Url_DwonUp = "https://demo.ecaraypark.com:443/system/data/";
+                Url_Common = "http://117.40.83.136:8080/system/data/";//https://kyfw.12306.cn/otn/
+                Url_DwonUp = "http://117.40.83.136:8080/system/data/";
 
                 Base_Url = DataFormatUtil.addText(sb, Url_Common, "");//  /system/data?
 
