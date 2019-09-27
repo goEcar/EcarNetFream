@@ -1,11 +1,17 @@
 package com.ecar.ecarnetwork.util.time;
 
+import android.content.SharedPreferences;
 import android.text.TextUtils;
+import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Date;
 
 import okhttp3.Headers;
+import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -22,19 +28,37 @@ import okhttp3.internal.http.HttpDate;
  */
 public class TimeCalibrationInterceptor implements Interceptor {
     long minResponseTime = Long.MAX_VALUE;
-
+    private static  long duff=1000;
     @Override
     public Response intercept(Chain chain) throws IOException {
-        Request request = chain.request();
+        Request requestold = chain.request();
+        HttpUrl.Builder builderold  = requestold.url().newBuilder().setEncodedQueryParameter("tl",System.currentTimeMillis()-duff+"");
+        Request newRequest = requestold.newBuilder()
+                .method(requestold.method(), requestold.body())
+                .url(builderold.build())
+                .build();
+
+
         long startTime = System.nanoTime();
-        Response response = chain.proceed(request);
+        Response response = chain.proceed(newRequest);
         long responseTime = System.nanoTime() - startTime;
 
         Headers headers = response.headers();
+        byte[] respBytes = response.body() .bytes();
+        String respString = new String(respBytes);
+        duffTime(respString);
         calibration(responseTime, headers);
         return response;
     }
-
+    private  void  duffTime(String  obj){
+        try {
+            JSONObject object = new JSONObject(obj);
+            long   ts= object.getLong("ts");
+            TimeCalibrationInterceptor.duff=System.currentTimeMillis() - ts;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
     private void calibration(long responseTime, Headers headers) {
         if (headers == null) {
             return;
