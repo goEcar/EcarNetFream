@@ -44,9 +44,7 @@ public class TimeCalibrationInterceptor implements Interceptor {
         long responseTime = System.nanoTime() - startTime;
 
         Headers headers = response.headers();
-        byte[] respBytes = response.body() .bytes();
-        String respString = new String(respBytes);
-        duffTime(respString);
+
         calibration(responseTime, headers);
         return response;
     }
@@ -73,8 +71,10 @@ public class TimeCalibrationInterceptor implements Interceptor {
         if (!TextUtils.isEmpty(standardTime)) {
             Date parse = HttpDate.parse(standardTime);
             if (parse != null) {
+                long  serviertime =  parse.getTime();
+                TimeCalibrationInterceptor.duff=System.currentTimeMillis() - serviertime+50;
                 // 客户端请求过程一般大于比收到响应时间耗时，所以没有简单的除2 加上去，而是直接用该时间
-                TimeManager.getInstance().initServerTime(parse.getTime());
+                TimeManager.getInstance().initServerTime(serviertime);
                 minResponseTime = responseTime;
             }
         }
