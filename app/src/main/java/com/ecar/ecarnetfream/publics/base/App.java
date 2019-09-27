@@ -94,10 +94,7 @@ public class App extends Application{
 
         ApiBox.Builder builder = new ApiBox.Builder();
         builder.veriNgis(false);
-        builder.application(this).debug(Constants.DEBUG).reqKey(Constants.REQUEST_KEY).appId(
-//                "110100 110011 1100110 110110 1100100 110000 110100 1100110 110010 110000 110111 110000 1100100 1100010 110110 111000 1100100 110001 110010 110101 110100 111000 110110 110011 1100110 110011 111001 110001 111000 110110 110110 111001"
-                ""
-        );
+        builder.application(this).debug(Constants.DEBUG).reqKey(Constants.REQUEST_KEY).appId(Constants.APP_ID);
 
 
 

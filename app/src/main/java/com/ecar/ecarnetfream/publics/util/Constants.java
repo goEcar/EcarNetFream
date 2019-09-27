@@ -56,8 +56,8 @@ public class Constants {
 	/**
 	 * appKey
 	 */
-	public final static String APP_KEY = "110001 110000 110001 110010 111000 110000 111001 110001 111000";// 正式环境
-	// public final static String APP_KEY =
+	public final static String   APP_ID = "110001 110000 110001 110010 111000 110000 111001 110001 111000";// 正式环境
+	// public final static String APP_ID =
 	// "110001 110000 110001 110011 111000 110100 110001 110010 110100";// 测试环境
 
 

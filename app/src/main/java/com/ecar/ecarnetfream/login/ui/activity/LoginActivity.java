@@ -3,6 +3,7 @@ package com.ecar.ecarnetfream.login.ui.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -48,6 +49,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void initView() {
+
 
     }
 
