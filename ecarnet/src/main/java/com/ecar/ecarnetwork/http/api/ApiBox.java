@@ -1,6 +1,7 @@
 package com.ecar.ecarnetwork.http.api;
 
 import android.app.Application;
+import android.content.Context;
 import android.text.TextUtils;
 
 import com.ecar.ecarnetwork.db.SettingPreferences;
@@ -371,4 +372,10 @@ public class ApiBox {
             return response;
         }
     };
+
+
+    public    void  resetReqkey(Context context,String ReqkeyFromNet){
+        SettingPreferences sp = SettingPreferences.getDefault(context);
+        sp.setReqkey(ReqkeyFromNet);
+    }
 }

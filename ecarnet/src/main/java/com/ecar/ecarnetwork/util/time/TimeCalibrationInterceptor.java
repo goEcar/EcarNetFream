@@ -28,16 +28,20 @@ import okhttp3.internal.http.HttpDate;
  */
 public class TimeCalibrationInterceptor implements Interceptor {
     long minResponseTime = Long.MAX_VALUE;
-    private static  long duff=1000;
+    private static  long duff=0;
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request requestold = chain.request();
-        HttpUrl.Builder builderold  = requestold.url().newBuilder().setEncodedQueryParameter("tl",System.currentTimeMillis()-duff+"");
-        Request newRequest = requestold.newBuilder()
-                .method(requestold.method(), requestold.body())
-                .url(builderold.build())
-                .build();
-
+        Request newRequest;
+        if(duff==0) {
+            newRequest = requestold;
+        }else{
+            HttpUrl.Builder builderold = requestold.url().newBuilder().setEncodedQueryParameter("tl", System.currentTimeMillis() - duff + "");
+            newRequest = requestold.newBuilder()
+                    .method(requestold.method(), requestold.body())
+                    .url(builderold.build())
+                    .build();
+        }
 
         long startTime = System.nanoTime();
         Response response = chain.proceed(newRequest);
