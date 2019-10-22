@@ -53,7 +53,13 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
  * ===============================================
  */
 public class ApiBox {
-
+    /**
+     *  ApiBox.Builder builder = new ApiBox.Builder();
+     builder.veriNgis(false);
+     builder.application(this).debug(Constants.DEBUG).reqKey(Constants.REQUEST_KEY).appId(Constants.APP_ID);
+     REQUEST_KEY初始化是reqKey(Constants.REQUEST_KEY)传递过来的
+     */
+    public static   String REQUEST_KEY = "";   //缓存目录名称
     //可能有多个代理类，每个代理类要求的时间不一样
     private int CONNECT_TIME_OUT = 10 * 1000;//跟服务器连接超时时间
     private int READ_TIME_OUT = 10 * 1000;    // 数据读取超时时间
@@ -200,6 +206,11 @@ public class ApiBox {
 
         public Builder reqKey(String reqKey) {
             this.reqKey = reqKey;
+            REQUEST_KEY = reqKey;
+            SettingPreferences sp = SettingPreferences.getDefault(application);
+            if(!sp.getReqkey().equals("")){
+                REQUEST_KEY= sp.getReqkey();
+            }
             return this;
         }
 
@@ -374,7 +385,7 @@ public class ApiBox {
     };
 
 
-    public    void  resetReqkey(Context context,String ReqkeyFromNet){
+    public    void  resetPreferencesReqkey(Context context,String ReqkeyFromNet){
         SettingPreferences sp = SettingPreferences.getDefault(context);
         sp.setReqkey(ReqkeyFromNet);
     }

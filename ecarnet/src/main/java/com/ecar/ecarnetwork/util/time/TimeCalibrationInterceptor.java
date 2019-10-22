@@ -28,39 +28,27 @@ import okhttp3.internal.http.HttpDate;
  */
 public class TimeCalibrationInterceptor implements Interceptor {
     long minResponseTime = Long.MAX_VALUE;
-    private static  long duff=0;
+
     @Override
     public Response intercept(Chain chain) throws IOException {
-        Request requestold = chain.request();
-        Request newRequest;
-        if(duff==0) {
-            newRequest = requestold;
-        }else{
-            HttpUrl.Builder builderold = requestold.url().newBuilder().setEncodedQueryParameter("tl", System.currentTimeMillis() - duff + "");
-            newRequest = requestold.newBuilder()
-                    .method(requestold.method(), requestold.body())
-                    .url(builderold.build())
-                    .build();
-        }
-
+        Request request = chain.request();
         long startTime = System.nanoTime();
-        Response response = chain.proceed(newRequest);
+        Response response = chain.proceed(request);
         long responseTime = System.nanoTime() - startTime;
 
         Headers headers = response.headers();
-
         calibration(responseTime, headers);
         return response;
     }
-    private  void  duffTime(String  obj){
-        try {
-            JSONObject object = new JSONObject(obj);
-            long   ts= object.getLong("ts");
-            TimeCalibrationInterceptor.duff=System.currentTimeMillis() - ts;
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
+//    private  void  duffTime(String  obj){
+//        try {
+//            JSONObject object = new JSONObject(obj);
+//            long   ts= object.getLong("ts");
+//            TimeCalibrationInterceptor.duff=System.currentTimeMillis() - ts;
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//    }
     private void calibration(long responseTime, Headers headers) {
         if (headers == null) {
             return;
@@ -76,7 +64,6 @@ public class TimeCalibrationInterceptor implements Interceptor {
             Date parse = HttpDate.parse(standardTime);
             if (parse != null) {
                 long  serviertime =  parse.getTime();
-                TimeCalibrationInterceptor.duff=System.currentTimeMillis() - serviertime+50;
                 // 客户端请求过程一般大于比收到响应时间耗时，所以没有简单的除2 加上去，而是直接用该时间
                 TimeManager.getInstance().initServerTime(serviertime);
                 minResponseTime = responseTime;

@@ -24,7 +24,7 @@ public class ResBase implements Serializable{
 	@SerializedName("ngis")
 	public String sign;//
 
-
+	public String  _pdakey;
 
 	public int totalCount;// 列表总数
 

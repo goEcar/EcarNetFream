@@ -30,7 +30,7 @@ import java.util.TreeMap;
  * ===============================================
  */
 public class Major {
-
+    public   static long  duff = 0;
     public static EparkEncrypUtil eUtil = EncryptionUtilFactory.getDefault(true).createEpark();
 
     protected final static String PARAMS_CLIENT_TYPE = "ClientType";//
@@ -67,6 +67,8 @@ public class Major {
         }
         tMap.put(PARAMS_MODULE, "app");
         tMap.put(PARAMS_SERVICE, "Std");
+
+        tMap.put("tl",(System.currentTimeMillis()-duff)+"");
         return tMap;
     }
 
@@ -84,6 +86,7 @@ public class Major {
         tMap.put("ts", spUtil.getTs());
         tMap.put(PARAMS_MODULE, "app");
         tMap.put(PARAMS_SERVICE, "Std");
+       tMap.put("tl",(System.currentTimeMillis()-duff)+"");
         return tMap;
     }
 
@@ -101,6 +104,8 @@ public class Major {
         if (!TextUtils.isEmpty(spUtil.getTs())) {
             tMap.put("ts", spUtil.getTs());
         }
+
+        tMap.put("tl",(System.currentTimeMillis()-duff)+"");
         return tMap;
     }
 
