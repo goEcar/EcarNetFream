@@ -86,7 +86,7 @@ public class Major {
         tMap.put("ts", spUtil.getTs());
         tMap.put(PARAMS_MODULE, "app");
         tMap.put(PARAMS_SERVICE, "Std");
-       tMap.put("tl",(System.currentTimeMillis()-ApiBox.duff)+"");
+        tMap.put("tl",(System.currentTimeMillis()-ApiBox.duff)+"");
         return tMap;
     }
 
@@ -104,7 +104,6 @@ public class Major {
         if (!TextUtils.isEmpty(spUtil.getTs())) {
             tMap.put("ts", spUtil.getTs());
         }
-
         tMap.put("tl",(System.currentTimeMillis()-ApiBox.duff)+"");
         return tMap;
     }
@@ -118,6 +117,8 @@ public class Major {
      * @return：
      */
     public static TreeMap<String, String> securityKeyMethodEnc(TreeMap<String, String> tMap, boolean encode, boolean isSign, boolean isNeedVe) {
+        if(!tMap.containsKey("tl"))
+            tMap.put("tl",(System.currentTimeMillis()-ApiBox.duff)+"");
         return getSecurityMapKeys(tMap, encode, isSign, isNeedVe, SettingPreferences.getDefault(ApiBox.getInstance().application).getAppId(), SettingPreferences.getDefault(ApiBox.getInstance().application).getReqkey());
 
     }
@@ -129,6 +130,8 @@ public class Major {
      * @return：
      */
     public static TreeMap<String, String> securityKeyMethodEnc(TreeMap<String, String> tMap) {
+        if(!tMap.containsKey("tl"))
+            tMap.put("tl",(System.currentTimeMillis()-ApiBox.duff)+"");
         return getSecurityMapKeys(tMap, true, true, true, SettingPreferences.getDefault(ApiBox.getInstance().application).getAppId(),SettingPreferences.getDefault(ApiBox.getInstance().application).getReqkey());
 
     }
@@ -140,6 +143,8 @@ public class Major {
      * @return：
      */
     public static TreeMap<String, String> securityKeyMethodNoEnc(TreeMap<String, String> tMap) {
+        if(!tMap.containsKey("tl"))
+            tMap.put("tl",(System.currentTimeMillis()-ApiBox.duff)+"");
         return getSecurityMapKeys(tMap, false, true, true, SettingPreferences.getDefault(ApiBox.getInstance().application).getAppId(), SettingPreferences.getDefault(ApiBox.getInstance().application).getReqkey());
 
     }
