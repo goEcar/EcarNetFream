@@ -53,6 +53,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
  * ===============================================
  */
 public class ApiBox {
+    public   static long  duff = 0;
     /**
      *  ApiBox.Builder builder = new ApiBox.Builder();
      builder.veriNgis(false);

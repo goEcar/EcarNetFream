@@ -67,8 +67,10 @@ public class ResponseConverter<T> implements Converter<ResponseBody, T> {
             if (base != null&& !InvalidUtil.checkSign(base.sign, response) && ApiBox.getInstance().isVeriNgis()) {//校验错误
                 throw new InvalidException(InvalidException.FLAG_ERROR_RESPONCE_CHECK,base.msg,base);
             }
-            Major.duff = System.currentTimeMillis() - base.ts;
-            if(base != null&&base._pdakey!=null&&base._pdakey.equals("")){
+
+
+            ApiBox.duff = System.currentTimeMillis() - base.ts;
+            if(base != null&&base._pdakey!=null&& !base._pdakey.equals("")){
                 ApiBox.REQUEST_KEY = base._pdakey;
                 ApiBox.getInstance().resetPreferencesReqkey(ApiBox.getInstance().application,base._pdakey);
             }
