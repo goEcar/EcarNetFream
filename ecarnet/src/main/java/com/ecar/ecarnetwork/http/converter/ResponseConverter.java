@@ -69,10 +69,10 @@ public class ResponseConverter<T> implements Converter<ResponseBody, T> {
             }
 
             ApiBox.duff = System.currentTimeMillis() - base.ts;
-            if(base != null&&base._pdakey!=null&& !base._pdakey.equals("")){
-                ApiBox.REQUEST_KEY = base._pdakey;
-                ApiBox.getInstance().resetPreferencesReqkey(ApiBox.getInstance().application,base._pdakey);
-            }
+//            if(base != null&&base._pdakey!=null&& !base._pdakey.equals("")){
+//                ApiBox.REQUEST_KEY = base._pdakey;
+//                ApiBox.getInstance().resetPreferencesReqkey(ApiBox.getInstance().application,base._pdakey);
+//            }
             /**
              * 保存utv
              */
